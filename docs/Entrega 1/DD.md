@@ -1,390 +1,1743 @@
 # Dicionário de dados
 
-## Entidade: `Pokémon`
+<details>
+  <summary>Pokemón</summary>
 
-### Descrição:
-A entidade `Pokémon` armazena informações sobre cada Pokémon disponível no jogo, incluindo suas características gerais, relações com outros elementos do jogo, e a experiência acumulada para evoluir ou aumentar de nível.
+  <h3>Descrição</h3>
+  <p>A entidade <code>Pokémon</code> armazena informações sobre cada Pokémon disponível no jogo, incluindo suas características gerais, relações com outros elementos do jogo, e a experiência acumulada para evoluir ou aumentar de nível.</p>
 
----
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>pokemon_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do Pokémon</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome do Pokémon</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Deve ser único</td>
+      </tr>
+      <tr>
+        <td><code>genero</code></td>
+        <td>Texto</td>
+        <td>Gênero do Pokémon</td>
+        <td><code>Macho</code> e <code>Fêmea</code></td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Valores fixos</td>
+      </tr>
+      <tr>
+        <td><code>qtd_tipos</code></td>
+        <td>Inteiro</td>
+        <td>Quantidade de tipos que o Pokémon possui</td>
+        <td>Inteiro (1 ou 2)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Valor limitado de 1 a 2</td>
+      </tr>
+      <tr>
+        <td><code>experiencia</code></td>
+        <td>Inteiro</td>
+        <td>Experiência acumulada pelo Pokémon</td>
+        <td>Inteiro positivo ou 0</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Usada para calcular progresso de nível</td>
+      </tr>
+    </tbody>
+  </table>
 
-### Atributos:
-
-### Tabela: Pokémon
-
-| **Nome Variável** | **Tipo**    | **Descrição**                                     | **Valores Permitidos**                       | **Permite Valores Nulos?** | **É Chave?** | **Outras Restrições**                          |
-|--------------------|------------|--------------------------------------------------|---------------------------------------------|----------------------------|--------------|-----------------------------------------------|
-| `pokemon_id`       | Inteiro    | Identificador único do Pokémon                   | Inteiro positivo                            | Não                        | Sim          | Gerado automaticamente (autoincremento)       |
-| `nome`             | Texto      | Nome do Pokémon                                  | Texto (máx. 100 caracteres)                 | Não                        | Não          | Deve ser único                                |
-| `genero`           | Texto      | Gênero do Pokémon                                | `Masculino`, `Feminino`, `Indefinido`       | Não                        | Não          | Valores fixos                                |
-| `qtd_tipos`        | Inteiro    | Quantidade de tipos que o Pokémon possui         | Inteiro (1 ou 2)                            | Não                        | Não          | Valor limitado de 1 a 2                      |
-| `experiencia`      | Inteiro    | Experiência acumulada pelo Pokémon               | Inteiro positivo ou 0                       | Não                        | Não          | Usada para calcular progresso de nível       |
-
----
-
-## Entidade: `Status_Base`
-
-### Descrição:
-A entidade `Status_Base` representa os atributos básicos de um Pokémon que determinam sua capacidade de combate e desempenho em batalhas. Esses atributos incluem vida, ataque, defesa e velocidade.
-
----
-
-### Atributos:
-
-### Tabela: Status_Base
-
-| **Nome Variável** | **Tipo**    | **Descrição**                                     | **Valores Permitidos**                       | **Permite Valores Nulos?** | **É Chave?** | **Outras Restrições**                          |
-|--------------------|------------|--------------------------------------------------|---------------------------------------------|----------------------------|--------------|-----------------------------------------------|
-| `status_id`        | Inteiro    | Identificador único do conjunto de status        | Inteiro positivo                            | Não                        | Sim          | Gerado automaticamente (autoincremento)       |
-| `vida`             | Inteiro    | Quantidade de vida (HP) base do Pokémon          | Inteiro positivo                            | Não                        | Não          | Deve ser maior que 0                          |
-| `atk`              | Inteiro    | Poder de ataque base do Pokémon                  | Inteiro positivo                            | Não                        | Não          | Deve ser maior que 0                          |
-| `def`              | Inteiro    | Defesa base do Pokémon                           | Inteiro positivo                            | Não                        | Não          | Deve ser maior que 0                          |
-| `velocidade`       | Inteiro    | Velocidade base do Pokémon                       | Inteiro positivo                            | Não                        | Não          | Deve ser maior que 0                          |
-
----
-### Entidade: `Tipos`
-
-### Descrição:
-A entidade `Tipos` representa as classificações elementais dos Pokémon (ex.: Fogo, Água, Grama), que influenciam suas vantagens e desvantagens em batalhas, além de interagir com a eficácia de golpes.
-
----
-
-### Tabela: Tipos
-
-| **Nome Variável** | **Tipo**    | **Descrição**                                     | **Valores Permitidos**                       | **Permite Valores Nulos?** | **É Chave?** | **Outras Restrições**                          |
-|--------------------|------------|--------------------------------------------------|---------------------------------------------|----------------------------|--------------|-----------------------------------------------|
-| `tipo_id`          | Inteiro    | Identificador único do tipo                      | Inteiro positivo                            | Não                        | Sim          | Gerado automaticamente (autoincremento)       |
-| `nome`             | Texto      | Nome do tipo (ex.: Fogo, Água, Grama)            | Texto (máx. 50 caracteres)                  | Não                        | Não          |                                               |
-
----
-### Entidade: `Eficácia`
-
-### Descrição:
-A entidade `Eficácia` determina a relação de vantagem ou desvantagem entre tipos de golpes e tipos de defesa, definindo o multiplicador aplicado ao dano em uma interação entre ataque e defesa. Essa entidade é fundamental para calcular os efeitos dos golpes em batalhas.
-
----
-
-### Tabela: Eficácia
-
-| **Nome Variável**     | **Tipo**    | **Descrição**                                        | **Valores Permitidos**               | **Permite Valores Nulos?** | **É Chave?** | **Outras Restrições**              |
-|------------------------|------------|-----------------------------------------------------|--------------------------------------|----------------------------|--------------|------------------------------------|
-| `golpe_atacante_id`    | Inteiro    | Identificador do tipo de golpe atacante             | Inteiro positivo (FK para `Golpe`)   | Não                        | Sim          | Chave composta com `golpe_defensor_id` |
-| `golpe_defensor_id`    | Inteiro    | Identificador do tipo de golpe defensor             | Inteiro positivo (FK para `Golpe`)   | Não                        | Sim          | Chave composta com `golpe_atacante_id` |
-| `multiplicador`        | Decimal    | Multiplicador de eficácia do golpe (ex.: 0.5, 1, 2) | Números decimais positivos           | Não                        | Não          | Valores comuns: 0.5, 1, 2           |
-
----
-### Entidade: `Golpe`
-
-### Descrição:
-A entidade `Golpe` representa os ataques que um Pokémon pode usar durante as batalhas. Cada golpe possui características específicas, como nome, categoria, dano, precisão e a quantidade de vezes que pode ser utilizado, além de interagir com a eficácia dependendo do tipo do Pokémon defensor.
+</details>
 
 ---
 
-### Tabela: Golpe
+<details>
+  <summary>Status_Base</summary>
 
-| **Nome Variável**         | **Tipo**    | **Descrição**                                      | **Valores Permitidos**                       | **Permite Valores Nulos?** | **É Chave?** | **Outras Restrições**                          |
-|----------------------------|------------|--------------------------------------------------|---------------------------------------------|----------------------------|--------------|-----------------------------------------------|
-| `golpe_id`                 | Inteiro    | Identificador único do golpe                      | Inteiro positivo                            | Não                        | Sim          | Gerado automaticamente (autoincremento)       |
-| `nome`                     | Texto      | Nome do golpe (ex.: Flamethrower, Water Gun)      | Texto (máx. 100 caracteres)                 | Não                        | Não          |                                               |
-| `categoria`                | Texto      | Categoria do golpe (ex.: Físico, Especial, etc.)  | Texto (valores fixos como 'Físico', 'Especial', etc.) | Não                        | Não          |                                               |
-| `dano`                     | Inteiro    | Quantidade de dano causado pelo golpe             | Inteiro positivo                            | Não                        | Não          | Valor maior que 0                            |
-| `precisao`                 | Decimal    | Probabilidade de acerto do golpe (de 0 a 100)     | Decimal entre 0 e 100                       | Não                        | Não          | Valor entre 0 e 100                          |
-| `numvezes_pode_usar`       | Inteiro    | Número de vezes que o golpe pode ser utilizado    | Inteiro positivo                            | Não                        | Não          | Limite de usos do golpe em batalhas          |
+  <h3>Descrição</h3>
+  <p>A entidade <code>Status_Base</code> representa os atributos básicos de um Pokémon que determinam sua capacidade de combate e desempenho em batalhas. Esses atributos incluem vida, ataque, defesa e velocidade.</p>
+
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>status_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do conjunto de status</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>vida</code></td>
+        <td>Inteiro</td>
+        <td>Quantidade de vida (HP) base do Pokémon</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Deve ser maior que 0</td>
+      </tr>
+      <tr>
+        <td><code>atk</code></td>
+        <td>Inteiro</td>
+        <td>Poder de ataque base do Pokémon</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Deve ser maior que 0</td>
+      </tr>
+      <tr>
+        <td><code>def</code></td>
+        <td>Inteiro</td>
+        <td>Defesa base do Pokémon</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Deve ser maior que 0</td>
+      </tr>
+      <tr>
+        <td><code>velocidade</code></td>
+        <td>Inteiro</td>
+        <td>Velocidade base do Pokémon</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Deve ser maior que 0</td>
+      </tr>
+    </tbody>
+  </table>
+
+</details>
 
 ---
-### Entidade: `Metodo`
+<details>
+  <summary>Tipos</summary>
 
-### Descrição:
-A entidade `Metodo` define os métodos de aprendizagem de golpes para os Pokémon. Cada método está associado a um nome e a um nível de aprendizagem, representando quando o Pokémon pode aprender um golpe específico.
+  <h3>Descrição</h3>
+  <p>A entidade <code>Tipos</code> representa as classificações elementais dos Pokémon (ex.: Fogo, Água, Grama), que influenciam suas vantagens e desvantagens em batalhas, além de interagir com a eficácia de golpes.</p>
+
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>tipo_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do tipo</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome do tipo (ex.: Fogo, Água, Grama)</td>
+        <td>Texto (máx. 50 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+</details>
 
 ---
+<details>
+  <summary>Eficácia</summary>
 
-### Tabela: Metodo
+  <h3>Descrição</h3>
+  <p>A entidade <code>Eficácia</code> determina a relação de vantagem ou desvantagem entre tipos de golpes e tipos de defesa, definindo o multiplicador aplicado ao dano em uma interação entre ataque e defesa. Essa entidade é fundamental para calcular os efeitos dos golpes em batalhas.</p>
 
-| **Nome Variável** | **Tipo**    | **Descrição**                                      | **Valores Permitidos**                       | **Permite Valores Nulos?** | **É Chave?** | **Outras Restrições**                          |
-|--------------------|------------|--------------------------------------------------|---------------------------------------------|----------------------------|--------------|-----------------------------------------------|
-| `metodo_id`        | Inteiro    | Identificador único do método de aprendizagem     | Inteiro positivo                            | Não                        | Sim          | Gerado automaticamente (autoincremento)       |
-| `nome`             | Texto      | Nome do método (ex.: Aprender, TMT, etc.)         | Texto (máx. 100 caracteres)                 | Não                        | Não          |                                               |
-| `nivel`            | Inteiro    | Nível necessário para o Pokémon aprender o golpe | Inteiro positivo                            | Não                        | Não          | Deve ser um número positivo                   |
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>golpe_atacante_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do tipo de golpe atacante</td>
+        <td>Inteiro positivo (FK para <code>Golpe</code>)</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Chave composta com <code>golpe_defensor_id</code></td>
+      </tr>
+      <tr>
+        <td><code>golpe_defensor_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do tipo de golpe defensor</td>
+        <td>Inteiro positivo (FK para <code>Golpe</code>)</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Chave composta com <code>golpe_atacante_id</code></td>
+      </tr>
+      <tr>
+        <td><code>multiplicador</code></td>
+        <td>Decimal</td>
+        <td>Multiplicador de eficácia do golpe (ex.: 0.5, 1, 2)</td>
+        <td>Números decimais positivos</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Valores comuns: 0.5, 1, 2</td>
+      </tr>
+    </tbody>
+  </table>
 
+</details>
 ---
-### Entidade: `PokeCenter`
+<details>
+  <summary>Golpe</summary>
 
-### Descrição:
-A entidade `PokeCenter` representa as instalações onde os Pokémon podem ser curados e onde o time principal do jogador pode ser alterado. Além disso, o PokeCenter herda atributos da cidade onde está localizado, como nome e características da cidade.
+  <h3>Descrição</h3>
+  <p>A entidade <code>Golpe</code> representa os diferentes ataques que um Pokémon pode usar em batalhas. Cada golpe possui atributos que determinam seu tipo, poder, precisão e outros efeitos.</p>
 
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>golpe_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do golpe</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome do golpe</td>
+        <td>Texto (máx. 50 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>tipo_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do tipo do golpe</td>
+        <td>Inteiro positivo (FK para <code>Tipos</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>poder</code></td>
+        <td>Inteiro</td>
+        <td>Poder base do golpe</td>
+        <td>Inteiro positivo</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td>Deve ser maior que 0 se não for nulo</td>
+      </tr>
+      <tr>
+        <td><code>precisao</code></td>
+        <td>Decimal</td>
+        <td>Precisão do golpe (0 a 1)</td>
+        <td>Decimal entre 0 e 1</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td>Deve ser entre 0 e 1 se não for nulo</td>
+      </tr>
+      <tr>
+        <td><code>pp</code></td>
+        <td>Inteiro</td>
+        <td>Pontos de Poder (PP) do golpe</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Deve ser maior que 0</td>
+      </tr>
+    </tbody>
+  </table>
+
+</details>
 ---
+<details>
+  <summary>Metodo</summary>
 
-### Tabela: PokeCenter
+  <h3>Descrição</h3>
+  <p>A entidade <code>Metodo</code> representa os diferentes métodos pelos quais um Pokémon pode aprender um golpe. Isso pode incluir aprendizado por nível, TM/HM, tutor de golpes, entre outros.</p>
 
-| **Nome Variável**  | **Tipo**    | **Descrição**                                        | **Valores Permitidos**                       | **Permite Valores Nulos?** | **É Chave?** | **Outras Restrições**                          |
-|---------------------|------------|-----------------------------------------------------|---------------------------------------------|----------------------------|--------------|-----------------------------------------------|
-| `pokecenter_id`     | Inteiro    | Identificador único do PokeCenter                   | Inteiro positivo                            | Não                        | Sim          | Gerado automaticamente (autoincremento)       |
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>metodo_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do método</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome do método de aprendizado</td>
+        <td>Texto (máx. 50 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>descricao</code></td>
+        <td>Texto</td>
+        <td>Descrição detalhada do método de aprendizado</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 
+</details>
+---
+<details>
+  <summary>PokeCenter</summary>
+
+  <h3>Descrição</h3>
+  <p>A entidade <code>PokeCenter</code> representa os centros Pokémon onde os treinadores podem curar seus Pokémon, acessar o armazenamento de Pokémon e utilizar outros serviços.</p>
+
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>pokecenter_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do PokeCenter</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome do PokeCenter</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>localizacao</code></td>
+        <td>Texto</td>
+        <td>Localização do PokeCenter</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>servicos</code></td>
+        <td>Texto</td>
+        <td>Serviços oferecidos pelo PokeCenter</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+</details>
 --- 
-### Entidade: `Ginasio`
+<details>
+  <summary>Ginasio</summary>
 
-### Descrição:
-A entidade `Ginasio` representa os ginásios onde o jogador pode desafiar líderes para ganhar insígnias. Cada ginásio tem um nome e está localizado em uma cidade específica, além de estar associado a um líder.
+  <h3>Descrição</h3>
+  <p>A entidade <code>Ginasio</code> representa os ginásios Pokémon onde os treinadores podem desafiar líderes de ginásio para ganhar insígnias. Cada ginásio é especializado em um tipo específico de Pokémon.</p>
 
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>ginasio_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do ginásio</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome do ginásio</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>localizacao</code></td>
+        <td>Texto</td>
+        <td>Localização do ginásio</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>tipo_especializado</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do tipo de Pokémon especializado</td>
+        <td>Inteiro positivo (FK para <code>Tipos</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>lider_ginasio</code></td>
+        <td>Texto</td>
+        <td>Nome do líder do ginásio</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+</details>
+---
+<details>
+  <summary>Inst_Pokemon</summary>
+
+  <h3>Descrição</h3>
+  <p>A entidade <code>Inst_Pokemon</code> representa uma instância específica de um Pokémon pertencente a um treinador. Inclui informações como o nível, experiência, e status atual do Pokémon.</p>
+
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>inst_pokemon_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único da instância do Pokémon</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>pokemon_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do Pokémon</td>
+        <td>Inteiro positivo (FK para <code>Pokemon</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>treinador_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do treinador</td>
+        <td>Inteiro positivo (FK para <code>Treinador</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>nivel</code></td>
+        <td>Inteiro</td>
+        <td>Nível atual do Pokémon</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Deve ser maior que 0</td>
+      </tr>
+      <tr>
+        <td><code>experiencia</code></td>
+        <td>Inteiro</td>
+        <td>Experiência acumulada pelo Pokémon</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Deve ser maior ou igual a 0</td>
+      </tr>
+      <tr>
+        <td><code>status_atual</code></td>
+        <td>Texto</td>
+        <td>Status atual do Pokémon (ex.: saudável, envenenado)</td>
+        <td>Texto (máx. 50 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+</details>
+---
+<details>
+  <summary>Time_Principal</summary>
+
+  <h3>Descrição</h3>
+  <p>A entidade <code>Time_Principal</code> representa o time principal de Pokémon de um treinador. Inclui informações sobre os Pokémon que fazem parte do time principal.</p>
+
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>time_principal_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do time principal</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>treinador_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do treinador</td>
+        <td>Inteiro positivo (FK para <code>Treinador</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>inst_pokemon_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador da instância do Pokémon</td>
+        <td>Inteiro positivo (FK para <code>Inst_Pokemon</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>posicao</code></td>
+        <td>Inteiro</td>
+        <td>Posição do Pokémon no time principal</td>
+        <td>Inteiro positivo (1 a 6)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Deve ser entre 1 e 6</td>
+      </tr>
+    </tbody>
+  </table>
+
+</details>
+---
+<details>
+  <summary>Cidade</summary>
+
+  <h3>Descrição</h3>
+  <p>A entidade <code>Cidade</code> representa as diferentes cidades no mundo Pokémon. Cada cidade pode ter ginásios, PokeCenters e outras instalações importantes.</p>
+
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>cidade_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único da cidade</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome da cidade</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>descricao</code></td>
+        <td>Texto</td>
+        <td>Descrição da cidade</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+</details>
+---
+<details>
+  <summary>Pokemon_Selvagem</summary>
+
+  <h3>Descrição</h3>
+  <p>A entidade <code>Pokemon_Selvagem</code> representa os Pokémon que podem ser encontrados na natureza, sem pertencer a nenhum treinador. Inclui informações sobre a localização e a frequência de aparição desses Pokémon.</p>
+
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>pokemon_selvagem_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do Pokémon selvagem</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>pokemon_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do Pokémon</td>
+        <td>Inteiro positivo (FK para <code>Pokemon</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>localizacao</code></td>
+        <td>Texto</td>
+        <td>Localização onde o Pokémon selvagem pode ser encontrado</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>frequencia</code></td>
+        <td>Decimal</td>
+        <td>Frequência de aparição do Pokémon selvagem (0 a 1)</td>
+        <td>Decimal entre 0 e 1</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Deve ser entre 0 e 1</td>
+      </tr>
+    </tbody>
+  </table>
+
+</details>
+---
+<details>
+  <summary>Pokedex</summary>
+
+  <h3>Descrição</h3>
+  <p>A entidade <code>Pokedex</code> representa a enciclopédia digital que registra informações sobre todos os Pokémon que um treinador encontrou e capturou. Inclui detalhes como o nome, tipo, e descrição dos Pokémon.</p>
+
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>pokedex_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único da Pokedex</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>pokemon_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do Pokémon</td>
+        <td>Inteiro positivo (FK para <code>Pokemon</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome do Pokémon</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>tipo_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do tipo do Pokémon</td>
+        <td>Inteiro positivo (FK para <code>Tipos</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>descricao</code></td>
+        <td>Texto</td>
+        <td>Descrição do Pokémon</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+</details>
+---
+<details>
+  <summary>Local</summary>
+
+  <h3>Descrição</h3>
+  <p>A entidade <code>Local</code> representa os diferentes locais no mundo Pokémon onde eventos podem ocorrer, como cidades, rotas, cavernas, etc. Inclui informações sobre o nome e a descrição do local.</p>
+
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>local_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do local</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome do local</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>descricao</code></td>
+        <td>Texto</td>
+        <td>Descrição do local</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+</details>
+---
+<details>
+  <summary>Rota</summary>
+
+  <h3>Descrição</h3>
+  <p>A entidade <code>Rota</code> representa as diferentes rotas no mundo Pokémon que conectam cidades e outros locais. Inclui informações sobre o nome, a descrição e os Pokémon selvagens que podem ser encontrados na rota.</p>
+
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>rota_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único da rota</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome da rota</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>descricao</code></td>
+        <td>Texto</td>
+        <td>Descrição da rota</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>pokemon_selvagens</code></td>
+        <td>Texto</td>
+        <td>Lista de Pokémon selvagens encontrados na rota</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+</details>
 ---
 
-### Tabela: Ginasio
+<details>
+  <summary>Caminho</summary>
 
-| **Nome Variável** | **Tipo**    | **Descrição**                                      | **Valores Permitidos**                       | **Permite Valores Nulos?** | **É Chave?** | **Outras Restrições**                          |
-|--------------------|------------|--------------------------------------------------|---------------------------------------------|----------------------------|--------------|-----------------------------------------------|
-| `ginasio_id`       | Inteiro    | Identificador único do ginásio                    | Inteiro positivo                            | Não                        | Sim          | Gerado automaticamente (autoincremento)       |
-| `nome`             | Texto      | Nome do ginásio                                  | Texto (máx. 100 caracteres)                 | Não                        | Não          |                                               |
+  <h3>Descrição</h3>
+  <p>A entidade <code>Caminho</code> representa as conexões entre diferentes locais no mundo Pokémon, como cidades e rotas. Inclui informações sobre os locais de origem e destino, bem como a distância entre eles.</p>
 
----
-### Entidade: `Inst_Pokemon`
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>caminho_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do caminho</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>local_origem_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do local de origem</td>
+        <td>Inteiro positivo (FK para <code>Local</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>local_destino_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do local de destino</td>
+        <td>Inteiro positivo (FK para <code>Local</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>distancia</code></td>
+        <td>Decimal</td>
+        <td>Distância entre os locais de origem e destino</td>
+        <td>Decimal positivo</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Deve ser maior que 0</td>
+      </tr>
+    </tbody>
+  </table>
 
-### Descrição:
-A entidade `Inst_Pokemon` representa uma instância específica de um Pokémon no jogo, incluindo sua experiência atual, HP atual e o status atual. Essa instância está vinculada à revelação na Pokédex, à integração no time do jogador e à possibilidade de ser um Pokémon selvagem.
-
----
-
-### Tabela: Inst_Pokemon
-
-| **Nome Variável**   | **Tipo**    | **Descrição**                                        | **Valores Permitidos**                       | **Permite Valores Nulos?** | **É Chave?** | **Outras Restrições**                          |
-|----------------------|------------|-----------------------------------------------------|---------------------------------------------|----------------------------|--------------|-----------------------------------------------|
-| `int_pokemon_id`     | Inteiro    | Identificador único da instância do Pokémon         | Inteiro positivo                            | Não                        | Sim          | Gerado automaticamente (autoincremento)       |
-| `experiencia`        | Inteiro    | Experiência acumulada pela instância do Pokémon     | Inteiro positivo                            | Não                        | Não          |                                               |
-| `hp_tual`            | Inteiro    | HP atual da instância do Pokémon                    | Inteiro positivo                            | Não                        | Não          | Deve ser maior que 0                          |
-| `status`             | Texto      | Status atual da instância do Pokémon (ex.: Vivo, Desmaiado) | Texto (máx. 20 caracteres)                  | Não                        | Não          |                                               |
-
----
-### Entidade: `Time_Principal`
-
-### Descrição:
-A entidade `Time_Principal` representa o time de Pokémon do jogador, contendo a ordem dos Pokémon que o compõem. Este time pode ser alterado e curado no PokeCenter, sendo essencial para as batalhas do jogo.
-
----
-
-### Tabela: Time_Principal
-
-| **Nome Variável**   | **Tipo**    | **Descrição**                                        | **Valores Permitidos**                       | **Permite Valores Nulos?** | **É Chave?** | **Outras Restrições**                          |
-|----------------------|------------|-----------------------------------------------------|---------------------------------------------|----------------------------|--------------|-----------------------------------------------|
-| `time_princ_id`      | Inteiro    | Identificador único do time principal               | Inteiro positivo                            | Não                        | Sim          | Gerado automaticamente (autoincremento)       |
-| `ordem`              | Inteiro    | Ordem dos Pokémon no time principal                 | Inteiro positivo                            | Não                        | Não          | Ordem deve ser única dentro de cada time      |
-
----
-### Entidade: `Cidade`
-
-### Descrição:
-A entidade `Cidade` representa as diversas cidades no mundo do jogo, contendo informações como nome e identificação. Cada cidade está vinculada a um local específico e pode abrigar diversas instalações e estabelecimentos como PokeCenter, Ginásio e PokéMart.
-
----
-
-### Tabela: Cidade
-
-| **Nome Variável**   | **Tipo**    | **Descrição**                                        | **Valores Permitidos**                       | **Permite Valores Nulos?** | **É Chave?** | **Outras Restrições**                          |
-|----------------------|------------|-----------------------------------------------------|---------------------------------------------|----------------------------|--------------|-----------------------------------------------|
-| `cidade_id`          | Inteiro    | Identificador único da cidade                        | Inteiro positivo                            | Não                        | Sim          | Gerado automaticamente (autoincremento)       |
-| `nome`               | Texto      | Nome da cidade                                     | Texto (máx. 100 caracteres)                 | Não                        | Não          |                                               |
-
----
-### Entidade: `Pokemon_Selvagem`
-
-### Descrição:
-A entidade `Pokemon_Selvagem` representa os Pokémon que aparecem nas zonas selvagens do jogo. Ela contém informações sobre a taxa de aparição, os níveis mínimos e máximos de um Pokémon selvagem, além de estar associada a interações com o treinador e zonas de captura.
-
----
-
-### Tabela: Pokemon_Selvagem
-
-| **Nome Variável**    | **Tipo**    | **Descrição**                                        | **Valores Permitidos**                       | **Permite Valores Nulos?** | **É Chave?** | **Outras Restrições**                          |
-|-----------------------|------------|-----------------------------------------------------|---------------------------------------------|----------------------------|--------------|-----------------------------------------------|
-| `selvagem_id`         | Inteiro    | Identificador único do Pokémon selvagem             | Inteiro positivo                            | Não                        | Sim          | Gerado automaticamente (autoincremento)       |
-| `taxa_aparicao`       | Decimal    | Taxa de aparição do Pokémon selvagem                | Decimal entre 0 e 1 (percentual)            | Não                        | Não          | Deve ser entre 0 e 1                         |
-| `nivel_min`           | Inteiro    | Nível mínimo do Pokémon selvagem                    | Inteiro positivo                            | Não                        | Não          | Nível mínimo deve ser maior que 0            |
-| `nivel_max`           | Inteiro    | Nível máximo do Pokémon selvagem                    | Inteiro positivo                            | Não                        | Não          | Nível máximo deve ser maior que `nivel_min`   |
-
----
-### Entidade: `Pokedex`
-
-### Descrição:
-A entidade `Pokedex` representa o registro digital dos Pokémon encontrados pelo jogador durante sua jornada. Cada entrada na Pokédex contém um número único de identificação e informações sobre o Pokémon, revelando detalhes sobre o Pokémon registrado e estando vinculada à mochila do jogador.
-
+</details>
 ---
 
-### Tabela: Pokedex
+<details>
+  <summary>Zona_de_captura</summary>
 
-| **Nome Variável**    | **Tipo**    | **Descrição**                                        | **Valores Permitidos**                       | **Permite Valores Nulos?** | **É Chave?** | **Outras Restrições**                          |
-|-----------------------|------------|-----------------------------------------------------|---------------------------------------------|----------------------------|--------------|-----------------------------------------------|
-| `pokedex_id`          | Inteiro    | Identificador único da entrada na Pokédex           | Inteiro positivo                            | Não                        | Sim          | Gerado automaticamente (autoincremento)       |
-| `num_pokedex`         | Inteiro    | Número único do Pokémon na Pokédex                  | Inteiro positivo                            | Não                        | Não          | Valor único para cada Pokémon registrado      |
+  <h3>Descrição</h3>
+  <p>A entidade <code>Zona_de_captura</code> representa as áreas específicas onde os Pokémon podem ser capturados. Inclui informações sobre a localização e os tipos de Pokémon que podem ser encontrados nessas zonas.</p>
 
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>zona_de_captura_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único da zona de captura</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome da zona de captura</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>localizacao</code></td>
+        <td>Texto</td>
+        <td>Localização da zona de captura</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>pokemon_selvagens</code></td>
+        <td>Texto</td>
+        <td>Lista de Pokémon selvagens encontrados na zona de captura</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+</details>
 ---
-### Entidade: Local
+<details>
+  <summary>Pokémart</summary>
 
-Descrição: A entidade **Local** descreve locais presentes no jogo, como PokéCenters, Ginásios e Pokémarts, com informações como identificador, tipo, região e quantidade de NPCs.
+  <h3>Descrição</h3>
+  <p>A entidade <code>Pokémart</code> representa as lojas onde os treinadores podem comprar itens como Pokébolas, poções e outros suprimentos. Inclui informações sobre a localização e os itens disponíveis para venda.</p>
 
-| Nome da Variável | Tipo         | Descrição                       | Valores Permitidos | Permite Valores Nulos? | É Chave? | Outras Restrições |
-|------------------|--------------|---------------------------------|--------------------|-------------------------|----------|-------------------|
-| local_id         | int          | Identificador único do local   | 1-1000             | não                     | PK       |                   |
-| tipo_local       | varchar(50)  | Tipo do local                  | PokéCenter, Ginásio, Pokémart | não          |          |
-| regiao           | varchar(100) | Região associada ao local      | a-z, A-Z           | não                     |          |                   |
-| quantidade_npc   | int          | Quantidade de NPCs no local    | 0-100              | não                     |          |                   |
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>pokemart_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do Pokémart</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome do Pokémart</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>localizacao</code></td>
+        <td>Texto</td>
+        <td>Localização do Pokémart</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>itens_disponiveis</code></td>
+        <td>Texto</td>
+        <td>Lista de itens disponíveis para venda</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 
+</details>
 ---
-### Entidade: Rota
+<details>
+  <summary>Time</summary>
 
-Descrição: A entidade **Rota** descreve as rotas conectadas às cidades, com informações como identificador único e nome ou número.
+  <h3>Descrição</h3>
+  <p>A entidade <code>Time</code> representa um grupo de Pokémon que um treinador possui. Inclui informações sobre o treinador e os Pokémon que fazem parte do time.</p>
 
-Observação: Esta tabela está relacionada à entidade **Cidade**.
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>time_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do time</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>treinador_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do treinador</td>
+        <td>Inteiro positivo (FK para <code>Treinador</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>inst_pokemon_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador da instância do Pokémon</td>
+        <td>Inteiro positivo (FK para <code>Inst_Pokemon</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>posicao</code></td>
+        <td>Inteiro</td>
+        <td>Posição do Pokémon no time</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Deve ser maior que 0</td>
+      </tr>
+    </tbody>
+  </table>
 
-| Nome da Variável | Tipo         | Descrição                        | Valores Permitidos | Permite Valores Nulos? | É Chave? | Outras Restrições |
-|------------------|--------------|----------------------------------|--------------------|-------------------------|----------|-------------------|
-| rota_id          | int          | Identificador único da rota     | 1-500              | não                     | PK       |                   |
-| nome/numero      | varchar(50)  | Nome ou número da rota          | a-z, A-Z, 0-9      | não                     |          |                   |
-
+</details>
 ---
+<details>
+  <summary>Treinador</summary>
 
-### Entidade: Caminho
+  <h3>Descrição</h3>
+  <p>A entidade <code>Treinador</code> representa os treinadores de Pokémon. Inclui informações pessoais e detalhes sobre o progresso do treinador no mundo Pokémon.</p>
 
-Descrição: A entidade **Caminho** descreve os caminhos dentro das rotas, permitindo definir trajetos específicos.
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>treinador_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do treinador</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome do treinador</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>idade</code></td>
+        <td>Inteiro</td>
+        <td>Idade do treinador</td>
+        <td>Inteiro positivo</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td>Deve ser maior que 0 se não for nulo</td>
+      </tr>
+      <tr>
+        <td><code>cidade_origem</code></td>
+        <td>Texto</td>
+        <td>Cidade de origem do treinador</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>insignias</code></td>
+        <td>Inteiro</td>
+        <td>Número de insígnias conquistadas pelo treinador</td>
+        <td>Inteiro positivo</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td>Deve ser maior ou igual a 0 se não for nulo</td>
+      </tr>
+    </tbody>
+  </table>
 
-
-| Nome da Variável | Tipo         | Descrição                  | Valores Permitidos | Permite Valores Nulos? | É Chave? | Outras Restrições |
-|------------------|--------------|----------------------------|--------------------|-------------------------|----------|-------------------|
-| caminho_id       | int          | Identificador único do caminho | 1-1000           | não                     | PK       |                   |
-
+</details>
 ---
+<details>
+  <summary>Mochila</summary>
 
-### Entidade: Zona_de_captura
+  <h3>Descrição</h3>
+  <p>A entidade <code>Mochila</code> representa a mochila de um treinador, onde são armazenados os itens coletados durante a jornada. Inclui informações sobre os itens e suas quantidades.</p>
 
-Descrição: A entidade **Zona_de_captura** descreve as áreas onde os jogadores podem capturar Pokémon, com um vínculo ao local correspondente.
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>mochila_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único da mochila</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>treinador_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do treinador</td>
+        <td>Inteiro positivo (FK para <code>Treinador</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>item_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do item</td>
+        <td>Inteiro positivo (FK para <code>Item</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>quantidade</code></td>
+        <td>Inteiro</td>
+        <td>Quantidade do item na mochila</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Deve ser maior ou igual a 0</td>
+      </tr>
+    </tbody>
+  </table>
 
-
-| Nome da Variável | Tipo         | Descrição                        | Valores Permitidos | Permite Valores Nulos? | É Chave? | Outras Restrições |
-|------------------|--------------|----------------------------------|--------------------|-------------------------|----------|-------------------|
-| local_id         | int          | Identificador único do local    | 1-1000             | não                     | FK       | Relacionado à entidade **Local** |
-
-
+</details>
 ---
-### Entidade: Pokémart
+<details>
+  <summary>Item</summary>
 
-Descrição: A entidade **Pokémart** descreve as lojas do jogo onde os jogadores podem comprar itens.
+  <h3>Descrição</h3>
+  <p>A entidade <code>Item</code> representa os diferentes itens que podem ser encontrados e utilizados pelos treinadores no mundo Pokémon. Inclui informações sobre o nome, descrição e efeitos dos itens.</p>
 
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>item_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do item</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome do item</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>descricao</code></td>
+        <td>Texto</td>
+        <td>Descrição do item</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>efeito</code></td>
+        <td>Texto</td>
+        <td>Efeito do item</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 
-| Nome da Variável | Tipo         | Descrição                  | Valores Permitidos | Permite Valores Nulos? | É Chave? | Outras Restrições |
-|------------------|--------------|----------------------------|--------------------|-------------------------|----------|-------------------|
-| local_id         | int          | Identificador único do local | 1-1000            | não                     | FK       | Relacionado à entidade **Local** |
-
+</details>
 ---
-### Entidade: Time
+<details>
+  <summary>Pokebola</summary>
 
-**Descrição**: A entidade Time descreve os times disponíveis no jogo, incluindo identificadores e a ordem associada.
+  <h3>Descrição</h3>
+  <p>A entidade <code>Pokebola</code> representa os diferentes tipos de Pokébolas usadas para capturar Pokémon. Inclui informações sobre o nome, descrição e taxa de captura das Pokébolas.</p>
 
-| Nome Variável | Tipo      | Descrição                     | Valores Permitidos | Permite Valores Nulos? | É chave? | Outras Restrições          |
-|---------------|-----------|-------------------------------|--------------------|-------------------------|----------|----------------------------|
-| Time_id       | int       | Identificador único do time   | 1-1000             | não                     | PK       |                            |
-| Time_princ_id | int       | Identificador do time principal | 1-1000           | não                     | FK       | Relacionado a Time         |
-| Ordem         | int       | Ordem do time                | 1-10                | não                     |          |                            |
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>pokebola_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único da Pokébola</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome da Pokébola</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>descricao</code></td>
+        <td>Texto</td>
+        <td>Descrição da Pokébola</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>taxa_de_captura</code></td>
+        <td>Decimal</td>
+        <td>Taxa de captura da Pokébola</td>
+        <td>Decimal positivo</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Deve ser maior que 0</td>
+      </tr>
+    </tbody>
+  </table>
 
-
+</details>
 ---
+<details>
+  <summary>Líder</summary>
 
-### Entidade: Treinador
+  <h3>Descrição</h3>
+  <p>A entidade <code>Líder</code> representa os líderes de ginásio no mundo Pokémon. Inclui informações sobre o nome, especialização e o ginásio que lideram.</p>
 
-**Descrição**: A entidade Treinador armazena informações sobre os personagens que treinam Pokémons, com detalhes como nome e tipo.
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>lider_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do líder</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome do líder</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>especializacao</code></td>
+        <td>Texto</td>
+        <td>Especialização do líder (tipo de Pokémon)</td>
+        <td>Texto (máx. 50 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>ginasio_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do ginásio que o líder lidera</td>
+        <td>Inteiro positivo (FK para <code>Ginasio</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 
-| Nome Variável    | Tipo          | Descrição                         | Valores Permitidos | Permite Valores Nulos? | É chave? | Outras Restrições          |
-|------------------|---------------|-----------------------------------|--------------------|------------------------|----------|----------------------------|
-| Treinador_id     | int           | Identificador único do treinador | 1-1000              | não                    | PK       |                            |
-| Nome             | varchar[100] | Nome do treinador                 | a-z, A-Z            | não                    |          |                            |
-| Tipo_treinador   | varchar[50]  | Tipo do treinador (iniciante, avançado) | valores específicos | sim              |          |                            |
-
+</details>
 ---
+<details>
+  <summary>NPC</summary>
 
-### Entidade: Mochila
+  <h3>Descrição</h3>
+  <p>A entidade <code>NPC</code> representa os personagens não jogáveis (Non-Playable Characters) no mundo Pokémon. Inclui informações sobre o nome, função e localização dos NPCs.</p>
 
-**Descrição**: A entidade Mochila representa os itens carregados pelos treinadores no jogo, com um identificador exclusivo.
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>npc_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do NPC</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome do NPC</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>funcao</code></td>
+        <td>Texto</td>
+        <td>Função do NPC (ex.: vendedor, guia)</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>localizacao</code></td>
+        <td>Texto</td>
+        <td>Localização do NPC</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 
-| Nome Variável  | Tipo  | Descrição                         | Valores Permitidos | Permite Valores Nulos? | É chave? | Outras Restrições          |
-|-----------------|-------|-----------------------------------|--------------------|-------------------------|----------|----------------------------|
-| Mochila_id      | int   | Identificador único da mochila   | 1-1000             | não                     | PK        |                            |
-
+</details>
 ---
+<details>
+  <summary>PC</summary>
 
-### Entidade: Item
+  <h3>Descrição</h3>
+  <p>A entidade <code>PC</code> representa os computadores encontrados nos PokeCenters, onde os treinadores podem armazenar e gerenciar seus Pokémon. Inclui informações sobre a capacidade de armazenamento e os Pokémon armazenados.</p>
 
-**Descrição**: A entidade Item armazena informações sobre os objetos que podem ser encontrados no jogo, como descrição e tipo.
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>pc_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do PC</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>treinador_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do treinador</td>
+        <td>Inteiro positivo (FK para <code>Treinador</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>capacidade</code></td>
+        <td>Inteiro</td>
+        <td>Capacidade de armazenamento do PC</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td>Deve ser maior que 0</td>
+      </tr>
+      <tr>
+        <td><code>pokemon_armazenados</code></td>
+        <td>Texto</td>
+        <td>Lista de Pokémon armazenados no PC</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 
-| Nome Variável | Tipo          | Descrição                     | Valores Permitidos | Permite Valores Nulos? | É chave? | Outras Restrições          |
-|---------------|---------------|-------------------------------|--------------------|-------------------------|----------|----------------------------|
-| Item_id       | int           | Identificador único do item  | 1-1000             | não                      | PK       |                            |
-| Descrição     | varchar[150]  | Descrição do item             | a-z, A-Z           | sim                     |          |                            |
-
+</details>
 ---
+<details>
+  <summary>Utilitário</summary>
 
-### Entidade: Pokebola
+  <h3>Descrição</h3>
+  <p>A entidade <code>Utilitário</code> representa os diferentes itens utilitários que podem ser usados pelos treinadores no mundo Pokémon. Inclui informações sobre o nome, descrição e efeitos dos utilitários.</p>
 
-**Descrição**: A entidade Pokebola descreve as bolas utilizadas para capturar Pokémons, incluindo chance de captura e descrição.
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>utilitario_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único do utilitário</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>nome</code></td>
+        <td>Texto</td>
+        <td>Nome do utilitário</td>
+        <td>Texto (máx. 100 caracteres)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>descricao</code></td>
+        <td>Texto</td>
+        <td>Descrição do utilitário</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>efeito</code></td>
+        <td>Texto</td>
+        <td>Efeito do utilitário</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 
-| Nome Variável    | Tipo          | Descrição                           | Valores Permitidos | Permite Valores Nulos? | É chave? | Outras Restrições          |
-|------------------|---------------|-------------------------------------|--------------------|-------------------------|----------|----------------------------|
-| Pokebola_id      | int           | Identificador único da Pokébola    | 1-1000             | não                      | PK       |                            |
-| Chance_Captura   | decimal(3,2)  | Taxa de chance de captura (%)       | 0.01-1.00          | não                     |          |                            |
-| Descrição        | varchar[150]  | Descrição da Pokébola               | texto              | sim                     |          |                            |
-
+</details>
 ---
+<details>
+  <summary>Evolução</summary>
 
-### Entidade: Líder
+  <h3>Descrição</h3>
+  <p>A entidade <code>Evolução</code> representa o processo pelo qual um Pokémon evolui para uma forma mais avançada. Inclui informações sobre o Pokémon de origem, o Pokémon evoluído e as condições necessárias para a evolução.</p>
 
-**Descrição**: A entidade Líder representa líderes de ginásio, com informações sobre suas insígnias.
+  <h3>Atributos</h3>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Nome Variável</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Valores Permitidos</th>
+        <th>Permite Valores Nulos?</th>
+        <th>É Chave?</th>
+        <th>Outras Restrições</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>evolucao_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador único da evolução</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>Sim</td>
+        <td>Gerado automaticamente (autoincremento)</td>
+      </tr>
+      <tr>
+        <td><code>pokemon_origem_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do Pokémon de origem</td>
+        <td>Inteiro positivo (FK para <code>Pokemon</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>pokemon_evoluido_id</code></td>
+        <td>Inteiro</td>
+        <td>Identificador do Pokémon evoluído</td>
+        <td>Inteiro positivo (FK para <code>Pokemon</code>)</td>
+        <td>Não</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>condicao</code></td>
+        <td>Texto</td>
+        <td>Condição necessária para a evolução (ex.: nível, item)</td>
+        <td>Texto (máx. 255 caracteres)</td>
+        <td>Sim</td>
+        <td>Não</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 
-| Nome Variável | Tipo          | Descrição                           | Valores Permitidos | Permite Valores Nulos? | É chave? | Outras Restrições          |
-|---------------|---------------|-------------------------------------|--------------------|-------------------------|----------|----------------------------|
-| Líder_id      | int           | Identificador único do líder        | 1-1000             | não                     | PK       |                            |
-| Insígnia      | varchar[100]  | Nome ou descrição da insígnia       | texto              | não                     |          |                            |
-
----
-
-### Entidade: NPC
-
-**Descrição**: A entidade NPC representa os personagens não jogáveis, com detalhes como nível de dificuldade e falas associadas.
-
-| Nome Variável        | Tipo          | Descrição                           | Valores Permitidos | Permite Valores Nulos? | É chave? | Outras Restrições          |
-|----------------------|---------------|-------------------------------------|--------------------|-------------------------|----------|----------------------------|
-| NPC_id              | int           | Identificador único do NPC          | 1-1000             | não                     | PK       |                            |
-| Nível_dificuldade   | int           | Nível de dificuldade apresentado    | 1-10               | não                     |          |                            |
-| Falas               | varchar[255]  | Texto ou falas associadas ao NPC    | texto              | sim                     |          |                            |
-
----
-
-### Entidade: PC
-
-**Descrição**: A entidade PC armazena informações sobre os jogadores e suas insígnias coletadas.
-
-| Nome Variável              | Tipo  | Descrição                            | Valores Permitidos | Permite Valores Nulos? | É chave? | Outras Restrições          |
-|----------------------------|-------|--------------------------------------|--------------------|-------------------------|----------|----------------------------|
-| Player_id                  | int   | Identificador único do jogador       | 1-1000             | não                     | PK       |                            |
-| Num_insígnias_coletadas    | int   | Número de insígnias coletadas pelo jogador | 0-8          | sim                     |          |                            |
-
----
-
-### Entidade: Utilitário
-
-**Descrição**: A entidade Utilitário armazena informações sobre itens de cura e evolução disponíveis no jogo.
-
-| Nome Variável  | Tipo          | Descrição                     | Valores Permitidos | Permite Valores Nulos? | É chave? | Outras Restrições          |
-|----------------|---------------|-------------------------------|--------------------|-------------------------|----------|----------------------------|
-| Poção_id       | int           | Identificador único da poção  | 1-1000             | não                     | PK       |                            |
-| Taxa_cura      | decimal(3,2)  | Porcentagem de cura aplicada  | 0.01-1.00          | não                     |          |                            |
-| Efeito         | varchar[100]  | Efeito causado pelo item      | texto              | sim                     |          |                            |
-| Descrição      | varchar[150]  | Descrição do utilitário       | texto              | sim                     |          |                            |
-
----
-
-### Entidade: Evolução
-
-**Descrição**: A entidade Evolução descreve os tipos e processos de evolução disponíveis no jogo.
-
-| Nome Variável    | Tipo          | Descrição                           | Valores Permitidos | Permite Valores Nulos? | É chave? | Outras Restrições          |
-|------------------|---------------|-------------------------------------|--------------------|-------------------------|----------|----------------------------|
-| Evolução_id      | int           | Identificador único da evolução     | 1-1000             | não                     | PK       |                            |
-| Tipo_evolução    | varchar[50]   | Tipo de evolução realizada          | texto              | não                     |          |                            |
-| Descrição        | varchar[150]  | Descrição da evolução               | texto              | sim                     |          |                            |
-
+</details>
 ---
