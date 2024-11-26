@@ -1,17 +1,7 @@
-# Welcome to MkDocs
+# Página de Documentação - Banco de Dados 1
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+Bem-vindo à página de documentação da matéria de Banco de Dados 1. Este repositório servirá como um local centralizado para as entregas dos módulos ao longo do curso.
 
-## Commands
+## Objetivo
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+O objetivo desta página é organizar e disponibilizar todas as entregas e materiais relacionados aos módulos da disciplina de Banco de Dados 1.
