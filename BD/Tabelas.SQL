@@ -11,21 +11,7 @@ CREATE TABLE Pokemon(
 		PRIMARY KEY (pokemon_id)
 );
 
--- adicionando chaves estrangeiras da tabela pokemon
-ALTER TABLE Pokemon
-ADD CONSTRAINT fk_status_base
-		FOREIGN KEY (status_base)
-			REFERENCES Status_base (status_base_id);
-			
-ALTER TABLE Pokemon
-ADD CONSTRAINT fk_pokedex
-		FOREIGN KEY (pokedex)
-			REFERENCES Pokedex (pokedex_id);
-			
-ALTER TABLE Pokemon
-RENAME CONSTRAINT fk_pokemon
-TO pk_pokemon;
---
+
 
 CREATE TABLE Status_base(
 	status_base_id int NOT NULL,
@@ -36,11 +22,7 @@ CREATE TABLE Status_base(
 	CONSTRAINT fk_status
 		PRIMARY KEY (status_base_id)
 );
--- adicionando chaves estrangeiras da tabela status_base
-ALTER TABLE Status_base
-RENAME CONSTRAINT fk_status
-TO pk_status;
---
+
 CREATE TABLE Tipo(
 	tipo_id int NOT NULL,
 	pokemon_id int NOT NULL,
@@ -52,11 +34,7 @@ CREATE TABLE Tipo(
 			REFERENCES Pokemon (pokemon_id)
 );
 
--- adicionando chaves estrangeiras da tabela tipo
-ALTER TABLE Tipo
-RENAME CONSTRAINT fk_tipo
-TO pk_tipo;
---
+
 
 CREATE TABLE Eficacia(
 	eficacia_id int NOT NULL,
@@ -100,17 +78,7 @@ CREATE TABLE Pokecenter(
 
 ); 
 
--- adicionando chaves estrangeiras da tabela tipo
-ALTER TABLE Pokecenter
-ADD CONSTRAINT fk_local_id
-		FOREIGN KEY (local_id)
-			REFERENCES Local_ (local_id);
 
-ALTER TABLE Pokecenter
-ADD CONSTRAINT fk_time_princ
-		FOREIGN KEY (time_pric_id)
-			REFERENCES Time_Principal (time_princ_id);
---		
 
 CREATE TABLE Ginasio(
 	ginasio_id int NOT NULL,
@@ -124,18 +92,7 @@ CREATE TABLE Ginasio(
 		PRIMARY KEY (ginasio_id)
 );
 
--- adicionando chaves estrangeiras da tabela Ginasio
-ALTER TABLE Ginasio
-ADD CONSTRAINT fk_local_id
-		FOREIGN KEY (local_id)
-			REFERENCES Local_ (local_id);
-			
-ALTER TABLE Ginasio
-ADD CONSTRAINT fk_lider
-		FOREIGN KEY (lider)
-			REFERENCES lider (lider_id);
-	  
---
+
 
 CREATE TABLE Inst_Pokemon(
 	inst_pokemon int NOT NULL,
@@ -149,17 +106,7 @@ CREATE TABLE Inst_Pokemon(
 		PRIMARY KEY (inst_pokemon)
 ); 
 
--- adicionando chaves estrangeiras da tabela inst_pokemon
-ALTER TABLE Inst_Pokemon
-ADD CONSTRAINT fk_pokedex
-		FOREIGN KEY (pokedex)
-			REFERENCES Pokedex (pokedex_id);
 
-ALTER TABLE Inst_pokemon
-ADD CONSTRAINT fk_time
-		FOREIGN KEY (time)
-			REFERENCES Time (time_id);
---
 
 CREATE TABLE Time_Principal(
 	time_princ_id int NOT NULL,
@@ -270,12 +217,7 @@ CREATE TABLE Treinador(
 
 );
 
--- adicionando chaves estrangeiras da tabela inst_pokemon
-ALTER TABLE Treinador
-ADD CONSTRAINT fk_mochila
-		FOREIGN KEY (mochila)
-			REFERENCES mochila (mochila_id);
---
+
 
 CREATE TABLE Mochila(
 	mochila_id int NOT NULL,
@@ -288,15 +230,7 @@ CREATE TABLE Mochila(
 			REFERENCES pokedex (pokedex_id)
 );
 
--- adicionando chaves estrangeiras da tabela mochila
-ALTER TABLE Mochila
-ADD item int NOT NULL;
 
-ALTER TABLE Mochila
-ADD CONSTRAINT fk_item
-		FOREIGN KEY (item)
-			REFERENCES item (item_id);
---
 			
 CREATE TABLE item(
 	item_id int NOT NULL,
@@ -612,3 +546,84 @@ CREATE TABLE treinador_interacao(
 
 
 
+-- adicionando chaves estrangeiras da tabela status_base
+ALTER TABLE Status_base
+RENAME CONSTRAINT fk_status
+TO pk_status;
+--
+
+-- adicionando chaves estrangeiras da tabela pokemon
+ALTER TABLE Pokemon
+ADD CONSTRAINT fk_status_base
+		FOREIGN KEY (status_base)
+			REFERENCES Status_base (status_base_id);
+			
+ALTER TABLE Pokemon
+ADD CONSTRAINT fk_pokedex
+		FOREIGN KEY (pokedex)
+			REFERENCES Pokedex (pokedex_id);
+			
+ALTER TABLE Pokemon
+RENAME CONSTRAINT fk_pokemon
+TO pk_pokemon;
+--
+
+-- adicionando chaves estrangeiras da tabela inst_pokemon
+ALTER TABLE Treinador
+ADD CONSTRAINT fk_mochila
+		FOREIGN KEY (mochila)
+			REFERENCES mochila (mochila_id);
+--
+
+-- adicionando chaves estrangeiras da tabela inst_pokemon
+ALTER TABLE Inst_Pokemon
+ADD CONSTRAINT fk_pokedex
+		FOREIGN KEY (pokedex)
+			REFERENCES Pokedex (pokedex_id);
+
+ALTER TABLE Inst_pokemon
+ADD CONSTRAINT fk_time
+		FOREIGN KEY (time)
+			REFERENCES Time (time_id);
+--
+
+-- adicionando chaves estrangeiras da tabela mochila
+ALTER TABLE Mochila
+ADD item int NOT NULL;
+
+ALTER TABLE Mochila
+ADD CONSTRAINT fk_item
+		FOREIGN KEY (item)
+			REFERENCES item (item_id);
+--
+
+-- adicionando chaves estrangeiras da tabela Ginasio
+ALTER TABLE Ginasio
+ADD CONSTRAINT fk_local_id
+		FOREIGN KEY (local_id)
+			REFERENCES Local_ (local_id);
+			
+ALTER TABLE Ginasio
+ADD CONSTRAINT fk_lider
+		FOREIGN KEY (lider)
+			REFERENCES lider (lider_id);
+	  
+--
+
+-- adicionando chaves estrangeiras da tabela tipo
+ALTER TABLE Pokecenter
+ADD CONSTRAINT fk_local_id
+		FOREIGN KEY (local_id)
+			REFERENCES Local_ (local_id);
+
+ALTER TABLE Pokecenter
+ADD CONSTRAINT fk_time_princ
+		FOREIGN KEY (time_pric_id)
+			REFERENCES Time_Principal (time_princ_id);
+--		
+
+-- adicionando chaves estrangeiras da tabela tipo
+ALTER TABLE Tipo
+RENAME CONSTRAINT fk_tipo
+TO pk_tipo;
+--
