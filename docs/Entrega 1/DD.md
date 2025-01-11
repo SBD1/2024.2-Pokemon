@@ -42,7 +42,7 @@
         <td><code>nome</code></td>
         <td>Texto</td>
         <td>Nome do Pokémon</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 20 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td>Deve ser único</td>
@@ -153,7 +153,7 @@
 
 ---
 <details>
-  <summary>Tipos</summary>
+  <summary>Tipo</summary>
 
   <h3>Descrição</h3>
   <p>A entidade <code>Tipos</code> representa as classificações elementais dos Pokémon (ex.: Fogo, Água, Grama), que influenciam suas vantagens e desvantagens em batalhas, além de interagir com a eficácia de golpes.</p>
@@ -194,7 +194,7 @@
         <td><code>nome</code></td>
         <td>Texto</td>
         <td>Nome do tipo (ex.: Fogo, Água, Grama)</td>
-        <td>Texto (máx. 50 caracteres)</td>
+        <td>Texto (máx. 20 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td>Deve ser único para cada Pokémon</td>
@@ -304,7 +304,7 @@
         <td>Inteiro positivo</td>
         <td>Não</td>
         <td>Não</td>
-        <td>Deve ser maior que 0</td>
+        <td>Default 0</td>
       </tr>
       <tr>
         <td><code>precisao</code></td>
@@ -461,7 +461,7 @@
         <td><code>nome_cidade</code></td>
         <td>Texto</td>
         <td>Nome da cidade onde o PokeCenter está localizado</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -470,7 +470,7 @@
         <td><code>regiao</code></td>
         <td>Texto</td>
         <td>Região onde o PokeCenter se encontra</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -523,7 +523,7 @@
         <td><code>nome</code></td>
         <td>Texto</td>
         <td>Nome do ginásio</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -550,7 +550,7 @@
         <td><code>nome_cidade</code></td>
         <td>Texto</td>
         <td>Nome da cidade onde o ginásio está localizado</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -559,7 +559,7 @@
         <td><code>regiao</code></td>
         <td>Texto</td>
         <td>Região onde o ginásio se encontra</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -624,7 +624,7 @@
         <td>Inteiro positivo ou 0</td>
         <td>Não</td>
         <td>Não</td>
-        <td>Deve ser maior ou igual a 0</td>
+        <td>Default 0</td>
       </tr>
       <tr>
         <td><code>vida_atual</code></td>
@@ -633,7 +633,7 @@
         <td>Inteiro positivo</td>
         <td>Não</td>
         <td>Não</td>
-        <td>Deve ser maior que 0</td>
+        <td>Default 0</td>
       </tr>
       <tr>
         <td><code>status</code></td>
@@ -842,7 +842,7 @@
         <td><code>tipo_local</code></td>
         <td>Texto</td>
         <td>Tipo de local (ex.: cidade, rota, caverna, etc.)</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -890,7 +890,7 @@
         <td>Inteiro não negativo</td>
         <td>Não</td>
         <td>Não</td>
-        <td>Deve ser maior ou igual a 0</td>
+        <td>Default 0</td>
       </tr>
       <tr>
         <td><code>local_id</code></td>
@@ -905,7 +905,7 @@
         <td><code>tipo_local</code></td>
         <td>Texto</td>
         <td>Tipo de local (ex.: cidade, rota, etc.)</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -914,7 +914,7 @@
         <td><code>nome_cidade</code></td>
         <td>Texto</td>
         <td>Nome da cidade ou local associado</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -923,7 +923,7 @@
         <td><code>regiao</code></td>
         <td>Texto</td>
         <td>Nome da região em que o caminho se localiza</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -986,7 +986,7 @@
         <td><code>tipo_local</code></td>
         <td>Texto</td>
         <td>Tipo do local (ex.: cidade, rota, etc.) onde a captura pode ocorrer</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -995,7 +995,7 @@
         <td><code>nome_cidade</code></td>
         <td>Texto</td>
         <td>Nome da cidade ou local associado à zona de captura</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -1004,7 +1004,7 @@
         <td><code>regiao</code></td>
         <td>Texto</td>
         <td>Nome da região em que a zona de captura está localizada</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -1051,7 +1051,7 @@
         <td>Inteiro positivo</td>
         <td>Não</td>
         <td>Não</td>
-        <td></td>
+        <td>Default 0</td>
       </tr>
       <tr>
         <td><code>local_id</code></td>
@@ -1066,7 +1066,7 @@
         <td><code>tipo_local</code></td>
         <td>Texto</td>
         <td>Tipo do local onde o Pokémart está situado (ex: cidade, rota, etc.)</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -1075,7 +1075,7 @@
         <td><code>nome_cidade</code></td>
         <td>Texto</td>
         <td>Nome da cidade ou local associado ao Pokémart</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -1084,7 +1084,7 @@
         <td><code>regiao</code></td>
         <td>Texto</td>
         <td>Região onde o Pokémart está localizado</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -1140,7 +1140,7 @@
         <td>Inteiro positivo</td>
         <td>Não</td>
         <td>Não</td>
-        <td>Deve ser maior que 0</td>
+        <td>Default 0</td>
       </tr>
     </tbody>
   </table>
@@ -1264,7 +1264,16 @@
         <td>Inteiro positivo</td>
         <td>Não</td>
         <td>Não</td>
-        <td>Deve ser maior ou igual a 0</td>
+        <td>Default 0</td>
+      </tr>
+      <tr>
+        <td><code>item</code></td>
+        <td>Inteiro</td>
+        <td>item armazenado</td>
+        <td>Inteiro positivo</td>
+        <td>Não</td>
+        <td>FK</td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -1358,7 +1367,7 @@
         <td><code>nome</code></td>
         <td>Texto</td>
         <td>Nome da Pokébola</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -1370,13 +1379,13 @@
         <td>Decimal positivo</td>
         <td>Não</td>
         <td>Não</td>
-        <td>Deve ser maior que 0</td>
+        <td>Default 0</td>
       </tr>
       <tr>
         <td><code>efeito</code></td>
         <td>Texto</td>
         <td>Efeito da Pokébola</td>
-        <td>Texto (máx. 255 caracteres)</td>
+        <td>Texto (máx. 150 caracteres)</td>
         <td>Sim</td>
         <td>Não</td>
         <td></td>
@@ -1385,7 +1394,7 @@
         <td><code>descricao</code></td>
         <td>Texto</td>
         <td>Descrição da Pokébola</td>
-        <td>Texto (máx. 255 caracteres)</td>
+        <td>Texto (máx. 150 caracteres)</td>
         <td>Sim</td>
         <td>Não</td>
         <td></td>
@@ -1437,7 +1446,7 @@
         <td><code>nome</code></td>
         <td>Texto</td>
         <td>Nome do líder</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -1507,7 +1516,7 @@
         <td><code>nome</code></td>
         <td>Texto</td>
         <td>Nome do NPC</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -1519,13 +1528,13 @@
         <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
-        <td></td>
+        <td>Default 0</td>
       </tr>
       <tr>
         <td><code>falas</code></td>
         <td>Texto</td>
         <td>Falas do NPC</td>
-        <td>Texto (máx. 255 caracteres)</td>
+        <td>Texto (máx. 250 caracteres)</td>
         <td>Sim</td>
         <td>Não</td>
         <td></td>
@@ -1577,7 +1586,7 @@
         <td><code>nome</code></td>
         <td>Texto</td>
         <td>Nome do PC</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -1589,7 +1598,7 @@
         <td>Inteiro positivo</td>
         <td>Não</td>
         <td>Não</td>
-        <td>Deve ser maior ou igual a 0</td>
+        <td>Default 0</td>
       </tr>
     </tbody>
   </table>
@@ -1639,7 +1648,7 @@
         <td><code>nome</code></td>
         <td>Texto</td>
         <td>Nome do utilitário</td>
-        <td>Texto (máx. 100 caracteres)</td>
+        <td>Texto (máx. 50 caracteres)</td>
         <td>Não</td>
         <td>Não</td>
         <td></td>
@@ -1651,13 +1660,13 @@
         <td>Decimal positivo</td>
         <td>Não</td>
         <td>Não</td>
-        <td>Deve ser maior que 0</td>
+        <td>Default 0</td>
       </tr>
       <tr>
         <td><code>efeito</code></td>
         <td>Texto</td>
         <td>Efeito do utilitário</td>
-        <td>Texto (máx. 255 caracteres)</td>
+        <td>Texto (máx. 150 caracteres)</td>
         <td>Sim</td>
         <td>Não</td>
         <td></td>
@@ -1666,7 +1675,7 @@
         <td><code>descricao</code></td>
         <td>Texto</td>
         <td>Descrição do utilitário</td>
-        <td>Texto (máx. 255 caracteres)</td>
+        <td>Texto (máx. 150 caracteres)</td>
         <td>Sim</td>
         <td>Não</td>
         <td></td>
@@ -1936,7 +1945,7 @@
         <td>Decimal positivo</td>
         <td>Não</td>
         <td>Não</td>
-        <td>Deve ser maior que 0</td>
+        <td>Default 0</td>
       </tr>
     </tbody>
   </table>
@@ -2214,7 +2223,7 @@
         <td>Inteiro positivo</td>
         <td>Não</td>
         <td>Não</td>
-        <td>Deve ser maior que 0</td>
+        <td>Default 0</td>
       </tr>
     </tbody>
   </table>
@@ -2257,7 +2266,7 @@
         <td>Inteiro positivo</td>
         <td>Não</td>
         <td>Não</td>
-        <td>Deve ser maior que 0</td>
+        <td>Default 0</td>
       </tr>
       <tr>
         <td><code>exp_necessaria</code></td>
@@ -2266,7 +2275,7 @@
         <td>Inteiro positivo</td>
         <td>Não</td>
         <td>Não</td>
-        <td>Deve ser maior que 0</td>
+        <td>Default 0</td>
       </tr>
     </tbody>
   </table>
@@ -2361,7 +2370,7 @@
         <td>Decimal positivo</td>
         <td>Não</td>
         <td>Não</td>
-        <td>Deve ser maior que 0</td>
+        <td>Default 0</td>
       </tr>
       <tr>
         <td><code>chance_atual</code></td>
@@ -2370,7 +2379,7 @@
         <td>Decimal positivo</td>
         <td>Não</td>
         <td>Não</td>
-        <td>Deve ser maior que 0</td>
+        <td>Default 0</td>
       </tr>
     </tbody>
   </table>
@@ -2541,177 +2550,4 @@
   </table>
 
 </details>
----
-<details>
-  <summary>lider</summary>
 
-  <h3>Descrição</h3>
-  <p>A entidade <code>lider</code> representa os líderes de ginásio no mundo Pokémon. Inclui informações sobre o nome, insígnia e status do líder.</p>
-
-  <h3>Atributos</h3>
-  <table border="1" cellpadding="5" cellspacing="0">
-    <thead>
-      <tr>
-        <th>Nome Variável</th>
-        <th>Tipo</th>
-        <th>Descrição</th>
-        <th>Valores Permitidos</th>
-        <th>Permite Valores Nulos?</th>
-        <th>É Chave?</th>
-        <th>Outras Restrições</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>lider_id</code></td>
-        <td>Inteiro</td>
-        <td>Identificador único do líder</td>
-        <td>Inteiro positivo</td>
-        <td>Não</td>
-        <td>PK</td>
-        <td>Gerado automaticamente (autoincremento)</td>
-      </tr>
-      <tr>
-        <td><code>treinador_id</code></td>
-        <td>Inteiro</td>
-        <td>Identificador do treinador associado</td>
-        <td>Inteiro positivo</td>
-        <td>Não</td>
-        <td>FK</td>
-        <td>Referência à tabela Treinador</td>
-      </tr>
-      <tr>
-        <td><code>nome</code></td>
-        <td>Texto</td>
-        <td>Nome do líder</td>
-        <td>Texto (máx. 100 caracteres)</td>
-        <td>Não</td>
-        <td>Não</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><code>insigna</code></td>
-        <td>Texto</td>
-        <td>Insígnia do líder</td>
-        <td>Texto (máx. 50 caracteres)</td>
-        <td>Não</td>
-        <td>Não</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><code>status</code></td>
-        <td>Texto</td>
-        <td>Status do líder</td>
-        <td>Texto (máx. 50 caracteres)</td>
-        <td>Não</td>
-        <td>Não</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-
-</details>
----
-<details>
-  <summary>item</summary>
-
-  <h3>Descrição</h3>
-  <p>A entidade <code>item</code> representa os diferentes itens que podem ser encontrados e utilizados pelos treinadores no mundo Pokémon. Inclui informações sobre o tipo dos itens.</p>
-
-  <h3>Atributos</h3>
-  <table border="1" cellpadding="5" cellspacing="0">
-    <thead>
-      <tr>
-        <th>Nome Variável</th>
-        <th>Tipo</th>
-        <th>Descrição</th>
-        <th>Valores Permitidos</th>
-        <th>Permite Valores Nulos?</th>
-        <th>É Chave?</th>
-        <th>Outras Restrições</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>item_id</code></td>
-        <td>Inteiro</td>
-        <td>Identificador único do item</td>
-        <td>Inteiro positivo</td>
-        <td>Não</td>
-        <td>PK</td>
-        <td>Gerado automaticamente (autoincremento)</td>
-      </tr>
-      <tr>
-        <td><code>tipo</code></td>
-        <td>Texto</td>
-        <td>Tipo do item</td>
-        <td>Texto (máx. 50 caracteres)</td>
-        <td>Não</td>
-        <td>Não</td>
-        <td>Define o tipo do item, como "cura", "status", "pokébola", etc.</td>
-      </tr>
-    </tbody>
-  </table>
-
-</details>
----
-<details>
-  <summary>inst_item</summary>
-
-  <h3>Descrição</h3>
-  <p>A entidade <code>inst_item</code> representa uma instância de um item específico na mochila de um treinador. Inclui informações sobre a quantidade do item, a mochila e o item correspondente.</p>
-
-  <h3>Atributos</h3>
-  <table border="1" cellpadding="5" cellspacing="0">
-    <thead>
-      <tr>
-        <th>Nome Variável</th>
-        <th>Tipo</th>
-        <th>Descrição</th>
-        <th>Valores Permitidos</th>
-        <th>Permite Valores Nulos?</th>
-        <th>É Chave?</th>
-        <th>Outras Restrições</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>inst_item_id</code></td>
-        <td>Inteiro</td>
-        <td>Identificador único da instância do item</td>
-        <td>Inteiro positivo</td>
-        <td>Não</td>
-        <td>PK</td>
-        <td>Gerado automaticamente (autoincremento)</td>
-      </tr>
-      <tr>
-        <td><code>quantidade</code></td>
-        <td>Inteiro</td>
-        <td>Quantidade do item</td>
-        <td>Inteiro positivo</td>
-        <td>Não</td>
-        <td>Não</td>
-        <td>Deve ser maior ou igual a 0</td>
-      </tr>
-      <tr>
-        <td><code>mochila</code></td>
-        <td>Inteiro</td>
-        <td>Identificador da mochila</td>
-        <td>Inteiro positivo</td>
-        <td>Não</td>
-        <td>FK</td>
-        <td>Referência à tabela Mochila</td>
-      </tr>
-      <tr>
-        <td><code>item</code></td>
-        <td>Inteiro</td>
-        <td>Identificador do item</td>
-        <td>Inteiro positivo</td>
-        <td>Não</td>
-        <td>FK</td>
-        <td>Referência à tabela Item</td>
-      </tr>
-    </tbody>
-  </table>
-
-</details>
