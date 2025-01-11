@@ -70,6 +70,7 @@ CREATE TABLE Pokecenter(
 	local_id int NOT NULL,
 	restaura_pokemon int NOT NULL,
 	qtd_npcs int NOT NULL,
+	nome_cidade varchar(50),
 	CONSTRAINT pk_pokecenter
 		PRIMARY KEY (pokecenter_id)
 
@@ -133,8 +134,6 @@ CREATE TABLE Ginasio(
 	lider int NOT NULL,
 	nome varchar(50) NOT NULL,
 	local_id int NOT NULL,
-	nome_cidade varchar(50) NOT NULL,
-	regiao varchar(50) NOT NULL,
 	CONSTRAINT pk_ginasio
 		PRIMARY KEY (ginasio_id)
 );
@@ -167,6 +166,7 @@ CREATE TABLE pokemart(
 	pokemart_id int NOT NULL,
 	qtd_npcs int DEFAULT 0,
 	local_id int NOT NULL,
+	nome_cidade varchar(50),
 	CONSTRAINT pk_pokemart
 		PRIMARY KEY (pokemart_id),
 	CONSTRAINT fk_local
