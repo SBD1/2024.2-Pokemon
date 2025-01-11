@@ -105,6 +105,7 @@ CREATE TABLE Time_Principal(
 
 CREATE TABLE Pokemon_Selvagem(
 	selvagem_id int NOT NULL,
+	nome varchar(50) NOT NULL,
 	taxa_aparicao decimal(3,1) DEFAULT 0 
 	CHECK (taxa_aparicao >= 0 AND taxa_aparicao <= 1),	
 	CONSTRAINT pk_selvagem
