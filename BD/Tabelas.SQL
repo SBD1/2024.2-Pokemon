@@ -69,10 +69,6 @@ CREATE TABLE Pokecenter(
 	time_pric_id int NOT NULL,
 	restaura_pokemon int NOT NULL,
 	qtd_npcs int NOT NULL,
-	local_id int NOT NULL,
-	tipo_local varchar(50) NOT NULL,
-	nome_cidade varchar(50) NOT NULL,
-	regiao varchar(50) NOT NULL,
 	CONSTRAINT pk_pokecenter
 		PRIMARY KEY (pokecenter_id)
 
@@ -85,7 +81,6 @@ CREATE TABLE Ginasio(
 	lider int NOT NULL,
 	nome varchar(50) NOT NULL,
 	local_id int NOT NULL,
-	tipo_local varchar(50) NOT NULL,
 	nome_cidade varchar(50) NOT NULL,
 	regiao varchar(50) NOT NULL,
 	CONSTRAINT pk_ginasio
@@ -138,6 +133,8 @@ CREATE TABLE Pokedex(
 CREATE TABLE Local_(
 	local_id int NOT NULL,
 	tipo_local varchar(50) NOT NULL,
+	nome_local varchar(50) NOT NULL,
+	regiao varchar(50) NOT NULL,
 	CONSTRAINT pk_local
 		PRIMARY KEY (local_id)
 );
@@ -146,9 +143,6 @@ CREATE TABLE Caminho(
 	caminho_id int NOT NULL,
 	qtd_itens int DEFAULT 0,
 	local_id int NOT NULL,
-	tipo_local varchar(50) NOT NULL,
-	nome_cidade varchar(50) NOT NULL,
-	regiao varchar(50) NOT NULL,
 	CONSTRAINT pk_caminho
 		PRIMARY KEY (caminho_id),
 	CONSTRAINT fk_local
@@ -161,9 +155,6 @@ CREATE TABLE Zona_de_captura(
 	chance_surgimento decimal(3,1) DEFAULT 0
 	CHECK (chance_surgimento >= 0 AND chance_surgimento <= 1),
 	local_id int NOT NULL,
-	tipo_local varchar(50) NOT NULL,
-	nome_cidade varchar(50) NOT NULL,
-	regiao varchar(50) NOT NULL,
 	CONSTRAINT pk_zona_captura
 		PRIMARY KEY (zona_de_captura_id),
 	CONSTRAINT fk_local
@@ -175,9 +166,6 @@ CREATE TABLE pokemart(
 	pokemart_id int NOT NULL,
 	qtd_npcs int DEFAULT 0,
 	local_id int NOT NULL,
-	tipo_local varchar(50) NOT NULL,
-	nome_cidade varchar(50) NOT NULL,
-	regiao varchar(50) NOT NULL,
 	CONSTRAINT pk_pokemart
 		PRIMARY KEY (pokemart_id),
 	CONSTRAINT fk_local

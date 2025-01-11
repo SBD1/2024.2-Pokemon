@@ -92,10 +92,12 @@ VALUES
 (14, '#014'),
 (15, '#015');
 
-INSERT INTO Local_ (local_id, tipo_local)
+INSERT INTO Local_ (local_id, tipo_local, nome_local, regiao)
 VALUES 
-(1, 'cidade'),
-(2, 'rota');
+(1, 'cidade', 'Pokecenter', 'Kanto'),
+(2, 'cidade', 'Pokemart', 'Kanto'),
+(3, 'cidade', 'Ginásio', 'Kanto'),
+(4, 'rota', 'Rota1', 'Kanto');
 
 INSERT INTO item (item_id, tipo)
 VALUES 
