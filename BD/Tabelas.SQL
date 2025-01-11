@@ -4,8 +4,6 @@ CREATE TABLE Pokemon(
 	Nome varchar(20) NOT NULL,
 	qtd_tipos int NOT NULL
 	CHECK (qtd_tipos = 1 OR qtd_tipos = 2),
-	experiencia int DEFAULT 0 
-	CHECK (experiencia >= 0),
 	pokedex int NOT NULL,
 	CONSTRAINT fk_pokemon
 		PRIMARY KEY (pokemon_id)
