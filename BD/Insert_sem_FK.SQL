@@ -45,26 +45,12 @@ VALUES
 
 INSERT INTO Metodo (metodo_id, nome, Nivel)
 VALUES 
-(1, 'Nivel', 1),
-(2, 'Nivel', 2),
-(3, 'Nivel', 3),
-(4, 'Nivel', 4),
-(5, 'Nivel', 5),
-(6, 'Nivel', 6),
-(7, 'Nivel', 7),
-(8, 'Nivel', 8),
-(9, 'Nivel', 9),
-(10, 'Nivel', 10),
-(11, 'Nivel', 11),
-(12, 'Nivel', 12),
-(13, 'Nivel', 13),
-(14, 'Nivel', 14),
-(15, 'Nivel', 15),
-(16, 'Nivel', 16),
-(17, 'Nivel', 17),
-(18, 'Nivel', 18),
-(19, 'Nivel', 19),
-(20, 'Nivel', 20);
+(1, 'Nivel', 3),
+(2, 'Nivel', 5),
+(3, 'Nivel', 9),
+(4, 'Nivel', 13),
+(5, 'Nivel', 15);
+
 
 INSERT INTO Metodo (metodo_id, nome, Nivel)
 VALUES 
