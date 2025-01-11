@@ -39,9 +39,35 @@ VALUES
 
 INSERT INTO Golpe (golpe_id, Nome, categoria, dano, precisao, num_vezes_usar, Efeito)
 VALUES 
-(01, 'Absorb', 'Especial', 20, 1, 25, 'O usuário recupera metade do HP infligido no oponente'),
-(02, 'Acid Armor', 'Status', 0, 0, 30, 'Aumenta drasticamente a velocidade do usuário'),
-(03, 'Barrage', 'fisico', 15, 0.85, 20, 'Acerta 2-5 vezes em um único turno');
+(01, 'EmberFire', 'Especial', 40, 100, 25, 'Queima o oponente'),
+(02, 'Fire Blast', 'Especial', 110, 85, 5, 'Queima o oponente'),
+(03, 'Fire Punch', 'Fisico', 75, 100, 15, 'Queima o oponente'),
+(04, 'Fire Spin', 'Especial', 35, 85, 15, 'Aprisiona o oponente, causando 4-5 de dano por turno'),
+(05, 'Flamethrower', 'Especial', 90, 100, 15, 'Queima o oponente'),
+(15, 'Bubble', 'Especial', 40, 100, 30, 'Pode reduzir a Velocidade do oponente.'),
+(16, 'Bubble Beam', 'Especial', 65, 100, 20, 'Pode reduzir a Velocidade do oponente.'),
+(17, 'Clamp', 'Fisico', 35, 85, 15, 'Prende o oponente, causando dano por 4-5 turnos.'),
+(18, 'Crabhammer', 'Fisico', 100, 90, 10, 'Alta chance de golpe crítico.'),
+(19, 'Hydro Pump', 'Especial', 110, 80, 5, NULL),
+(20, 'Surf', 'Especial', 90, 100, 15, 'Atingiu todos os Pokémon adjacentes.'),
+(21, 'Water Gun', 'Especial', 40, 100, 25, NULL),
+(22, 'Waterfall', 'Fisico', 80, 100, 15, 'Pode causar tremor.'),
+(23, 'Withdraw', 'Status', NULL, NULL, 40, 'Aumenta a Defesa do usuário.'),
+(24, 'Thunder', 'Especial', 110, 70, 10, 'Pode paralisar o oponente.'),
+(25, 'Thunder Punch', 'Especial', 75, 100, 15, 'Pode paralisar o oponente.'),
+(26, 'Thunder Shock', 'Fisico', 40, 100, 30, 'Pode paralisar o oponente.'),
+(27, 'Thunder Wave', 'Status', NULL, 90, 20, 'Paralisa o oponente.'),
+(28, 'Thunderbolt', 'Especial', 90, 100, 15, 'Pode paralisar o oponente.'),
+(29, 'Absorb', 'Especial', 20, 100, 25, 'O usuário recupera metade do HP infligido no oponente.'),
+(30, 'Leech Seed', 'Status', NULL, 90, 10, 'Drena HP do oponente a cada turno.'),
+(31, 'Mega Drain', 'Especial', 40, 100, 15, 'O usuário recupera metade do HP infligido no oponente.'),
+(32, 'Petal Dance', 'Especial', 120, 100, 10, 'O usuário ataca por 2-3 turnos e então fica confuso.'),
+(33, 'Razor Leaf', 'Fisico', 55, 95, 25, 'Alta chance de golpe crítico.'),
+(34, 'Sleep Powder', 'Status', NULL, 75, 15, 'Coloca o oponente para dormir.'),
+(35, 'Solar Beam', 'Especial', 120, 100, 10, 'Carrega no primeiro turno, ataca no segundo.'),
+(36, 'Spore', 'Status', NULL, 100, 15, 'Coloca o oponente para dormir.'),
+(37, 'Stun Spore', 'Status', NULL, 75, 30, 'Paralisa o oponente.');
+
 
 INSERT INTO Metodo (metodo_id, nome, Nivel)
 VALUES 
@@ -92,12 +118,12 @@ VALUES
 (14, '#014'),
 (15, '#015');
 
-INSERT INTO Local_ (local_id, tipo_local, nome_local, nome_cidade, regiao)
+INSERT INTO Local_ (local_id, tipo_local, nome_local, nome_cidade)
 VALUES 
-(1, 'cidade', 'Pokecenter', 'Pallet Town', 'Kanto', ),
-(2, 'cidade', 'Pokemart', 'Pallet Town', 'Kanto' ),
-(3, 'cidade', 'Ginásio', 'Pallet Town', 'Kanto'),
-(4, 'rota', 'Rota1', 'Pallet Town', 'Kanto');
+(1, 'cidade', 'Pokecenter', 'Pallet Town' ),
+(2, 'cidade', 'Pokemart', 'Pallet Town' ),
+(3, 'cidade', 'Ginásio', 'Pallet Town'),
+(4, 'rota', 'Rota1', 'Pallet Town');
 
 INSERT INTO item (item_id, tipo)
 VALUES 

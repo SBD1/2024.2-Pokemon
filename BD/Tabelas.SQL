@@ -124,7 +124,6 @@ CREATE TABLE Local_(
 	local_id int NOT NULL,
 	tipo_local varchar(50) NOT NULL,
 	nome_local varchar(50) NOT NULL,
-	regiao varchar(50) NOT NULL,
 	CONSTRAINT pk_local
 		PRIMARY KEY (local_id)
 );
