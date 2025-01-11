@@ -67,25 +67,13 @@ CREATE TABLE Metodo(
 CREATE TABLE Pokecenter(
 	pokecenter_id int NOT NULL,
 	time_pric_id int NOT NULL,
+	local_id int NOT NULL,
 	restaura_pokemon int NOT NULL,
 	qtd_npcs int NOT NULL,
 	CONSTRAINT pk_pokecenter
 		PRIMARY KEY (pokecenter_id)
 
 ); 
-
-
-
-CREATE TABLE Ginasio(
-	ginasio_id int NOT NULL,
-	lider int NOT NULL,
-	nome varchar(50) NOT NULL,
-	local_id int NOT NULL,
-	nome_cidade varchar(50) NOT NULL,
-	regiao varchar(50) NOT NULL,
-	CONSTRAINT pk_ginasio
-		PRIMARY KEY (ginasio_id)
-);
 
 
 
@@ -138,6 +126,18 @@ CREATE TABLE Local_(
 	CONSTRAINT pk_local
 		PRIMARY KEY (local_id)
 );
+
+CREATE TABLE Ginasio(
+	ginasio_id int NOT NULL,
+	lider int NOT NULL,
+	nome varchar(50) NOT NULL,
+	local_id int NOT NULL,
+	nome_cidade varchar(50) NOT NULL,
+	regiao varchar(50) NOT NULL,
+	CONSTRAINT pk_ginasio
+		PRIMARY KEY (ginasio_id)
+);
+
 
 CREATE TABLE Caminho(
 	caminho_id int NOT NULL,
