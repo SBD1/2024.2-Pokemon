@@ -104,7 +104,7 @@ VALUES
 --DROP COLUMN nivel_min,
 --DROP COLUMN nivel_max;
 
-INSERT INTO Pokemon_selvagem (selvagem_id, taxa_aparicao)
+INSERT INTO Pokemon_selvagem (selvagem_id,  taxa_aparicao)
 VALUES 
 (1, 0),
 (2, 0.25),
