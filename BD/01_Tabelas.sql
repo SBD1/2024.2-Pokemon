@@ -51,7 +51,7 @@ CREATE TABLE Golpe(
 	precisao decimal(2,1) DEFAULT 0
 	CHECK (precisao >= 0 AND precisao <= 1),
 	num_vezes_usar int NOT NULL,
-	efeito varchar(250) NOT NULL,
+	efeito varchar(250),
 	CONSTRAINT pk_Golpe
 		PRIMARY KEY (golpe_id)
 );
