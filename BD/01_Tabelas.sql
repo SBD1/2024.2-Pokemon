@@ -23,13 +23,9 @@ CREATE TABLE Status_base(
 
 CREATE TABLE Tipo(
 	tipo_id int NOT NULL,
-	pokemon_id int NOT NULL,
 	Nome varchar(20) NOT NULL,
 	CONSTRAINT fk_tipo
-		PRIMARY KEY (tipo_id),
-	CONSTRAINT fk_pokemon_id
-		FOREIGN KEY (pokemon_id)
-			REFERENCES Pokemon (pokemon_id)
+		PRIMARY KEY (tipo_id)
 );
 
 
@@ -37,6 +33,7 @@ CREATE TABLE Tipo(
 CREATE TABLE Eficacia(
 	eficacia_id int NOT NULL,
 	multiplicador decimal(2,1) NOT NULL,
+	nome varchar(50) NOT NULL,
 	CONSTRAINT pk_eficacia
 		PRIMARY KEY (eficacia_id)
 
