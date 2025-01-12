@@ -203,17 +203,6 @@ VALUES
 (10, 'evolucao', 10);
 
 
-
-INSERT INTO Metodo (metodo_id, nome, Nivel)
-VALUES 
-(1, 'evolucao', 16),
-(2, 'evolucao', 32),
-(3, 'evolucao', 36),
-(4, 'evolucao', 7),
-(5, 'evolucao', 10);
-
->>>>>>> d159d8c1130a414ae60594d0498542143df81287
-
 INSERT INTO Pokemon_selvagem (selvagem_id,  taxa_aparicao)
 VALUES 
 (1, 0),
