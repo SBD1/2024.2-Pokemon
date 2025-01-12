@@ -37,7 +37,6 @@ CREATE TABLE Tipo(
 CREATE TABLE Eficacia(
 	eficacia_id int NOT NULL,
 	multiplicador decimal(2,1) NOT NULL,
-	nome varchar(20) NOT NULL,
 	CONSTRAINT pk_eficacia
 		PRIMARY KEY (eficacia_id)
 
@@ -51,7 +50,7 @@ CREATE TABLE Golpe(
 	precisao decimal(2,1) DEFAULT 0
 	CHECK (precisao >= 0 AND precisao <= 1),
 	num_vezes_usar int NOT NULL,
-	efeito varchar(250) NOT NULL,
+	efeito varchar(250),
 	CONSTRAINT pk_Golpe
 		PRIMARY KEY (golpe_id)
 );
@@ -106,7 +105,6 @@ CREATE TABLE Time_Principal(
 
 CREATE TABLE Pokemon_Selvagem(
 	selvagem_id int NOT NULL,
-	nome varchar(50) NOT NULL,
 	taxa_aparicao decimal(3,1) DEFAULT 0 
 	CHECK (taxa_aparicao >= 0 AND taxa_aparicao <= 1),	
 	CONSTRAINT pk_selvagem
@@ -124,6 +122,7 @@ CREATE TABLE Local_(
 	local_id int NOT NULL,
 	tipo_local varchar(50) NOT NULL,
 	nome_local varchar(50) NOT NULL,
+	nome_cidade varchar(50) NOT NULL,
 	CONSTRAINT pk_local
 		PRIMARY KEY (local_id)
 );
