@@ -119,17 +119,11 @@ VALUES
 
 INSERT INTO Eficacia (eficacia_id, multiplicador, Nome)
 VALUES 
-<<<<<<< HEAD
 (1, 0, 'Não efetivo'),
 (2, 0.5, 'Não muito efetivo'),
 (3, 1, 'efetivo'),
 (4, 2, 'Super-efetivo');
-=======
-(1, 0, 'No Effect'),
-(2, 0.5, 'Not very effective'),
-(3, 1, 'Fisico'),
-(4, 2, 'Super-effective');
->>>>>>> d159d8c1130a414ae60594d0498542143df81287
+
 
 
 INSERT INTO Golpe (golpe_id, Nome, categoria, dano, precisao, num_vezes_usar, Efeito)
@@ -201,7 +195,6 @@ VALUES
 (2, 'Nivel', 5),
 (3, 'Nivel', 9),
 (4, 'Nivel', 13),
-<<<<<<< HEAD
 (5, 'Nivel', 15),
 (6, 'evolucao', 16),
 (7, 'evolucao', 32),
@@ -209,9 +202,6 @@ VALUES
 (9, 'evolucao', 7),
 (10, 'evolucao', 10);
 
-
-=======
-(5, 'Nivel', 15);
 
 
 INSERT INTO Metodo (metodo_id, nome, Nivel)
