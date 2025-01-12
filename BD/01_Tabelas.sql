@@ -37,7 +37,6 @@ CREATE TABLE Tipo(
 CREATE TABLE Eficacia(
 	eficacia_id int NOT NULL,
 	multiplicador decimal(2,1) NOT NULL,
-	nome varchar(20) NOT NULL,
 	CONSTRAINT pk_eficacia
 		PRIMARY KEY (eficacia_id)
 
