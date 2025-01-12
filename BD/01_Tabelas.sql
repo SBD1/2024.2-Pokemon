@@ -333,12 +333,16 @@ CREATE TABLE pokemon_golpe(
 
 CREATE TABLE eficacia_tipo(
 	tipo_id int NOT NULL,
+	tipo_id2 int NOT NULL,
 	eficacia_id int NOT NULL,
 	CONSTRAINT fk_eficacia
 		FOREIGN KEY (eficacia_id)
 			REFERENCES eficacia (eficacia_id),
 	CONSTRAINT fk_tipo
 		FOREIGN KEY (tipo_id)
+			REFERENCES tipo (tipo_id),
+	CONSTRAINT fk_tipo_2
+		FOREIGN KEY (tipo_id2)
 			REFERENCES tipo (tipo_id)
 );
 
@@ -441,7 +445,7 @@ CREATE TABLE evolucao_pokemon(
 	nivel_min int DEFAULT 0,
 	CONSTRAINT fk_pokemon_id_1 
 		FOREIGN KEY (pokemon_id_1 )
-			REFERENCES inst_pokemon (inst_pokemon),
+			REFERENCES pokemon (pokemon_id),
 	CONSTRAINT fk_pokemon_id_2
 		FOREIGN KEY (pokemon_id_2)
 			REFERENCES pokemon (pokemon_id)
@@ -451,7 +455,7 @@ CREATE TABLE evolucao_pokemon(
 CREATE TABLE upar_pokemon(
 	pokemon_id int NOT NULL,
 	exp_necessaria int DEFAULT 0,
-	nivel int DEFAULT 0,
+	nivel int DEFAULT 1,
 	CONSTRAINT fk_pokemon 
 		FOREIGN KEY (pokemon_id)
 			REFERENCES pokemon (pokemon_id)
