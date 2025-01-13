@@ -959,3 +959,19 @@ VALUES
 (14, 14, 4),
 (14, 15, 3),
 (15, 15, 3);
+
+INSERT INTO Mochila(mochila_id, pokedex_id, qtd_itens, item)
+VALUES
+(1,1,0,1);
+
+INSERT INTO Time (time_id, time_principal, qtd_pokemons)
+VALUES
+(1,NULL,0);
+
+INSERT INTO Treinador (treinador_id, time, mochila, local_id, tipo_treinador)
+VALUES
+(1,1,1,1,'player');
+
+INSERT INTO Pc (player_id, treinador_id, nome, num_insigneas)
+VALUES
+(1,1,'mauricio',0);

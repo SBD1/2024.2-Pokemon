@@ -66,11 +66,6 @@ SELECT count(*) FROM local_;
 SELECT tipo_local FROM local_ l
 WHERE l.local_id = $1;
 
--- Consultar status de local pelo tipo e id
-
-SELECT * FROM $tipo t
-WHERE t.$tipo_id = $1;
-
 -- Listar possiveis rotas a partir do id do player
 
 SELECT l.local_id, l.tipo_local, l.nome_local, l.nome_cidade FROM local_ l
@@ -81,7 +76,7 @@ t.treinador_id = p.treinador_id) pt ON
 lll.local_id_1 = pt.local_id) ptl ON 
 ptl.local_id_2 = l.local_id;
 
--- Listar pokemons do player a partir do id do memso
+-- Listar pokemons do player a partir do id do mesmo
 
 SELECT pk.pokemon_id, pk.status_base, pk.nome, pk.qtd_tipos, pk.pokedex FROM pokemon pk
 JOIN (SELECT pokedex FROM inst_pokemon ip 
