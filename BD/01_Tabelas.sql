@@ -62,11 +62,9 @@ CREATE TABLE Metodo(
 
 CREATE TABLE Pokecenter(
 	pokecenter_id int NOT NULL,
-	time_pric_id int NOT NULL,
+	time_princ_id int NOT NULL,
 	local_id int NOT NULL,
-	restaura_pokemon int NOT NULL,
 	qtd_npcs int NOT NULL,
-	nome_cidade varchar(50),
 	CONSTRAINT pk_pokecenter
 		PRIMARY KEY (pokecenter_id)
 
@@ -92,12 +90,8 @@ CREATE TABLE Time_Principal(
 	time_princ_id int NOT NULL,
 	ordem int NOT NULL
 	CHECK (ordem >= 1 AND ordem <= 6),
-	cura_pokecenter int NOT NULL,
 	CONSTRAINT pk_time_princ
 		PRIMARY KEY (time_princ_id),
-	CONSTRAINT fk_pokecenter
-		FOREIGN KEY (cura_pokecenter)
-			REFERENCES Pokecenter (PokeCenter_id)
 ); 
 
 CREATE TABLE Pokemon_Selvagem(
@@ -131,7 +125,7 @@ CREATE TABLE Ginasio(
 	local_id int NOT NULL,
 	CONSTRAINT pk_ginasio
 		PRIMARY KEY (ginasio_id)
-);
+);--
 
 
 CREATE TABLE Caminho(
@@ -161,7 +155,6 @@ CREATE TABLE pokemart(
 	pokemart_id int NOT NULL,
 	qtd_npcs int DEFAULT 0,
 	local_id int NOT NULL,
-	nome_cidade varchar(50),
 	CONSTRAINT pk_pokemart
 		PRIMARY KEY (pokemart_id),
 	CONSTRAINT fk_local
@@ -180,10 +173,20 @@ CREATE TABLE Time(
 			REFERENCES Time_Principal (time_princ_id)
 );
 
+CREATE TABLE Integra_ao_time(
+	inst_pokemon_id int NOT NULL,
+	time int,
+	CONSTRAINT pk_time
+		PRIMARY KEY (time_id), 
+	CONSTRAINT fk_pokemon
+		FOREIGN KEY (inst_pokemon_id)
+			REFERENCES inst_pokemon (inst_pokemon_id)
+);
+
 CREATE TABLE Treinador(
 	treinador_id int NOT NULL,
-	time int NOT NULL,
-	mochila int NOT NULL,
+	time int,
+	mochila int,
 	local_id int NOT NULL,
 	tipo_treinador varchar(50),
 	CONSTRAINT pk_treinador
@@ -224,7 +227,6 @@ CREATE TABLE Pokebola(
 	item_id int NOT NULL,
 	nome varchar(50) NOT NULL,
 	taxa_cura decimal(3,1) DEFAULT 0,
-	efeito varchar(150) NOT NULL,
 	descricao varchar(150) NOT NULL,
 	CONSTRAINT pk_pokebola
 		PRIMARY KEY (pokebola_id),
@@ -278,7 +280,6 @@ CREATE TABLE Utilitario(
 	item_id int NOT NULL,
 	nome varchar(50) NOT NULL,
     taxa_cura decimal(3,1) DEFAULT 0,
-	efeito varchar(150),
 	descricao varchar(150),
 	CONSTRAINT pk_pocao
 		PRIMARY KEY (pocao_id),
@@ -411,7 +412,7 @@ CREATE TABLE local_leva_local(
 
 );
 
-CREATE TABLE pokemon_tipol(
+CREATE TABLE pokemon_tipo(
 	tipo_id int NOT NULL,
 	pokemon_id int NOT NULL,
 	CONSTRAINT fk_tipo
@@ -422,9 +423,6 @@ CREATE TABLE pokemon_tipol(
 			REFERENCES pokemon (pokemon_id)
 
 );
-
-ALTER TABLE pokemon_tipol
-RENAME TO pokemon_tipo;
 
 
 CREATE TABLE possui(
@@ -476,7 +474,6 @@ CREATE TABLE encontra(
 CREATE TABLE captura(
 	selvagem_id int NOT NULL,
 	treinador_id int NOT NULL,
-	chance_base decimal(3,1) DEFAULT 0,
 	chance_atual decimal(3,1) DEFAULT 0,
 	CONSTRAINT fk_selvagem 
 		FOREIGN KEY (selvagem_id )
@@ -602,7 +599,7 @@ ADD CONSTRAINT fk_local_id
 
 ALTER TABLE Pokecenter
 ADD CONSTRAINT fk_time_princ
-		FOREIGN KEY (time_pric_id)
+		FOREIGN KEY (time_princ_id)
 			REFERENCES Time_Principal (time_princ_id);
 --		
 

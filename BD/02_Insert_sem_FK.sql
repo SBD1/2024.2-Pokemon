@@ -312,6 +312,7 @@ VALUES
 
 INSERT INTO Local_ (local_id, tipo_local, nome_local, nome_cidade)
 VALUES 
+(0, 'inicio', 'Centro', 'Pallet Town'),
 (1, 'pokecenter', 'Pokecenter', 'Pallet Town'),
 (2, 'pokemart', 'Pokemart', 'Pallet Town'),
 (3, 'ginasio', 'Ginásio', 'Pallet Town'),
@@ -962,16 +963,158 @@ VALUES
 
 INSERT INTO Mochila(mochila_id, pokedex_id, qtd_itens, item)
 VALUES
-(1,1,0,1);
+(1,1,0,1),
+(2,1,0,1),
+(3,1,10,1);
+
+INSERT INTO Pokecenter(pokecenter_id, time, local_id, qtd_npcs)
+VALUES
+(1,0,1,2),
+
+INSERT INTO Caminho(caminho_id, qtd_itens, local_id)
+VALUES
+(1, 2, 0);
+
+INSERT INTO Zona_de_captura(zona_captura_id, chance_surgimento, local_id)
+VALUES
+(1, 1, 4);
+
+INSERT INTO Pokemart(pokemart_id, qtd_npcs, local_id)
+VALUES
+(1, 2, 0);
+
+
+INSERT INTO Pokebola(pokebola_id, item_id, nome, taxa_cura, descricao)
+VALUES
+(1, 2, 'Poké Ball', 0, 'Captura pokemon selvagem'),
+(2, 2, 'Ultra Ball', 0, 'Captura pokemon selvagem 2x mais chance que a Poké Ball');
+
+INSERT INTO Time_Principal (time_princ_id, ordem)
+VALUES
+(0, 1 );
 
 INSERT INTO Time (time_id, time_principal, qtd_pokemons)
 VALUES
-(1,NULL,0);
+(1,NULL,0),
+(2,NULL,0);
+
+INSERT INTO Inst_Pokemon(inst_pokemon, pokedex, time, experiencia, vida_atual)
+VALUES
+(1, 1, 1, 0, 100);
+(4, 4, 1, 0, 100);
+
+INSERT INTO integra_ao_time(inst_pokemon_id, time)
+VALUES
+(1, 1);
 
 INSERT INTO Treinador (treinador_id, time, mochila, local_id, tipo_treinador)
 VALUES
-(1,1,1,1,'player');
+(1,1,1,0,'player'),
+(2,2,2,3,'Lider Brock'),
+(3,NULL,NULL,0,'Professor');
 
 INSERT INTO Pc (player_id, treinador_id, nome, num_insigneas)
 VALUES
 (1,1,'mauricio',0);
+
+INSERT INTO lider(lider_id, treinador_id, nome, insignea, status)
+VALUES
+(1, 2, 'Brock', 'Rocha', 'Ativo');
+
+INSERT INTO NPC(npc_id, treinador_id, nome, nivel_dificuldade, falas)
+VALUES
+(1, 2, 'Professor Carvalho', 0, 'Seja bem vindo a Pallet Town!');
+
+INSERT INTO Utilitario(pocao_id, item_id, nome, taxa_cura, descricao)
+VALUES
+(0, 1, 'Potion', 0.2, 'Cura 20% da vida do Pokemon');
+
+INSERT INTO Aprende_golpe_metodo(metodo_id, golpe_id)
+VALUES
+(1, 29),
+(3, 5),
+(6, 8);
+
+INSERT INTO golpe_eficacia(eficacia_id, golpe_id)
+VALUES
+(3, 29),
+(3, 5),
+(2, 8);
+
+INSERT INTO Pokemon_golpe(pokemon_id, golpe_id)
+VALUES
+(1, 21),
+(1, 24),
+(1, 45),
+(2, 26),
+(2, 25),
+(2, 28);
+
+INSERT INTO Inst_item(Inst_item_id, quantidade, mochila, item)
+VALUES
+(1, 5, 1, 2),
+(2, 2, 1, 1);
+
+INSERT INTO Negocia(pokemart_id, inst_item_id, preco)
+VALUES
+(1, 1, 5),
+(1, 2, 3);
+
+INSERT INTO Surge(zona_captura_id, selvagem_id)
+VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4);
+
+INSERT INTO caminho_item(caminho_id, inst_item_id)
+VALUES
+(1, 1),
+(1, 2),
+
+INSERT INTO local_leva_local(local_id_1, local_id_2)
+VALUES
+(0, 1),
+(1, 0),
+(0, 2),
+(2, 0),
+(0, 3),
+(3, 0),
+(4, 0),
+(0, 4);
+
+INSERT INTO Possui(inst_pokemon_id, pokemon_id)
+VALUES
+(1, 1),
+(4, 4);
+
+INSERT INTO Encontra(selvagem_id, treinador_id)
+VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1);
+
+INSERT INTO Captura(selvagem_id, treinador_id, chance_atual)
+VALUES
+(1, 1, 0.5),
+(4, 1, 0.2);
+
+INSERT INTO Torna(selvagem_id, treinador_id)
+VALUES
+(1, 1),
+(4, 4);
+
+INSERT INTO Batalha(batalha_id, treinador_id_1, treinador_id_2, resultado, recompensa)
+VALUES
+(1, 1, 2, 'Vitória', 'Parabéns voce recebeu a insignea da rocha'),
+
+
+INSERT INTO treinador_interacao(treinador_id_1, treinador_id_2)
+VALUES
+(1, 2),
+(1, 3);
+
+INSERT INTO Ginasio(ginasio_id, lider, nome, local_id)
+VALUES
+(1, 1, 'Ginásio de Pallet', 3);
