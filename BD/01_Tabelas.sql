@@ -91,7 +91,7 @@ CREATE TABLE Time_Principal(
 	ordem int NOT NULL
 	CHECK (ordem >= 1 AND ordem <= 6),
 	CONSTRAINT pk_time_princ
-		PRIMARY KEY (time_princ_id),
+		PRIMARY KEY (time_princ_id)
 ); 
 
 CREATE TABLE Pokemon_Selvagem(
@@ -176,11 +176,12 @@ CREATE TABLE Time(
 CREATE TABLE Integra_ao_time(
 	inst_pokemon_id int NOT NULL,
 	time int,
-	CONSTRAINT pk_time
-		PRIMARY KEY (time_id), 
 	CONSTRAINT fk_pokemon
 		FOREIGN KEY (inst_pokemon_id)
-			REFERENCES inst_pokemon (inst_pokemon_id)
+			REFERENCES inst_pokemon (inst_pokemon),
+	CONSTRAINT fk_time
+		FOREIGN KEY (time)
+			REFERENCES time (time_id)
 );
 
 CREATE TABLE Treinador(

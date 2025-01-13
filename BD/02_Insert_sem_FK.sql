@@ -967,15 +967,13 @@ VALUES
 (2,1,0,1),
 (3,1,10,1);
 
-INSERT INTO Pokecenter(pokecenter_id, time, local_id, qtd_npcs)
-VALUES
-(1,0,1,2),
+
 
 INSERT INTO Caminho(caminho_id, qtd_itens, local_id)
 VALUES
 (1, 2, 0);
 
-INSERT INTO Zona_de_captura(zona_captura_id, chance_surgimento, local_id)
+INSERT INTO Zona_de_captura(zona_de_captura_id, chance_surgimento, local_id)
 VALUES
 (1, 1, 4);
 
@@ -998,10 +996,10 @@ VALUES
 (1,NULL,0),
 (2,NULL,0);
 
-INSERT INTO Inst_Pokemon(inst_pokemon, pokedex, time, experiencia, vida_atual)
+INSERT INTO Inst_Pokemon(inst_pokemon, pokedex, time, experiencia, vida_atual, status)
 VALUES
-(1, 1, 1, 0, 100);
-(4, 4, 1, 0, 100);
+(1, 1, 1, 0, 100, 'Vivo'),
+(4, 4, 1, 0, 100, 'Vivo');
 
 INSERT INTO integra_ao_time(inst_pokemon_id, time)
 VALUES
@@ -1070,7 +1068,7 @@ VALUES
 INSERT INTO caminho_item(caminho_id, inst_item_id)
 VALUES
 (1, 1),
-(1, 2),
+(1, 2);
 
 INSERT INTO local_leva_local(local_id_1, local_id_2)
 VALUES
@@ -1092,22 +1090,21 @@ INSERT INTO Encontra(selvagem_id, treinador_id)
 VALUES
 (1, 1),
 (2, 1),
-(3, 1),
-(4, 1);
+(3, 1);
 
 INSERT INTO Captura(selvagem_id, treinador_id, chance_atual)
 VALUES
 (1, 1, 0.5),
-(4, 1, 0.2);
+(3, 1, 0.2);
 
 INSERT INTO Torna(selvagem_id, treinador_id)
 VALUES
 (1, 1),
-(4, 4);
+(4, 3);
 
 INSERT INTO Batalha(batalha_id, treinador_id_1, treinador_id_2, resultado, recompensa)
 VALUES
-(1, 1, 2, 'Vitória', 'Parabéns voce recebeu a insignea da rocha'),
+(1, 1, 2, 'Vitória', 'Parabéns voce recebeu a insignea da rocha');
 
 
 INSERT INTO treinador_interacao(treinador_id_1, treinador_id_2)
@@ -1118,3 +1115,7 @@ VALUES
 INSERT INTO Ginasio(ginasio_id, lider, nome, local_id)
 VALUES
 (1, 1, 'Ginásio de Pallet', 3);
+
+INSERT INTO Pokecenter(pokecenter_id, time_princ_id, local_id, qtd_npcs)
+VALUES
+(1,0,1,2);
