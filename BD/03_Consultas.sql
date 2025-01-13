@@ -78,15 +78,27 @@ ptl.local_id_2 = l.local_id;
 
 -- Listar pokemons do player a partir do id do mesmo
 
-SELECT pk.pokemon_id, pk.status_base, pk.nome, pk.qtd_tipos, pk.pokedex FROM pokemon pk
-JOIN (SELECT pokedex FROM inst_pokemon ip 
-JOIN (SELECT inst_pokemon FROM time_principal tmp 
-JOIN (SELECT time_principal FROM time tm
-JOIN (SELECT * FROM treinador t
-JOIN (SELECT treinador_id FROM pc WHERE player_id = $1) p
-ON t.treinador_id = p.treinador_id) tp
-ON tp.time = tm.time_id) tpm
-ON tpm.time_principal = tmp.time_princ_id) ipt
-ON ip.inst_pokemon = ipt.inst_pokemon) pki
-ON pk.pokedex = pki.pokedex;
+SELECT pm.nome, pm.status_base, pm.qtd_tipos FROM pokemon pm
+JOIN (SELECT * FROM inst_pokemon ip
+JOIN (SELECT * FROM pc p
+JOIN treinador t
+ON t.treinador_id = p.treinador_id AND p.player_id = $1) pt
+ON ip."time" = pt."time") ipt
+ON pm.pokemon_id = ipt.pokedex;
+
+-- Listar lider de um ginasio e seus pokemons
+
+SELECT p.nome, gip.nome, gip.insignea, gip.vida_atual FROM pokemon p
+JOIN (SELECT * FROM inst_pokemon ip 
+JOIN (SELECT * FROM time tm
+JOIN (SELECT gl.nome, gl.insignea, t.time FROM treinador t
+JOIN (SELECT g.lider, l.nome, l.insignea, l.treinador_id FROM ginasio g
+JOIN lider l
+ON g.lider = l.lider_id AND g.ginasio_id = $1) gl
+ON gl.treinador_id = t.treinador_id) glt
+ON tm.time_id = glt."time") gtm
+ON ip."time" = gtm."time") gip
+ON p.pokemon_id = gip.pokedex;
+
+
 
