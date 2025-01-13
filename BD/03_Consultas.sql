@@ -51,3 +51,47 @@ WHERE pt.pokemon_id = $1) p
 ON t.tipo_id = p.tipo_id) ti
 ON ti.tipo_id = gt.tipo_id) gti
 ON gti.golpe_id = g.golpe_id ;
+
+-- Consultar possiveis destinos de uma rota
+
+SELECT local_id_2 FROM local_leva_local l
+WHERE l.local_id_1 = $1;
+
+-- Consultar quantidade de locais
+
+SELECT count(*) FROM local_;
+
+-- Consultar tipo do local pelo id
+
+SELECT tipo_local FROM local_ l
+WHERE l.local_id = $1;
+
+-- Consultar status de local pelo tipo e id
+
+SELECT * FROM $tipo t
+WHERE t.$tipo_id = $1;
+
+-- Listar possiveis rotas a partir do id do player
+
+SELECT l.local_id, l.tipo_local, l.nome_local, l.nome_cidade FROM local_ l
+JOIN (SELECT local_id_2 FROM local_leva_local lll
+JOIN (SELECT t.local_id FROM (SELECT * FROM pc WHERE player_id = $1) p 
+JOIN treinador t ON 
+t.treinador_id = p.treinador_id) pt ON
+lll.local_id_1 = pt.local_id) ptl ON 
+ptl.local_id_2 = l.local_id;
+
+-- Listar pokemons do player a partir do id do memso
+
+SELECT pk.pokemon_id, pk.status_base, pk.nome, pk.qtd_tipos, pk.pokedex FROM pokemon pk
+JOIN (SELECT pokedex FROM inst_pokemon ip 
+JOIN (SELECT inst_pokemon FROM time_principal tmp 
+JOIN (SELECT time_principal FROM time tm
+JOIN (SELECT * FROM treinador t
+JOIN (SELECT treinador_id FROM pc WHERE player_id = $1) p
+ON t.treinador_id = p.treinador_id) tp
+ON tp.time = tm.time_id) tpm
+ON tpm.time_principal = tmp.time_princ_id) ipt
+ON ip.inst_pokemon = ipt.inst_pokemon) pki
+ON pk.pokedex = pki.pokedex;
+
