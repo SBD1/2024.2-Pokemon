@@ -609,3 +609,6 @@ ALTER TABLE Tipo
 RENAME CONSTRAINT fk_tipo
 TO pk_tipo;
 --
+
+ALTER TABLE inst_pokemon
+ADD nivel INT;

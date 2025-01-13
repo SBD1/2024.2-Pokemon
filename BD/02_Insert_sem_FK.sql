@@ -996,10 +996,10 @@ VALUES
 (1,NULL,0),
 (2,NULL,0);
 
-INSERT INTO Inst_Pokemon(inst_pokemon, pokedex, time, experiencia, vida_atual, status)
+INSERT INTO Inst_Pokemon(inst_pokemon, pokedex, time, experiencia, vida_atual, status, nivel)
 VALUES
-(1, 1, 1, 0, 100, 'Vivo'),
-(4, 4, 1, 0, 100, 'Vivo');
+(1, 1, 1, 0, 100, 'Vivo', 1),
+(4, 4, 1, 0, 100, 'Vivo', 1);
 
 INSERT INTO integra_ao_time(inst_pokemon_id, time)
 VALUES
