@@ -265,7 +265,7 @@ CREATE TABLE NPC(
 );
 
 CREATE TABLE PC(
-	player_id int NOT NULL,
+	player_id SERIAL NOT NULL,
 	treinador_id int NOT NULL,
 	nome varchar(50) NOT NULL,
     num_insigneas int DEFAULT 0,

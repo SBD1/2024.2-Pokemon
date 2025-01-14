@@ -1011,9 +1011,9 @@ VALUES
 (2,2,2,3,'Lider Brock'),
 (3,NULL,NULL,0,'Professor');
 
-INSERT INTO Pc (player_id, treinador_id, nome, num_insigneas)
+INSERT INTO Pc (treinador_id, nome, num_insigneas)
 VALUES
-(1,1,'mauricio',0);
+(1,'mauricio',0);
 
 INSERT INTO lider(lider_id, treinador_id, nome, insignea, status)
 VALUES
