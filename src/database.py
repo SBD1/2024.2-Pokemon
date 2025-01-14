@@ -36,26 +36,56 @@ class Database:
     
     def create_player(self, name, starter_pokemon_id):
         try:
-            # Criar mochila
-            self.cur.execute("INSERT INTO mochila (mochila_id, qtd_itens, item) VALUES (DEFAULT, 0, 1) RETURNING mochila_id")
-            mochila_id = self.cur.fetchone()[0]
-            
-            # Criar time
-            self.cur.execute("INSERT INTO time (time_id, qtd_pokemons) VALUES (DEFAULT, 1) RETURNING time_id")
+            # Criar time (com time_principal nulo e qtd_pokemons zero)
+            self.cur.execute("""
+                INSERT INTO time (time_principal, qtd_pokemons) 
+                VALUES (NULL, 0) 
+                RETURNING time_id
+            """)
             time_id = self.cur.fetchone()[0]
+            
+            # Criar mochila
+            self.cur.execute("""
+                INSERT INTO mochila (pokedex_id, qtd_itens, item) 
+                VALUES (1, 1, 1) 
+                RETURNING mochila_id
+            """)
+            mochila_id = self.cur.fetchone()[0]
             
             # Criar treinador
             self.cur.execute("""
-                INSERT INTO treinador (treinador_id, time, mochila, local_id, tipo_treinador) 
-                VALUES (DEFAULT, %s, %s, 1, 'Player') RETURNING treinador_id
+                INSERT INTO treinador (time, mochila, local_id, tipo_treinador) 
+                VALUES (%s, %s, 0, 'Player') 
+                RETURNING treinador_id
             """, (time_id, mochila_id))
             treinador_id = self.cur.fetchone()[0]
             
             # Criar PC (player)
             self.cur.execute("""
-                INSERT INTO pc (player_id, treinador_id, nome, num_insigneas)
-                VALUES (DEFAULT, %s, %s, 0)
+                INSERT INTO pc (treinador_id, nome, num_insigneas)
+                VALUES (%s, %s, 0)
             """, (treinador_id, name))
+            
+            # Criar instância do Pokémon inicial
+            self.cur.execute("""
+                INSERT INTO inst_pokemon (pokedex, time, experiencia, vida_atual, status, nivel)
+                VALUES (%s, %s, 0, 100, 'Normal', 1)
+                RETURNING inst_pokemon
+            """, (starter_pokemon_id, time_id))
+            inst_pokemon_id = self.cur.fetchone()[0]
+            
+            # Associar o Pokémon inicial ao time
+            self.cur.execute("""
+                INSERT INTO integra_ao_time (inst_pokemon_id, time)
+                VALUES (%s, %s)
+            """, (inst_pokemon_id, time_id))
+            
+            # Atualizar quantidade de Pokémon no time
+            self.cur.execute("""
+                UPDATE time 
+                SET qtd_pokemons = 1 
+                WHERE time_id = %s
+            """, (time_id,))
             
             self.conn.commit()
             return True
