@@ -10,6 +10,7 @@ Bem-vindo ao repositório do grupo 2 para o desenvolvimento do jogo Pokémon, de
 - [Configuração do Ambiente](#configuração-do-ambiente)
 - [Como Executar](#como-executar)
 - [Entregas](#entregas)
+- [Apresentações](#apresentações)
 
 ## Sobre o Projeto
 
@@ -52,7 +53,7 @@ A disciplina Sistema de Banco de Dados 1 aborda os seguintes tópicos:
 
 3. Instale as dependências:
     ```sh
-    pip install -r requirements.txt
+    pip install -r src/requirements.txt
     ```
 
 4. Configure e inicie o Docker:
@@ -67,3 +68,23 @@ A disciplina Sistema de Banco de Dados 1 aborda os seguintes tópicos:
     ```sh
     python src/main.py
     ```
+
+## Entregas
+
+### Entrega 1
+- [Diagrama Entidade-Relacionamento](https://github.com/SBD1/2024.2-Pokemon/blob/main/docs/Entrega%201/DER.md)
+- [Dicionário de Dados](https://github.com/SBD1/2024.2-Pokemon/blob/main/docs/Entrega%201/DD.md)
+- [Modelo Entidade-Relacionamento](https://github.com/SBD1/2024.2-Pokemon/blob/main/docs/Entrega%201/MER.md)
+- [Modelo Relacional](https://github.com/SBD1/2024.2-Pokemon/blob/main/docs/Entrega%201/MREL.md)
+
+### Entrega 2
+- [Data Definition Language](https://github.com/SBD1/2024.2-Pokemon/blob/main/BD/01_Tabelas.sql)
+- [Data Manipulation Language](https://github.com/SBD1/2024.2-Pokemon/blob/main/BD/02_Insert_sem_FK.sql)
+- [Data Query Language](https://github.com/SBD1/2024.2-Pokemon/blob/main/BD/03_Consultas.sql)
+
+
+
+## Apresentações
+| Módulo | Link da Gravação                               |
+|--------|------------------------------------------------|
+| 1      | [Apresentação Módulo 1](https://www.youtube.com/watch?v=WyXHYP3-kAY) |
