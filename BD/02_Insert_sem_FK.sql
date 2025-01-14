@@ -961,11 +961,11 @@ VALUES
 (14, 15, 3),
 (15, 15, 3);
 
-INSERT INTO Mochila(mochila_id, pokedex_id, qtd_itens, item)
+INSERT INTO Mochila(pokedex_id, qtd_itens, item)
 VALUES
-(1,1,0,1),
-(2,1,0,1),
-(3,1,10,1);
+(1,0,1),
+(1,0,1),
+(1,10,1);
 
 
 
@@ -991,25 +991,25 @@ INSERT INTO Time_Principal (time_princ_id, ordem)
 VALUES
 (0, 1 );
 
-INSERT INTO Time (time_id, time_principal, qtd_pokemons)
+INSERT INTO Time (time_principal, qtd_pokemons)
 VALUES
-(1,NULL,0),
-(2,NULL,0);
+(NULL,0),
+(NULL,0);
 
-INSERT INTO Inst_Pokemon(inst_pokemon, pokedex, time, experiencia, vida_atual, status)
+INSERT INTO Inst_Pokemon(inst_pokemon, pokedex, time, experiencia, vida_atual, status, nivel)
 VALUES
-(1, 1, 1, 0, 100, 'Vivo'),
-(4, 4, 1, 0, 100, 'Vivo');
+(1, 1, 1, 0, 100, 'Vivo', 1),
+(4, 4, 1, 0, 100, 'Vivo', 1);
 
 INSERT INTO integra_ao_time(inst_pokemon_id, time)
 VALUES
 (1, 1);
 
-INSERT INTO Treinador (treinador_id, time, mochila, local_id, tipo_treinador)
+INSERT INTO Treinador (time, mochila, local_id, tipo_treinador)
 VALUES
-(1,1,1,0,'player'),
-(2,2,2,3,'Lider Brock'),
-(3,NULL,NULL,0,'Professor');
+(1,1,0,'player'),
+(2,2,3,'Lider Brock'),
+(NULL,NULL,0,'Professor');
 
 INSERT INTO Pc (treinador_id, nome, num_insigneas)
 VALUES

@@ -163,7 +163,7 @@ CREATE TABLE pokemart(
 );
 
 CREATE TABLE Time(
-	time_id int NOT NULL,
+	time_id SERIAL NOT NULL,
 	time_principal int,
 	qtd_pokemons int DEFAULT 0,
 	CONSTRAINT pk_time
@@ -185,7 +185,7 @@ CREATE TABLE Integra_ao_time(
 );
 
 CREATE TABLE Treinador(
-	treinador_id int NOT NULL,
+	treinador_id SERIAL NOT NULL,
 	time int,
 	mochila int,
 	local_id int NOT NULL,
@@ -204,7 +204,7 @@ CREATE TABLE Treinador(
 
 
 CREATE TABLE Mochila(
-	mochila_id int NOT NULL,
+	mochila_id SERIAL NOT NULL,
 	pokedex_id int,
 	qtd_itens int DEFAULT 0,
 	CONSTRAINT pk_mochila
@@ -609,3 +609,6 @@ ALTER TABLE Tipo
 RENAME CONSTRAINT fk_tipo
 TO pk_tipo;
 --
+ALTER TABLE inst_pokemon
+ADD nivel INT;
+
