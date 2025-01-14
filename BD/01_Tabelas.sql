@@ -73,7 +73,7 @@ CREATE TABLE Pokecenter(
 
 
 CREATE TABLE Inst_Pokemon(
-	inst_pokemon int NOT NULL,
+	inst_pokemon SERIAL NOT NULL,
 	pokedex int NOT NULL,
 	time int NOT NULL,
 	experiencia int DEFAULT 0
