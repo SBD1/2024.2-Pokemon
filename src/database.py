@@ -18,20 +18,24 @@ class Database:
     
     def get_starter_pokemon(self):
         self.cur.execute("""
-            SELECT p.nome, p.pokemon_id, t.nome as tipo
+            SELECT DISTINCT ON (p.pokemon_id) p.nome, p.pokemon_id, t.nome AS tipo
             FROM pokemon p
-            JOIN pokemon_tipo pt ON p.pokemon_id = pt.pokemon_id 
+            JOIN pokemon_tipo pt ON p.pokemon_id = pt.pokemon_id
             JOIN tipo t ON pt.tipo_id = t.tipo_id
             WHERE p.pokemon_id IN (1, 4, 7)
+            ORDER BY p.pokemon_id, t.nome;
         """)
         return self.cur.fetchall()
     
-    def get_locations(self):
+    def get_locations(self,player_id):
         self.cur.execute("""
-            SELECT local_id, nome_local 
-            FROM local_ 
-            WHERE tipo_local = 'Zona de Captura'
-        """)
+            SELECT l.local_id, l.tipo_local, l.nome_local, l.nome_cidade FROM local_ l 
+            JOIN (SELECT local_id_2 FROM local_leva_local lll 
+            JOIN (SELECT t.local_id FROM (SELECT * FROM pc WHERE player_id = %s) p 
+            JOIN treinador t ON t.treinador_id = p.treinador_id) pt 
+            ON lll.local_id_1 = pt.local_id) ptl 
+            ON ptl.local_id_2 = l.local_id;
+        """,(player_id,))
         return self.cur.fetchall()
     
     def create_player(self, name, starter_pokemon_id):
@@ -62,4 +66,11 @@ class Database:
         except Exception as e:
             print(f"Erro ao criar jogador: {e}")
             self.conn.rollback()
-            return False 
+            return False
+    def mudar_loc(self,new_loc):
+        self.cur.execute("""
+            UPDATE treinador
+            SET local_id = %s
+            WHERE treinador_id = %s
+        """, (new_loc, "1"))
+        self.conn.commit()
