@@ -32,3 +32,4 @@ O objetivo desta página é organizar e disponibilizar todas as entregas e mater
 | Módulo | Link da Gravação                               |
 |--------|------------------------------------------------|
 | 1      | [Apresentação Módulo 1](https://www.youtube.com/watch?v=WyXHYP3-kAY) |
+| 2      | [Apresentação Módulo 2](https://www.youtube.com/watch?v=k7r0S6V5kNg&feature=youtu.be)  |   
