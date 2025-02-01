@@ -5,7 +5,8 @@ from art import text2art
 class Game:
     def __init__(self):
         self.db = Database()
-        
+        self.player_nome = "vazio"
+        self.player_id = 0
     def welcome_screen(self):
         print("="*40)
         print(text2art("Pokemon"))
@@ -42,6 +43,10 @@ class Game:
         # Criar novo jogador no banco
         if self.db.create_player(player_name, starter_id):
             print(f"\nParabéns {player_name}! Você escolheu {chosen_starter.split()[0]}!")
+            player_inst = self.db.search_players()
+            self.player_name = player_name
+            resultado = list(filter(lambda x: x[1] == player_name, player_inst))
+            self.player_id = resultado[0][0]
             self.game_loop()
         else:
             print("Erro ao criar novo jogo!")
@@ -54,7 +59,8 @@ class Game:
                     "Explorar",
                     "Ver Time",
                     "Ver Mochila",
-                    "Ver Pokédex",
+                    "Interagir Local",
+                    "Usar Item da Mochila",
                     "Sair do Jogo"
                 ]
             ).ask()
@@ -63,15 +69,17 @@ class Game:
                 self.explore()
             elif choice == "Ver Time":
                 self.show_team()
+            elif choice == "Interagir Local":
+                print("a implementar")
+            elif choice == "Usar Item da Mochila":
+                print("a implementar")
             elif choice == "Ver Mochila":
                 self.show_bag()
-            elif choice == "Ver Pokédex":
-                self.show_pokedex()
             elif choice == "Sair do Jogo":
                 break
     
     def explore(self):
-        locations = self.db.get_locations(1)
+        locations = self.db.get_locations(self.player_id)
         location_choices = [loc['nome_local']+' '+loc['nome_cidade'] for loc in locations]
         
         chosen_location = questionary.select(
@@ -86,14 +94,27 @@ class Game:
             # Implementar lógica de encontros com Pokémon selvagens
     
     def show_team(self):
-        print("Implementar visualização do time")
+        time = self.db.search_time(self.player_id)
+        pokemons = [pokemon[1] for pokemon in time]
+        for poke in pokemons:
+            print(f"{poke}")
     
     def show_bag(self):
-        print("Implementar visualização da mochila")
+        print("-Item-|-qtd-")
+        itens = self.db.search_itens(self.player_id)
+        for item in itens:
+            print(f"{item[1]} - {item[0]}")
     
-    def show_pokedex(self):
-        print("Implementar visualização da Pokédex")
-    
+   
+    def load_game(self):
+        players = self.db.search_players()
+        lista_players = [player[1] for player in players]
+        chosen_player = questionary.select("Escolha seu jogador",lista_players + ["Voltar"]).ask()
+        if chosen_player != "Voltar":
+            self.player_nome = chosen_player
+            resultado = list(filter(lambda x: x[1] == chosen_player, players))
+            self.player_id = resultado[0][0]
+            self.game_loop()
     def run(self):
         self.welcome_screen()
         
@@ -103,7 +124,7 @@ class Game:
             if choice == "Novo Jogo":
                 self.new_game()
             elif choice == "Carregar Jogo":
-                print("Implementar carregamento de jogo")
+                self.load_game()    
             elif choice == "Sair":
                 print("Até a próxima, treinador!")
                 break

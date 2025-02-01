@@ -612,3 +612,6 @@ TO pk_tipo;
 ALTER TABLE inst_pokemon
 ADD nivel INT;
 
+ALTER TABLE mochila
+ALTER COLUMN item DROP NOT NULL;
+

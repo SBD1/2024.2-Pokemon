@@ -43,7 +43,7 @@ class Database:
             # Criar time (com time_principal nulo e qtd_pokemons zero)
             self.cur.execute("""
                 INSERT INTO time (time_principal, qtd_pokemons) 
-                VALUES (NULL, 0) 
+                VALUES (NULL, 1) 
                 RETURNING time_id
             """)
             time_id = self.cur.fetchone()[0]
@@ -51,9 +51,9 @@ class Database:
             # Criar mochila
             self.cur.execute("""
                 INSERT INTO mochila (pokedex_id, qtd_itens, item) 
-                VALUES (1, 1, 1) 
+                VALUES (%s, 1, 1) 
                 RETURNING mochila_id
-            """)
+            """,(starter_pokemon_id,))
             mochila_id = self.cur.fetchone()[0]
             
             # Criar treinador
@@ -73,7 +73,7 @@ class Database:
             # Criar instância do Pokémon inicial
             self.cur.execute("""
                 INSERT INTO inst_pokemon (pokedex, time, experiencia, vida_atual, status, nivel)
-                VALUES (%s, %s, 0, 100, 'Normal', 1)
+                VALUES (%s, %s, 0, 100, 'Vivo', 1)
                 RETURNING inst_pokemon
             """, (starter_pokemon_id, time_id))
             inst_pokemon_id = self.cur.fetchone()[0]
@@ -104,3 +104,37 @@ class Database:
             WHERE treinador_id = %s
         """, (new_loc, "1"))
         self.conn.commit()
+    
+    def search_players(self):
+        self.cur.execute("""
+            select player_id, nome, num_insigneas from pc
+        """)
+        return self.cur.fetchall()
+
+    def search_time(self, player_id):
+        self.cur.execute("""
+            select pk.pokemon_id, pk.nome from pokemon pk
+            inner join (select ip.pokedex from inst_pokemon ip
+            inner join (select * from treinador t 
+            inner join (select * from pc p
+            where p.player_id = %s) pl
+            on t.treinador_id = pl.treinador_id) tp
+            on tp."time" = ip."time") pkk
+            on pk.pokemon_id = pkk.pokedex;
+        """,(player_id,))
+        return self.cur.fetchall()
+
+    def search_itens(self, player_id):
+        self.cur.execute("""
+            select mpi.quantidade, imm.tipo from item imm
+            inner join (select * from inst_item ii 
+            inner join (select m.mochila_id from mochila m
+            inner join (select * from pc p
+            inner join treinador t
+            on p.treinador_id = t.treinador_id and p.player_id = %s) pt
+            on pt.mochila = m.mochila_id) mp
+            on mp.mochila_id = ii.mochila) mpi
+            on imm.item_id = mpi.item;
+        """,(player_id,))
+        return self.cur.fetchall()
+
