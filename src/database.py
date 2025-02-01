@@ -146,3 +146,17 @@ class Database:
             on l.local_id = pt.local_id;
         """,(player_id,))
         return self.cur.fetchall()
+    
+    def curar_pokemons(self, player_id):
+        self.cur.execute("""
+            UPDATE inst_pokemon
+            SET vida_atual = 100, status = 'Vivo'
+            WHERE time IN (
+                SELECT time FROM treinador
+                WHERE treinador_id = (
+                    SELECT treinador_id FROM pc
+                    WHERE player_id = %s
+                )
+            )
+        """, (player_id,))
+        self.conn.commit()
