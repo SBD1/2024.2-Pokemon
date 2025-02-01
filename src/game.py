@@ -110,6 +110,12 @@ class Game:
         print(f"cidade: {local[0][1]} local: {local[0][2]}")
         print(local[0][2])
 
+        if local[0][2].lower() == "pokecenter":
+            self.db.curar_pokemons(self.player_id)
+            print("\033[92m" + "="*40)
+            print("Todos os seus Pokémon foram curados!".center(40))
+            print("="*40 + "\033[0m")
+
     def load_game(self):
         players = self.db.search_players()
         lista_players = [player[1] for player in players]
