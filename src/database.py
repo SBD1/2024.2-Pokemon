@@ -97,12 +97,12 @@ class Database:
             print(f"Erro ao criar jogador: {e}")
             self.conn.rollback()
             return False
-    def mudar_loc(self,new_loc):
+    def mudar_loc(self,new_loc,player_id):
         self.cur.execute("""
             UPDATE treinador
             SET local_id = %s
             WHERE treinador_id = %s
-        """, (new_loc, "1"))
+        """, (new_loc, player_id))
         self.conn.commit()
     
     def search_players(self):
@@ -137,4 +137,12 @@ class Database:
             on imm.item_id = mpi.item;
         """,(player_id,))
         return self.cur.fetchall()
-
+    def consulta_local(self, player_id):
+        self.cur.execute("""
+            select l.local_id,l.nome_cidade,l.nome_local,l.tipo_local from local_ l 
+            inner join (select t.local_id from pc p
+            inner join treinador t
+            on p.treinador_id = t.treinador_id and p.player_id = %s) pt
+            on l.local_id = pt.local_id;
+        """,(player_id,))
+        return self.cur.fetchall()

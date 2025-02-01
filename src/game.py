@@ -70,7 +70,7 @@ class Game:
             elif choice == "Ver Time":
                 self.show_team()
             elif choice == "Interagir Local":
-                print("a implementar")
+                self.interagir_local()
             elif choice == "Usar Item da Mochila":
                 print("a implementar")
             elif choice == "Ver Mochila":
@@ -90,7 +90,7 @@ class Game:
         if chosen_location != "Voltar":
             chosen_index = location_choices.index(chosen_location)
             print(f"Explorando {chosen_location}...")
-            self.db.mudar_loc(locations[chosen_index][0])
+            self.db.mudar_loc(locations[chosen_index][0],self.player_id)
             # Implementar lógica de encontros com Pokémon selvagens
     
     def show_team(self):
@@ -105,7 +105,11 @@ class Game:
         for item in itens:
             print(f"{item[1]} - {item[0]}")
     
-   
+    def interagir_local(self):
+        local = self.db.consulta_local(self.player_id)
+        print(f"cidade: {local[0][1]} local: {local[0][2]}")
+        print(local[0][2])
+
     def load_game(self):
         players = self.db.search_players()
         lista_players = [player[1] for player in players]
