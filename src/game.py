@@ -115,6 +115,10 @@ class Game:
             print("\033[92m" + "="*40)
             print("Todos os seus Pokémon foram curados!".center(40))
             print("="*40 + "\033[0m")
+        elif local[0][2].lower() == "pokemart":
+            print("\033[94m" + "="*40)
+            print("Você está na Pokemart!".center(40))
+            print("="*40 + "\033[0m")
 
     def load_game(self):
         players = self.db.search_players()
