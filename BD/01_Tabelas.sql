@@ -1,12 +1,12 @@
 CREATE TABLE Pokemon(
-	Pokemon_id int NOT NULL,
-	status_base int NOT NULL,
-	Nome varchar(20) NOT NULL,
-	qtd_tipos int NOT NULL
-	CHECK (qtd_tipos = 1 OR qtd_tipos = 2),
-	pokedex int NOT NULL,
-	CONSTRAINT fk_pokemon
-		PRIMARY KEY (pokemon_id)
+    pokemon_id int NOT NULL,
+    status_base int NOT NULL,
+    nome varchar(20) NOT NULL,
+    qtd_tipos int NOT NULL CHECK (qtd_tipos = 1 OR qtd_tipos = 2),
+    pokedex int NOT NULL,
+    CONSTRAINT pk_pokemon PRIMARY KEY (pokemon_id),
+    CONSTRAINT fk_status_base FOREIGN KEY (status_base) REFERENCES Status_base (status_base_id),
+    CONSTRAINT fk_pokedex FOREIGN KEY (pokedex) REFERENCES Pokedex (pokedex_id)
 );
 
 
@@ -94,12 +94,11 @@ CREATE TABLE Time_Principal(
 			PRIMARY KEY (time_princ_id)
 ); 
 
-CREATE TABLE Pokemon_Selvagem(
-	selvagem_id int NOT NULL,
-	taxa_aparicao decimal(3,1) DEFAULT 0 
-	CHECK (taxa_aparicao >= 0 AND taxa_aparicao <= 1),	
-	CONSTRAINT pk_selvagem
-		PRIMARY KEY (selvagem_id)
+CREATE TABLE IF NOT EXISTS Pokemon_Selvagem(
+    selvagem_id SERIAL PRIMARY KEY,
+    pokemon_id INT NOT NULL,
+    taxa_aparicao DECIMAL(3,1) DEFAULT 0 CHECK (taxa_aparicao >= 0 AND taxa_aparicao <= 1),
+    FOREIGN KEY (pokemon_id) REFERENCES Pokemon(pokemon_id)
 );
 
 CREATE TABLE Pokedex(
@@ -139,16 +138,11 @@ CREATE TABLE Caminho(
 			REFERENCES local_ (local_id) 
 );
 
-CREATE TABLE Zona_de_captura(
-	zona_de_captura_id int NOT NULL,
-	chance_surgimento decimal(3,1) DEFAULT 0
-	CHECK (chance_surgimento >= 0 AND chance_surgimento <= 1),
-	local_id int NOT NULL,
-	CONSTRAINT pk_zona_captura
-		PRIMARY KEY (zona_de_captura_id),
-	CONSTRAINT fk_local
-		FOREIGN KEY (local_id)
-			REFERENCES local_ (local_id)
+CREATE TABLE IF NOT EXISTS Zona_de_captura(
+    zona_de_captura_id SERIAL PRIMARY KEY,
+    local_id INT NOT NULL,
+    chance_surgimento DECIMAL(3,1) DEFAULT 0 CHECK (chance_surgimento >= 0 AND chance_surgimento <= 1),
+    FOREIGN KEY (local_id) REFERENCES Local_(local_id)
 );
 
 CREATE TABLE pokemart(
@@ -379,16 +373,11 @@ CREATE TABLE negocia(
 			REFERENCES inst_item (inst_item_id)
 );
 
-CREATE TABLE surge(
-	zona_captura_id int NOT NULL,
-	selvagem_id int NOT NULL,
-	CONSTRAINT fk_zona_captura
-		FOREIGN KEY (zona_captura_id)
-			REFERENCES zona_de_captura (zona_de_captura_id),
-	CONSTRAINT fk_selvagem
-		FOREIGN KEY (selvagem_id)
-			REFERENCES pokemon_selvagem (selvagem_id)
-
+CREATE TABLE IF NOT EXISTS surge(
+    zona_captura_id INT NOT NULL,
+    selvagem_id INT NOT NULL,
+    FOREIGN KEY (zona_captura_id) REFERENCES Zona_de_captura(zona_de_captura_id),
+    FOREIGN KEY (selvagem_id) REFERENCES Pokemon_Selvagem(selvagem_id)
 );
 
 CREATE TABLE caminho_item(
@@ -560,10 +549,19 @@ ADD CONSTRAINT fk_mochila
 --
 
 -- adicionando chaves estrangeiras da tabela inst_pokemon
-ALTER TABLE Inst_Pokemon
-ADD CONSTRAINT fk_pokedex
-		FOREIGN KEY (pokedex)
-			REFERENCES Pokedex (pokedex_id);
+CREATE TABLE Inst_Pokemon(
+    inst_pokemon SERIAL NOT NULL,
+    pokedex int NOT NULL,
+    time int NOT NULL,
+    experiencia int DEFAULT 0 CHECK (experiencia >= 0),
+    vida_atual int DEFAULT 0,
+    status varchar(50) NOT NULL,
+    nivel INT,
+    integra_time bool DEFAULT false,
+    CONSTRAINT pk_inst_pokemon PRIMARY KEY (inst_pokemon),
+    CONSTRAINT fk_pokedex FOREIGN KEY (pokedex) REFERENCES Pokedex (pokedex_id),
+    CONSTRAINT fk_time FOREIGN KEY (time) REFERENCES Time (time_id)
+);
 
 ALTER TABLE Inst_pokemon
 ADD CONSTRAINT fk_time

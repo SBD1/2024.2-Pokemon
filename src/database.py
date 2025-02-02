@@ -72,8 +72,8 @@ class Database:
             
             # Criar instância do Pokémon inicial
             self.cur.execute("""
-                INSERT INTO inst_pokemon (pokedex, time, experiencia, vida_atual, status, nivel)
-                VALUES (%s, %s, 0, 100, 'Vivo', 1)
+                INSERT INTO inst_pokemon (pokedex, time, experiencia, vida_atual, status, nivel, integra_time)
+                VALUES (%s, %s, 0, 100, 'Vivo', 1, TRUE)
                 RETURNING inst_pokemon
             """, (starter_pokemon_id, time_id))
             inst_pokemon_id = self.cur.fetchone()[0]
@@ -126,15 +126,13 @@ class Database:
 
     def search_pokemons(self, player_id):
         self.cur.execute("""
-            select pk.pokemon_id, pk.nome from pokemon pk
-            inner join (select ip.pokedex from inst_pokemon ip
-            inner join (select * from treinador t 
-            inner join (select * from pc p
-            where p.player_id = %s) pl
-            on t.treinador_id = pl.treinador_id) tp
-            on tp."time" = ip."time") pkk
-            on pk.pokemon_id = pkk.pokedex;
-        """,(player_id,))
+            SELECT pk.pokemon_id, pk.nome 
+            FROM pokemon pk
+            INNER JOIN inst_pokemon ip ON pk.pokemon_id = ip.pokedex
+            INNER JOIN treinador t ON ip.time = t.time
+            INNER JOIN pc p ON t.treinador_id = p.treinador_id
+            WHERE p.player_id = %s;
+        """, (player_id,))
         return self.cur.fetchall()
 
     def search_pokemons(self, player_id):
@@ -267,6 +265,46 @@ class Database:
             
             self.conn.commit()
             return True, "Item vendido com sucesso"
+        except Exception as e:
+            self.conn.rollback()
+            return False, str(e)
+
+    def get_wild_pokemon(self, local_id):
+        self.cur.execute("""
+            SELECT ps.selvagem_id, ps.taxa_aparicao, p.nome
+            FROM Pokemon_Selvagem ps
+            JOIN Pokemon p ON ps.pokemon_id = p.pokemon_id
+            JOIN Surge s ON ps.selvagem_id = s.selvagem_id
+            JOIN Zona_de_captura zc ON s.zona_captura_id = zc.zona_de_captura_id
+            WHERE zc.local_id = %s;
+        """, (local_id,))
+        return self.cur.fetchall()
+
+    def capture_pokemon(self, player_id, pokemon_id):
+        try:
+            # Adicionar Pokémon ao time do jogador
+            self.cur.execute("""
+                INSERT INTO inst_pokemon (pokedex, time, experiencia, vida_atual, status, nivel, integra_time)
+                VALUES (%s, (SELECT time FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s)), 0, 100, 'Vivo', 1, TRUE)
+                RETURNING inst_pokemon;
+            """, (pokemon_id, player_id))
+            inst_pokemon_id = self.cur.fetchone()[0]
+
+            # Associar o Pokémon ao time
+            self.cur.execute("""
+                INSERT INTO integra_ao_time (inst_pokemon_id, time)
+                VALUES (%s, (SELECT time FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s)));
+            """, (inst_pokemon_id, player_id))
+
+            # Atualizar quantidade de Pokémon no time
+            self.cur.execute("""
+                UPDATE time
+                SET qtd_pokemons = qtd_pokemons + 1
+                WHERE time_id = (SELECT time FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s));
+            """, (player_id,))
+
+            self.conn.commit()
+            return True, "Pokémon capturado com sucesso!"
         except Exception as e:
             self.conn.rollback()
             return False, str(e)

@@ -1,7 +1,7 @@
 import questionary
 from database import Database
 from art import text2art
-
+import random
 class Game:
     def __init__(self):
         self.db = Database()
@@ -93,8 +93,29 @@ class Game:
         if chosen_location != "Voltar":
             chosen_index = location_choices.index(chosen_location)
             print(f"Explorando {chosen_location}...")
-            self.db.mudar_loc(locations[chosen_index][0],self.player_id)
+            self.db.mudar_loc(locations[chosen_index][0], self.player_id)
+            
             # Implementar lógica de encontros com Pokémon selvagens
+            wild_pokemons = self.db.get_wild_pokemon(locations[chosen_index][0])
+            if wild_pokemons:
+                for pokemon in wild_pokemons:
+                    if random.random() <= pokemon['taxa_aparicao']:
+                        print(f"\033[93mUm {pokemon['nome']} selvagem apareceu!\033[0m")
+                        action = questionary.select(
+                            "O que deseja fazer?",
+                            choices=["Capturar", "Fugir"]
+                        ).ask()
+                        if action == "Capturar":
+                            success, message = self.db.capture_pokemon(self.player_id, pokemon['selvagem_id'])
+                            if success:
+                                print(f"\033[92m{message}\033[0m")
+                            else:
+                                print(f"\033[91m{message}\033[0m")
+                        elif action == "Fugir":
+                            print("Você fugiu do Pokémon selvagem.")
+                        break
+            else:
+                print("Nenhum Pokémon selvagem encontrado nesta área.")
     
     def show_team(self):
         time = self.db.search_time(self.player_id)
@@ -103,10 +124,9 @@ class Game:
             print(f"{poke}")
 
     def show_pokemons(self):
-            time = self.db.search_pokemons(self.player_id)
-            pokemons = [pokemon[1] for pokemon in time]
-            for poke in pokemons:
-                print(f"{poke}")
+        pokemons = self.db.search_pokemons(self.player_id)
+        for pokemon in pokemons:
+            print(f"{pokemon['nome']}")
     
     def show_bag(self):
         print("-Item-|-qtd-")
