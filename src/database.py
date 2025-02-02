@@ -270,3 +270,40 @@ class Database:
         except Exception as e:
             self.conn.rollback()
             return False, str(e)
+    
+    def listar_pokemons_lider(self, ginasio_id):
+        self.cur.execute("""
+            select pk.nome,p.inst_pokemon, p.pokedex, p.vida_atual, p.status, p.nivel from pokemon pk
+            inner join (select p.inst_pokemon, p.pokedex, p.vida_atual, p.status, p.nivel from inst_pokemon p
+            inner join (select * from treinador t 
+            inner join (select l.treinador_id from lider l 
+            inner join (select * from ginasio g 
+            where g.local_id = %s) g
+            on l.lider_id = g.lider) lg
+            on t.treinador_id = lg.treinador_id) lt
+            on p."time" = lt."time") p
+            on pk.pokemon_id = p.pokedex; 
+        """,(ginasio_id,))
+        return self.cur.fetchall()
+
+    def search_lider(self, ginasio_id):
+        self.cur.execute("""
+            select * from npc n 
+            inner join (select l.treinador_id from ginasio g 
+            inner join lider l
+            on g.lider = l.lider_id and g.local_id = %s) lg
+            on n.treinador_id = lg.treinador_id;
+        """,(ginasio_id,))
+        return self.cur.fetchall()
+
+    def curar_pokemon_index(self, poke_id):
+        self.cur.execute("""
+            update inst_pokemon
+            set vida_atual = vida_atual + 25
+            where inst_pokemon = %s
+        """,(poke_id,))
+        self.conn.commit()
+        
+        
+        
+   

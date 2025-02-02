@@ -129,6 +129,36 @@ class Game:
             print("Você está na Pokemart!".center(40))
             print("="*40 + "\033[0m")
             self.interagir_pokemart()
+        elif local[0][3].lower() == "ginasio":
+            lider = self.db.search_lider(local[0][0])
+            print(lider[0][4])
+            print("\033[31m"+ "="*40)
+            print("iniciando batalha pokemon!".center(40))
+            print("="*40 + "\033[0m")
+            pokemons_lider = self.db.listar_pokemons_lider(local[0][0])
+            while True:
+                escolha = questionary.select(
+                    "O que deseja fazer?",
+                    choices=[
+                        "Atacar",
+                        "Curar um Pokemon",
+                        "Trocar Pokemon atual",
+                        "Correr"
+                    ]
+                ).ask()
+                if escolha == "Correr":
+                    print("Você desistiu de sua batalha :(".center(40))
+                    break
+                if escolha == "Curar um Pokemon":
+                    pokemons_time = self.db.search_time(self.player_id)
+                    poke_curar = [lista[1]+" ("+str(lista[2])+")" for lista in pokemons_time]
+                    escolha_time = questionary.select(
+                        "Qual pokemon deseja curar?",
+                        choices = poke_curar + ["Nenhum"]
+                    ).ask()
+                    chosen_poke = escolha_time.split(" ")
+                    index = next((i for i, sublista in enumerate(pokemons_time) if chosen_poke[0] in sublista), -1)
+                    self.db.curar_pokemon_index(pokemons_time[index][0])
 
     def interagir_pokemart(self):
         while True:
