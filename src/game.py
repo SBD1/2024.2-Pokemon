@@ -60,6 +60,7 @@ class Game:
                     "Ver Time",
                     "Ver Pokemons",
                     "Ver Mochila",
+                    "Gerenciar Time",
                     "Interagir Local",
                     "Usar Item da Mochila",
                     "Sair do Jogo"
@@ -76,6 +77,8 @@ class Game:
                 self.interagir_local()
             elif choice == "Usar Item da Mochila":
                 print("a implementar")
+            elif choice == "Gerenciar Time":
+                self.mudar_time()
             elif choice == "Ver Mochila":
                 self.show_bag()
             elif choice == "Sair do Jogo":
@@ -159,6 +162,8 @@ class Game:
                         print(f"trocando seu pokemon para {pokemons_time[index_pc][1]}")
                     except Exception as e:
                         print("Que pena você perdeu :(")
+                        for pokemons in pokemons_lider:
+                            self.db.atualizar_lider(pokemons[1])
                         break
 
                 print("\033[35m"+ "="*40)
@@ -291,6 +296,49 @@ class Game:
             resultado = list(filter(lambda x: x[1] == chosen_player, players))
             self.player_id = resultado[0][0]
             self.game_loop()
+# [[1, True, 'Bulbasaur', 40, 'Vivo', 1], [2, True, 'Charmander', 100, 'Vivo', 1]]
+    def mudar_time(self):
+        pokemons_escolha = self.db.search_candidato_time(self.player_id)
+        escolher = questionary.select(
+                "O que deseja fazer?",
+                choices=[
+                    "Colocar pokemon no time",
+                    "Retirar pokemon do time",
+                    "Sair"
+                ]
+        ).ask()
+
+        if escolher == "Retirar pokemon do time":
+            #poke_escolha = [item[2] for item in pokemons_escolha if not item[1]]
+            poke_escolha = [item[2] for item in pokemons_escolha if item[1]]
+            if len(poke_escolha) == 0:
+                print("Não tem pokemons no seu time")
+            else:
+                a_retirar = questionary.checkbox(
+                    "Escolha os pokemons",
+                    choices = poke_escolha
+                ).ask()
+                for poke_name in a_retirar:
+                    indice = next((i for i, item in enumerate(pokemons_escolha) if item[2] == poke_name), -1)
+                    print(f"{pokemons_escolha[indice][2]} retirado do time")
+                    self.db.gerencia_time(pokemons_escolha[indice][0],False)
+        
+        if escolher == "Colocar pokemon no time":
+            poke_escolha = [item[2] for item in pokemons_escolha if not item[1]]
+            #poke_escolha = [item[2] for item in pokemons_escolha if item[1]]
+            if len(poke_escolha) == 0:
+                print("Todos seus pokemons estão no seu time")
+            else:
+                a_retirar = questionary.checkbox(
+                    "Escolha os pokemons",
+                    choices = poke_escolha
+                ).ask()
+                for poke_name in a_retirar:
+                    indice = next((i for i, item in enumerate(pokemons_escolha) if item[2] == poke_name), -1)
+                    print(f"{pokemons_escolha[indice][2]} adicionado ao time!")
+                    self.db.gerencia_time(pokemons_escolha[indice][0],True)
+                
+
     def run(self):
         self.welcome_screen()
         

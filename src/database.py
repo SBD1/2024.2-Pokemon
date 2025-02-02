@@ -125,6 +125,20 @@ class Database:
         """,(player_id,))
         return self.cur.fetchall()
 
+    def search_candidato_time(self, player_id):
+        self.cur.execute("""
+            select pkk.inst_pokemon, pkk.integra_time, pk.nome, pkk.vida_atual, pkk.status, pkk.nivel from pokemon pk
+            inner join (select ip.pokedex,ip.integra_time, ip.vida_atual, ip.status, ip.nivel, ip.inst_pokemon from inst_pokemon ip
+            inner join (select * from treinador t
+            inner join (select * from pc p
+            where p.player_id = %s) pl
+            on t.treinador_id = pl.treinador_id) tp
+            on tp."time" = ip."time") pkk
+            on pk.pokemon_id = pkk.pokedex
+            order by pkk.inst_pokemon;
+        """,(player_id,))
+        return self.cur.fetchall()
+
     def search_pokemons(self, player_id):
         self.cur.execute("""
             select pk.pokemon_id, pk.nome from pokemon pk
@@ -333,6 +347,14 @@ class Database:
             set vida_atual = 100
             where inst_pokemon = %s
         """,(poke_id,))
+        self.conn.commit()
+
+    def gerencia_time(self, poke_id, poke_bool):
+        self.cur.execute("""
+            update inst_pokemon
+            set integra_time = %s
+            where inst_pokemon = %s
+        """,(poke_bool, poke_id))
         self.conn.commit()
         
         
