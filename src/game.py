@@ -119,6 +119,64 @@ class Game:
             print("\033[94m" + "="*40)
             print("Você está na Pokemart!".center(40))
             print("="*40 + "\033[0m")
+            self.interagir_pokemart()
+
+    def interagir_pokemart(self):
+        while True:
+            choice = questionary.select(
+                "O que deseja fazer?",
+                choices=[
+                    "Ver Itens Disponíveis",
+                    "Ver Saldo de Moedas",
+                    "Comprar Item",
+                    "Vender Item",
+                    "Sair da Pokemart"
+                ]
+            ).ask()
+            
+            if choice == "Ver Itens Disponíveis":
+                items = self.db.get_pokemart_items()
+                print("\033[94m" + "-Item-|-Preço-" + "\033[0m")
+                for item in items:
+                    print(f"{item['tipo']} - {item['preco']}")
+            elif choice == "Ver Saldo de Moedas":
+                moedas = self.db.get_player_coins(self.player_id)
+                print(f"\033[93mVocê tem {moedas} moedas.\033[0m")
+            elif choice == "Comprar Item":
+                items = self.db.get_pokemart_items()
+                if not items:
+                    print("\033[91mNenhum item disponível para compra.\033[0m")
+                    continue
+                item_choices = [f"{item['tipo']} ({item['preco']} moedas)" for item in items]
+                chosen_item = questionary.select(
+                    "Escolha um item para comprar:",
+                    choices=item_choices
+                ).ask()
+                item_id = next(item['item_id'] for item in items if item['tipo'] in chosen_item)
+                item_price = next(item['preco'] for item in items if item['tipo'] in chosen_item)
+                success, message = self.db.buy_item(self.player_id, item_id, item_price)
+                if success:
+                    print(f"\033[92m{message}\033[0m")
+                else:
+                    print(f"\033[91m{message}\033[0m")
+            elif choice == "Vender Item":
+                itens = self.db.search_itens(self.player_id)
+                if not itens:
+                    print("\033[91mNenhum item disponível para venda.\033[0m")
+                    continue
+                item_choices = [f"{item['tipo']} ({item['quantidade']} disponíveis)" for item in itens]
+                chosen_item = questionary.select(
+                    "Escolha um item para vender:",
+                    choices=item_choices
+                ).ask()
+                item_id = next(item['item_id'] for item in itens if item['tipo'] in chosen_item)
+                success, message = self.db.sell_item(self.player_id, item_id)
+                if success:
+                    print(f"\033[92m{message}\033[0m")
+                else:
+                    print(f"\033[91m{message}\033[0m")
+            elif choice == "Sair da Pokemart":
+                break
 
     def load_game(self):
         players = self.db.search_players()
