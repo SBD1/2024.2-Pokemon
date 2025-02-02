@@ -99,3 +99,109 @@ BEFORE INSERT ON PC
 FOR EACH ROW
 EXECUTE FUNCTION verifica_treinador_pc();
 
+---------------------------------------------------------
+CREATE OR REPLACE FUNCTION verifica_treinador_npc() 
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.treinador_id IN (SELECT treinador_id FROM PC) THEN
+        RAISE EXCEPTION 'Treinador já existe como PC';
+    ELSIF NEW.treinador_id IN (SELECT treinador_id FROM lider) THEN
+        RAISE EXCEPTION 'Treinador já existe como Líder';
+    ELSIF NEW.treinador_id NOT IN (SELECT treinador_id FROM Treinador) THEN
+        RAISE EXCEPTION 'Treinador precisa primeiro ser adicionado a tabela Treinador'
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER insercao_npc
+BEFORE INSERT ON NPC
+FOR EACH ROW
+EXECUTE FUNCTION verifica_treinador_npc();
+
+--------------------------------------------------------
+CREATE OR REPLACE FUNCTION verifica_treinador_lider() 
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.treinador_id IN (SELECT treinador_id FROM PC) THEN
+        RAISE EXCEPTION 'Treinador já existe como PC';
+    ELSIF NEW.treinador_id IN (SELECT treinador_id FROM NPC) THEN
+        RAISE EXCEPTION 'Treinador já existe como NPC';
+    ELSIF NEW.treinador_id NOT IN (SELECT treinador_id FROM Treinador) THEN
+        RAISE EXCEPTION 'Treinador precisa primeiro ser adicionado a tabela Treinador'
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER insercao_lider
+BEFORE INSERT ON lider
+FOR EACH ROW
+EXECUTE FUNCTION verifica_treinador_lider();
+
+--------------------------------------------------------
+-- Triggers para deletar o treinador quando sua especialização for deletada
+CREATE OR REPLACE FUNCTION deleta_treinador_pc()
+RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM treinador WHERE treinador_id = OLD.treinador_id;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_pc
+AFTER DELETE ON PC
+FOR EACH ROW
+EXECUTE FUNCTION deleta_treinador_pc();
+
+--------------------------------------------------------
+CREATE OR REPLACE FUNCTION deleta_treinador_npc()
+RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM treinador WHERE treinador_id = OLD.treinador_id;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_npc
+AFTER DELETE ON NPC
+FOR EACH ROW
+EXECUTE FUNCTION deleta_treinador_npc();
+
+--------------------------------------------------------
+CREATE OR REPLACE FUNCTION deleta_treinador_lider()
+RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM treinador WHERE treinador_id = OLD.treinador_id;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_lider
+AFTER DELETE ON lider
+FOR EACH ROW
+EXECUTE FUNCTION deleta_treinador_lider();
+
+-------------------------------------------------------------
+-- Trigger para deletar a especialização quando um treinador for deletado
+CREATE OR REPLACE FUNCTION deleta_especializacao_treinador()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF OLD.treinador_id IN (SELECT treinador_id FROM PC) THEN
+        DELETE FROM PC WHERE treinador_id = OLD.treinador_id;
+    ELSIF OLD.treinador_id IN (SELECT treinador_id FROM NPC) THEN
+        DELETE FROM NPC WHERE treinador_id = OLD.treinador_id;
+    ELSIF OLD.treinador_id IN (SELECT treinador_id FROM lider) THEN
+        DELETE FROM lider WHERE treinador_id = OLD.treinador_id;
+    END IF;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_treinador
+BEFORE DELETE ON treinador
+FOR EACH ROW
+EXECUTE FUNCTION deleta_especializacao_treinador();
+
+
+
