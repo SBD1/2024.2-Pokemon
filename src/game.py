@@ -136,7 +136,20 @@ class Game:
             print("iniciando batalha pokemon!".center(40))
             print("="*40 + "\033[0m")
             pokemons_lider = self.db.listar_pokemons_lider(local[0][0])
+            index_lider = 0
+            index_pc = 0
+            lider = self.db.search_lider(local[0][0])
             while True:
+                pokemons_time = self.db.search_time(self.player_id)
+                print("\033[35m"+ "="*40)
+                print(f"{pokemons_lider[index_lider][0]} de {lider[0][2]}".center(40))
+                print(f"Nivel: {pokemons_lider[index_lider][5]} Vida: {pokemons_lider[index_lider][3]}hp".center(40))
+                print("="*40 + "\033[0m")
+                print("\033[33m"+ "="*40)
+                print(f"{pokemons_time[index_pc][1]} de {self.player_nome}".center(40))
+                print(f"Nivel: {pokemons_time[index_pc][4]} Vida: {pokemons_time[index_pc][2]}".center(40))
+                print("="*40 + "\033[0m")
+
                 escolha = questionary.select(
                     "O que deseja fazer?",
                     choices=[
@@ -150,16 +163,27 @@ class Game:
                     print("Você desistiu de sua batalha :(".center(40))
                     break
                 if escolha == "Curar um Pokemon":
-                    pokemons_time = self.db.search_time(self.player_id)
                     poke_curar = [lista[1]+" ("+str(lista[2])+")" for lista in pokemons_time]
                     escolha_time = questionary.select(
                         "Qual pokemon deseja curar?",
                         choices = poke_curar + ["Nenhum"]
                     ).ask()
-                    chosen_poke = escolha_time.split(" ")
-                    index = next((i for i, sublista in enumerate(pokemons_time) if chosen_poke[0] in sublista), -1)
-                    self.db.curar_pokemon_index(pokemons_time[index][0])
 
+                    if escolha_time != "Nenhum":
+                        chosen_poke = escolha_time.split(" ")
+                        index = next((i for i, sublista in enumerate(pokemons_time) if sublista[1] == chosen_poke[0]), -1)
+                        print(f"Seu {chosen_poke[0]} foi curado!")
+                        self.db.curar_pokemon_index(pokemons_time[index][0])
+                if escolha == "Trocar Pokemon atual":
+                    poke_troca = [lista[1]+" ("+str(lista[2])+")" for lista in pokemons_time]
+                    escolha_time = questionary.select(
+                        "Qual pokemon quer trocar??",
+                        choices = poke_troca + ["Nenhum"]
+                    ).ask()
+                    if escolha_time != "Nenhum":
+                        chosen_poke = escolha_time.split(" ")
+                        index = next((i for i, sublista in enumerate(pokemons_time) if sublista[1] == chosen_poke[0]), -1)
+                        index_pc = index
     def interagir_pokemart(self):
         while True:
             choice = questionary.select(

@@ -113,14 +113,15 @@ class Database:
 
     def search_time(self, player_id):
         self.cur.execute("""
-            select pk.pokemon_id, pk.nome from pokemon pk
-            inner join (select ip.pokedex from inst_pokemon ip
-            inner join (select * from treinador t 
+            select pkk.inst_pokemon, pk.nome, pkk.vida_atual, pkk.status, pkk.nivel from pokemon pk
+            inner join (select ip.pokedex, ip.vida_atual, ip.status, ip.nivel, ip.inst_pokemon from inst_pokemon ip
+            inner join (select * from treinador t
             inner join (select * from pc p
             where p.player_id = %s) pl
             on t.treinador_id = pl.treinador_id) tp
             on tp."time" = ip."time" and ip.integra_time = TRUE) pkk
-            on pk.pokemon_id = pkk.pokedex;
+            on pk.pokemon_id = pkk.pokedex
+            order by pkk.inst_pokemon;
         """,(player_id,))
         return self.cur.fetchall()
 
