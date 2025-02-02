@@ -214,6 +214,16 @@ VALUES
 (20, 'evolucao', 25),
 (21, 'evolucao', 40);
 
+
+INSERT INTO Pokemon_selvagem (selvagem_id,  taxa_aparicao)
+VALUES 
+(1, 0),
+(2, 0.25),
+(3, 0.5),
+(4, 0.75),
+(5, 0.85);
+
+
 INSERT INTO Pokedex (pokedex_id, num_pokedex)
 VALUES 
 (1, '#001'),
@@ -298,102 +308,6 @@ VALUES
 (80, '#147'),
 (81, '#148'),
 (82, '#149');
-
--- Inserções para a tabela Pokemon
-INSERT INTO Pokemon (pokemon_id, status_base, nome, qtd_tipos, pokedex)
-VALUES 
-(1, 1, 'Bulbasaur', 1, 1),
-(2, 2, 'Ivysaur', 1, 2),
-(3, 3, 'Venusaur', 1, 3),
-(4, 4, 'Charmander', 1, 4),
-(5, 5, 'Charmeleon', 1, 5),
-(6, 6, 'Charizard', 1, 6),
-(7, 7, 'Squirtle', 1, 7),
-(8, 8, 'Wartortle', 1, 8),
-(9, 9, 'Blastoise', 1, 9),
-(10, 10, 'Caterpie', 1, 10),
-(11, 11, 'Metapod', 1, 11),
-(12, 12, 'Butterfree', 1, 12),
-(13, 13, 'Weedle', 1, 13),
-(14, 14, 'Kakuna', 1, 14),
-(15, 15, 'Beedrill', 1, 15),
-(16, 16, 'Pidgey', 1, 16),
-(17, 17, 'Pidgeotto', 1, 17),
-(18, 18, 'Pidgeot', 1, 18),
-(19, 19, 'Rattata', 1, 19),
-(20, 20, 'Raticate', 1, 20),
-(21, 21, 'Spearow', 1, 21),
-(22, 22, 'Fearow', 1, 22),
-(23, 23, 'Ekans', 1, 23),
-(24, 24, 'Arbok', 1, 24),
-(25, 25, 'Pikachu', 1, 25),
-(26, 26, 'Raichu', 1, 26),
-(27, 27, 'Sandshrew', 1, 27),
-(28, 28, 'Sandslash', 1, 28),
-(29, 29, 'Nidoran♀', 1, 29),
-(30, 30, 'Nidorina', 1, 30),
-(31, 31, 'Nidoqueen', 1, 31),
-(32, 32, 'Nidoran♂', 1, 32),
-(33, 33, 'Nidorino', 1, 33),
-(34, 34, 'Nidoking', 1, 34),
-(35, 35, 'Clefairy', 1, 35),
-(36, 36, 'Clefable', 1, 36),
-(37, 37, 'Vulpix', 1, 37),
-(38, 38, 'Ninetales', 1, 38),
-(39, 39, 'Jigglypuff', 1, 39),
-(40, 40, 'Wigglytuff', 1, 40),
-(41, 41, 'Zubat', 1, 41),
-(42, 42, 'Golbat', 1, 42),
-(43, 43, 'Oddish', 1, 43),
-(44, 44, 'Gloom', 1, 44),
-(45, 45, 'Vileplume', 1, 45),
-(46, 46, 'Paras', 1, 46),
-(47, 47, 'Parasect', 1, 47),
-(48, 48, 'Venonat', 1, 48),
-(49, 49, 'Venomoth', 1, 49),
-(50, 50, 'Diglett', 1, 50),
-(51, 51, 'Dugtrio', 1, 51),
-(52, 52, 'Meowth', 1, 52),
-(53, 53, 'Persian', 1, 53),
-(54, 54, 'Psyduck', 1, 54),
-(55, 55, 'Golduck', 1, 55),
-(56, 56, 'Mankey', 1, 56),
-(57, 57, 'Primeape', 1, 57),
-(58, 58, 'Growlithe', 1, 58),
-(59, 59, 'Arcanine', 1, 59),
-(60, 60, 'Poliwag', 1, 60),
-(61, 61, 'Poliwhirl', 1, 61),
-(62, 62, 'Poliwrath', 1, 62),
-(63, 63, 'Abra', 1, 63),
-(64, 64, 'Kadabra', 1, 64),
-(65, 65, 'Alakazam', 1, 65),
-(66, 66, 'Machop', 1, 66),
-(67, 67, 'Machoke', 1, 67),
-(68, 68, 'Machamp', 1, 68),
-(69, 69, 'Gastly', 1, 69),
-(70, 70, 'Haunter', 1, 70),
-(71, 71, 'Gengar', 1, 71),
-(72, 72, 'Onix', 1, 72),
-(73, 73, 'Cubone', 1, 73),
-(74, 74, 'Marowak', 1, 74),
-(75, 75, 'Gyarados', 1, 75),
-(76, 76, 'Magikarp', 1, 76),
-(77, 77, 'Lapras', 1, 77),
-(78, 78, 'Mew', 1, 78),
-(79, 79, 'Mewtwo', 1, 79),
-(80, 80, 'Dratini', 1, 80),
-(81, 81, 'Dragonair', 1, 81),
-(82, 82, 'Dragonite', 1, 82);
-
-INSERT INTO Pokemon_Selvagem (selvagem_id, pokemon_id, taxa_aparicao)
-VALUES 
-(1, 1, 0.1),  -- Bulbasaur
-(2, 4, 0.2),  -- Charmander
-(3, 7, 0.3),  -- Squirtle
-(4, 25, 0.4), -- Pikachu
-(5, 39, 0.5); -- Jigglypuff
-
-
 
 
 INSERT INTO Local_ (local_id, tipo_local, nome_local, nome_cidade)
@@ -495,6 +409,90 @@ VALUES
 (3, 'Status', 15);
 
 
+INSERT INTO Pokemon (pokemon_id, status_base, Nome, qtd_tipos, pokedex)
+VALUES 
+(1, 1, 'Bulbasaur',2, 1),
+(2, 2, 'Ivysaur', 2, 2),
+(3, 3, 'Venusaur', 2, 3),
+(4, 4, 'Charmander', 1, 4),
+(5, 5, 'Charmeleon', 1, 5),
+(6, 6, 'Charizard', 2, 6),
+(7, 7, 'Squirtle', 1, 7),
+(8, 8, 'Wartortle', 1, 8),
+(9, 9, 'Blastoise', 1, 9),
+(10, 10, 'Caterpie', 1, 10),
+(11, 11, 'Metapod', 1, 11),
+(12, 12, 'Butterfree', 2, 12),
+(13, 13, 'Weedle', 2, 13),
+(14, 14, 'Kakuna', 2, 14),
+(15, 15, 'Beedrill', 2, 15),
+(16, 16, 'Pidgey', 2, 16),
+(17, 17, 'Pidgeotto', 2, 17),
+(18, 18, 'Pidgeot', 2, 18),
+(19, 19, 'Rattata', 1, 19),
+(20, 20, 'Raticate', 1, 20),
+(21, 21, 'Spearow', 2, 21),
+(22, 22, 'Fearow', 2, 22),
+(23, 23, 'Ekans', 1, 23),
+(24, 24, 'Arbok', 1, 24),
+(25, 25, 'Pikachu', 1, 25),
+(26, 26, 'Raichu', 1, 26),
+(27, 27, 'Sandshrew', 1, 27),
+(28, 28, 'Sandslash', 1, 28),
+(29, 29, 'Nidoran♀', 1, 29),
+(30, 30, 'Nidorina', 1, 30),
+(31, 31, 'Nidoqueen', 2, 31),
+(32, 32, 'Nidoran♂', 1, 32),
+(33, 33, 'Nidorino', 1, 33),
+(34, 34, 'Nidoking', 2, 34),
+(35, 35, 'Clefairy', 1, 35),
+(36, 36, 'Clefable', 1, 36),
+(37, 37, 'Vulpix', 1, 37),
+(38, 38, 'Ninetales', 1, 38),
+(39, 39, 'Jigglypuff', 1, 39),
+(40, 40, 'Wigglytuff', 1, 40),
+(41, 41, 'Zubat', 2, 41),
+(42, 42, 'Golbat', 2, 42),
+(43, 43, 'Oddish', 2, 43),
+(44, 44, 'Gloom', 2, 44),
+(45, 45, 'Vileplume', 2, 45),
+(46, 46, 'Paras', 2, 46),
+(47, 47, 'Parasect', 2, 47),
+(48, 48, 'Venonat', 2, 48),
+(49, 49, 'Venomoth', 2, 49),
+(50, 50, 'Diglett', 1, 50),
+(51, 51, 'Dugtrio', 1, 51),
+(52, 52, 'Meowth', 1, 52),
+(53, 53, 'Persian', 1, 53),
+(54, 54, 'Psyduck', 1, 54),
+(55, 55, 'Golduck', 1, 55),
+(56, 56, 'Mankey', 1, 56),
+(57, 57, 'Primeape', 1, 57),
+(58, 58, 'Growlithe', 1, 58),
+(59, 59, 'Arcanine', 1, 59),
+(60, 60, 'Poliwag', 1, 60),
+(61, 61, 'Poliwhirl', 1, 61),
+(62, 62, 'Poliwrath', 2, 62),
+(63, 63, 'Abra', 1, 63),
+(64, 64, 'Kadabra', 1, 64),
+(65, 65, 'Alakazam', 1, 65),
+(66, 66, 'Machop', 1, 66),
+(67, 67, 'Machoke', 1, 67),
+(68, 68, 'Machamp', 1, 68),
+(69, 69, 'Gastly', 2, 69),
+(70, 70, 'Haunter', 2, 70),
+(71, 71, 'Gengar', 2, 71),
+(72, 72, 'Onix', 2, 72),
+(73, 73, 'Cubone', 1, 73),
+(74, 74, 'Marowak', 1, 74),
+(75, 75, 'Gyarados', 2, 75),
+(76, 76, 'Magikarp', 1, 76),
+(77, 77, 'Lapras', 2, 77),
+(78, 78, 'Mew', 1, 78),
+(79, 79, 'Mewtwo', 1, 79),
+(80, 80, 'Dratini', 1, 80),
+(81, 81, 'Dragonair', 1, 81),
+(82, 82, 'Dragonite', 2, 82);
 
 
 INSERT INTO Tipo (tipo_id, Nome)
@@ -998,16 +996,14 @@ VALUES
 (NULL,0),
 (NULL,0);
 
-INSERT INTO Inst_Pokemon (pokedex, time, experiencia, vida_atual, status, nivel, integra_time)
+INSERT INTO Inst_Pokemon(pokedex, time, experiencia, vida_atual, status, nivel)
 VALUES
-(1, 1, 0, 100, 'Vivo', 1, TRUE),
-(4, 1, 0, 100, 'Vivo', 1, TRUE);
+( 1, 1, 0, 100, 'Vivo', 1),
+( 4, 1, 0, 100, 'Vivo', 1);
 
-
-INSERT INTO Integra_ao_time (inst_pokemon_id, time)
+INSERT INTO integra_ao_time(inst_pokemon_id, time)
 VALUES
-(1, 1),
-(2, 1);
+(1, 1);
 
 INSERT INTO Treinador (time, mochila, local_id, tipo_treinador)
 VALUES
@@ -1062,13 +1058,12 @@ VALUES
 (1, 1, 5),
 (1, 2, 3);
 
-INSERT INTO Surge (zona_captura_id, selvagem_id)
+INSERT INTO Surge(zona_captura_id, selvagem_id)
 VALUES
 (1, 1),
 (1, 2),
 (1, 3),
-(1, 4),
-(1, 5);
+(1, 4);
 
 INSERT INTO caminho_item(caminho_id, inst_item_id)
 VALUES

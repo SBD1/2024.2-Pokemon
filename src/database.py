@@ -72,8 +72,8 @@ class Database:
             
             # Criar instância do Pokémon inicial
             self.cur.execute("""
-                INSERT INTO inst_pokemon (pokedex, time, experiencia, vida_atual, status, nivel, integra_time)
-                VALUES (%s, %s, 0, 100, 'Vivo', 1, TRUE)
+                INSERT INTO inst_pokemon (pokedex, time, experiencia, vida_atual, status, nivel)
+                VALUES (%s, %s, 0, 100, 'Vivo', 1)
                 RETURNING inst_pokemon
             """, (starter_pokemon_id, time_id))
             inst_pokemon_id = self.cur.fetchone()[0]
@@ -113,26 +113,43 @@ class Database:
 
     def search_time(self, player_id):
         self.cur.execute("""
+            select pkk.inst_pokemon, pk.nome, pkk.vida_atual, pkk.status, pkk.nivel from pokemon pk
+            inner join (select ip.pokedex, ip.vida_atual, ip.status, ip.nivel, ip.inst_pokemon from inst_pokemon ip
+            inner join (select * from treinador t
+            inner join (select * from pc p
+            where p.player_id = %s) pl
+            on t.treinador_id = pl.treinador_id) tp
+            on tp."time" = ip."time" and ip.integra_time = TRUE) pkk
+            on pk.pokemon_id = pkk.pokedex
+            order by pkk.inst_pokemon;
+        """,(player_id,))
+        return self.cur.fetchall()
+
+    def search_candidato_time(self, player_id):
+        self.cur.execute("""
+            select pkk.inst_pokemon, pkk.integra_time, pk.nome, pkk.vida_atual, pkk.status, pkk.nivel from pokemon pk
+            inner join (select ip.pokedex,ip.integra_time, ip.vida_atual, ip.status, ip.nivel, ip.inst_pokemon from inst_pokemon ip
+            inner join (select * from treinador t
+            inner join (select * from pc p
+            where p.player_id = %s) pl
+            on t.treinador_id = pl.treinador_id) tp
+            on tp."time" = ip."time") pkk
+            on pk.pokemon_id = pkk.pokedex
+            order by pkk.inst_pokemon;
+        """,(player_id,))
+        return self.cur.fetchall()
+
+    def search_pokemons(self, player_id):
+        self.cur.execute("""
             select pk.pokemon_id, pk.nome from pokemon pk
             inner join (select ip.pokedex from inst_pokemon ip
             inner join (select * from treinador t 
             inner join (select * from pc p
             where p.player_id = %s) pl
             on t.treinador_id = pl.treinador_id) tp
-            on tp."time" = ip."time" and ip.integra_time = TRUE) pkk
+            on tp."time" = ip."time") pkk
             on pk.pokemon_id = pkk.pokedex;
         """,(player_id,))
-        return self.cur.fetchall()
-
-    def search_pokemons(self, player_id):
-        self.cur.execute("""
-            SELECT pk.pokemon_id, pk.nome 
-            FROM pokemon pk
-            INNER JOIN inst_pokemon ip ON pk.pokemon_id = ip.pokedex
-            INNER JOIN treinador t ON ip.time = t.time
-            INNER JOIN pc p ON t.treinador_id = p.treinador_id
-            WHERE p.player_id = %s;
-        """, (player_id,))
         return self.cur.fetchall()
 
     def search_pokemons(self, player_id):
@@ -268,43 +285,77 @@ class Database:
         except Exception as e:
             self.conn.rollback()
             return False, str(e)
-
-    def get_wild_pokemon(self, local_id):
+    
+    def listar_pokemons_lider(self, ginasio_id):
         self.cur.execute("""
-            SELECT ps.selvagem_id, ps.taxa_aparicao, p.nome
-            FROM Pokemon_Selvagem ps
-            JOIN Pokemon p ON ps.selvagem_id = p.pokemon_id
-            JOIN Surge s ON ps.selvagem_id = s.selvagem_id
-            JOIN Zona_de_captura zc ON s.zona_captura_id = zc.zona_de_captura_id
-            WHERE zc.local_id = %s;
-        """, (local_id,))
+            select pk.nome,p.inst_pokemon, p.pokedex, p.vida_atual, p.status, p.nivel from pokemon pk
+            inner join (select p.inst_pokemon, p.pokedex, p.vida_atual, p.status, p.nivel from inst_pokemon p
+            inner join (select * from treinador t 
+            inner join (select l.treinador_id from lider l 
+            inner join (select * from ginasio g 
+            where g.local_id = %s) g
+            on l.lider_id = g.lider) lg
+            on t.treinador_id = lg.treinador_id) lt
+            on p."time" = lt."time") p
+            on pk.pokemon_id = p.pokedex; 
+        """,(ginasio_id,))
         return self.cur.fetchall()
 
-    def capture_pokemon(self, player_id, pokemon_id):
-        try:
-            # Adicionar Pokémon ao time do jogador
-            self.cur.execute("""
-                INSERT INTO inst_pokemon (pokedex, time, experiencia, vida_atual, status, nivel, integra_time)
-                VALUES (%s, (SELECT time FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s)), 0, 100, 'Vivo', 1, TRUE)
-                RETURNING inst_pokemon;
-            """, (pokemon_id, player_id))
-            inst_pokemon_id = self.cur.fetchone()[0]
+    def search_lider(self, ginasio_id):
+        self.cur.execute("""
+            select * from npc n 
+            inner join (select l.treinador_id from ginasio g 
+            inner join lider l
+            on g.lider = l.lider_id and g.local_id = %s) lg
+            on n.treinador_id = lg.treinador_id;
+        """,(ginasio_id,))
+        return self.cur.fetchall()
 
-            # Associar o Pokémon ao time
-            self.cur.execute("""
-                INSERT INTO integra_ao_time (inst_pokemon_id, time)
-                VALUES (%s, (SELECT time FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s)));
-            """, (inst_pokemon_id, player_id))
+    def curar_pokemon_index(self, poke_id):
+        self.cur.execute("""
+            update inst_pokemon
+            set vida_atual = vida_atual + 25
+            where inst_pokemon = %s
+        """,(poke_id,))
+        self.conn.commit()
 
-            # Atualizar quantidade de Pokémon no time
-            self.cur.execute("""
-                UPDATE time
-                SET qtd_pokemons = qtd_pokemons + 1
-                WHERE time_id = (SELECT time FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s));
-            """, (player_id,))
+    def ataque_pokemon(self, poke_id, dano):
+        self.cur.execute("""
+            update inst_pokemon
+            set vida_atual = vida_atual - %s
+            where inst_pokemon = %s
+        """,(dano,poke_id))
+        self.conn.commit()
+    
+    def listar_ataques(self, poke_id):
+        self.cur.execute("""
+            select * from tipo t
+            inner join (select gp.nome, gp.dano, gp.precisao, gt.tipo_id from golpe_tipo gt 
+            inner join (select g.golpe_id, g.nome, g.precisao, g.dano from golpe g 
+            inner join (select * from pokemon_golpe pg 
+            where pg.pokemon_id = %s) p
+            on g.golpe_id = p.golpe_id) gp
+            on gp.golpe_id = gt.golpe_id) g
+            on t.tipo_id = g.tipo_id
+            order by g.tipo_id;
+        """,(poke_id,))
+        return self.cur.fetchall()
 
-            self.conn.commit()
-            return True, "Pokémon capturado com sucesso!"
-        except Exception as e:
-            self.conn.rollback()
-            return False, str(e)
+    def atualizar_lider(self,poke_id):
+        self.cur.execute("""
+            update inst_pokemon
+            set vida_atual = 100
+            where inst_pokemon = %s
+        """,(poke_id,))
+        self.conn.commit()
+
+    def gerencia_time(self, poke_id, poke_bool):
+        self.cur.execute("""
+            update inst_pokemon
+            set integra_time = %s
+            where inst_pokemon = %s
+        """,(poke_bool, poke_id))
+        self.conn.commit()
+        
+        
+   

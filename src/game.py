@@ -1,7 +1,7 @@
 import questionary
 from database import Database
 from art import text2art
-import random
+
 class Game:
     def __init__(self):
         self.db = Database()
@@ -60,6 +60,7 @@ class Game:
                     "Ver Time",
                     "Ver Pokemons",
                     "Ver Mochila",
+                    "Gerenciar Time",
                     "Interagir Local",
                     "Usar Item da Mochila",
                     "Sair do Jogo"
@@ -76,6 +77,8 @@ class Game:
                 self.interagir_local()
             elif choice == "Usar Item da Mochila":
                 print("a implementar")
+            elif choice == "Gerenciar Time":
+                self.mudar_time()
             elif choice == "Ver Mochila":
                 self.show_bag()
             elif choice == "Sair do Jogo":
@@ -93,34 +96,8 @@ class Game:
         if chosen_location != "Voltar":
             chosen_index = location_choices.index(chosen_location)
             print(f"Explorando {chosen_location}...")
-            self.db.mudar_loc(locations[chosen_index][0], self.player_id)
-            
+            self.db.mudar_loc(locations[chosen_index][0],self.player_id)
             # Implementar lógica de encontros com Pokémon selvagens
-            wild_pokemons = self.db.get_wild_pokemon(locations[chosen_index][0])
-            if wild_pokemons:
-                for pokemon in wild_pokemons:
-                    if random.random() <= pokemon['taxa_aparicao']:
-                        print(f"\033[93mUm {pokemon['nome']} selvagem apareceu!\033[0m")
-                        action = questionary.select(
-                            "O que deseja fazer?",
-                            choices=["Capturar", "Fugir"]
-                        ).ask()
-                        if action == "Capturar":
-                            success, message = self.db.capture_pokemon(self.player_id, pokemon['selvagem_id'])
-                            if success:
-                                print(f"\033[92m{message}\033[0m")
-                            else:
-                                print(f"\033[91m{message}\033[0m")
-                        elif action == "Fugir":
-                            print("Você fugiu do Pokémon selvagem.")
-                            continue_exploring = questionary.select(
-                            "Deseja continuar explorando?",
-                            choices=["Sim", "Não"]
-                        ).ask()
-                            if continue_exploring == "Não":
-                                break
-            else:
-                print("Nenhum Pokémon selvagem encontrado nesta área.")
     
     def show_team(self):
         time = self.db.search_time(self.player_id)
@@ -129,9 +106,10 @@ class Game:
             print(f"{poke}")
 
     def show_pokemons(self):
-        pokemons = self.db.search_pokemons(self.player_id)
-        for pokemon in pokemons:
-            print(f"{pokemon['nome']}")
+            time = self.db.search_pokemons(self.player_id)
+            pokemons = [pokemon[1] for pokemon in time]
+            for poke in pokemons:
+                print(f"{poke}")
     
     def show_bag(self):
         print("-Item-|-qtd-")
@@ -154,6 +132,103 @@ class Game:
             print("Você está na Pokemart!".center(40))
             print("="*40 + "\033[0m")
             self.interagir_pokemart()
+        elif local[0][3].lower() == "ginasio":
+            lider = self.db.search_lider(local[0][0])
+            print(lider[0][4])
+            print("\033[31m"+ "="*40)
+            print("Iniciando batalha pokemon!".center(40))
+            print("="*40 + "\033[0m")
+            index_lider = 0
+            index_pc = 0
+            lider = self.db.search_lider(local[0][0])
+            while True:
+                pokemons_time = self.db.search_time(self.player_id)
+                pokemons_lider = self.db.listar_pokemons_lider(local[0][0])
+                #print(pokemons_lider[index_lider])
+                
+                if pokemons_lider[index_lider][3] <= 0:
+                    try:
+                        index_lider = index_lider + 1
+                        print(f"Lider trocando para {pokemons_lider[index_lider][1]} ...")
+                    except Exception as e:    
+                        print("Parabens Você ganhou!")
+                        for pokemons in pokemons_lider:
+                            self.db.atualizar_lider(pokemons[1])
+                        break
+                
+                if pokemons_time[index_pc][2] <= 0:
+                    try:
+                        index_pc = index_pc + 1
+                        print(f"trocando seu pokemon para {pokemons_time[index_pc][1]}")
+                    except Exception as e:
+                        print("Que pena você perdeu :(")
+                        for pokemons in pokemons_lider:
+                            self.db.atualizar_lider(pokemons[1])
+                        break
+
+                print("\033[35m"+ "="*40)
+                print(f"{pokemons_lider[index_lider][0]} de {lider[0][2]}".center(40))
+                print(f"Nivel: {pokemons_lider[index_lider][5]} Vida: {pokemons_lider[index_lider][3]}hp".center(40))
+                print("="*40 + "\033[0m")
+                print("\033[33m"+ "="*40)
+                print(f"{pokemons_time[index_pc][1]} de {self.player_nome}".center(40))
+                print(f"Nivel: {pokemons_time[index_pc][4]} Vida: {pokemons_time[index_pc][2]}hp".center(40))
+                print("="*40 + "\033[0m")
+
+                escolha = questionary.select(
+                    "O que deseja fazer?",
+                    choices=[
+                        "Atacar",
+                        "Curar um Pokemon",
+                        "Trocar Pokemon atual",
+                        "Correr"
+                    ]
+                ).ask()
+                if escolha == "Correr":
+                    print("Você desistiu de sua batalha :(".center(40))
+                    break
+
+                if escolha == "Curar um Pokemon":
+                    poke_curar = [lista[1]+" ("+str(lista[2])+")" for lista in pokemons_time]
+                    escolha_time = questionary.select(
+                        "Qual pokemon deseja curar?",
+                        choices = poke_curar + ["Nenhum"]
+                    ).ask()
+                    if escolha_time != "Nenhum":
+                        chosen_poke = escolha_time.split(" ")
+                        index = next((i for i, sublista in enumerate(pokemons_time) if sublista[1] == chosen_poke[0]), -1)
+                        print(f"Seu {chosen_poke[0]} foi curado!")
+                        self.db.curar_pokemon_index(pokemons_time[index][0])
+
+                if escolha == "Trocar Pokemon atual":
+                    poke_troca = [lista[1]+" ("+str(lista[2])+")" for lista in pokemons_time]
+                    escolha_time = questionary.select(
+                        "Qual pokemon quer trocar??",
+                        choices = poke_troca + ["Nenhum"]
+                    ).ask()
+                    if escolha_time != "Nenhum":
+                        chosen_poke = escolha_time.split(" ")
+                        index = next((i for i, sublista in enumerate(pokemons_time) if sublista[1] == chosen_poke[0]), -1)
+                        index_pc = index
+                if escolha == "Atacar":
+                    ataques = self.db.listar_ataques(pokemons_time[index_pc][0])
+                    ataques_lider = self.db.listar_ataques(pokemons_lider[index_lider][1])
+                    ataque = [item[2]+" ("+str(item[3])+")" for item in ataques]
+                    ataque_feito = questionary.select(
+                            "Escolha o ataque a ser feito",
+                            choices = ataque + ["Nenhum"]
+                    ).ask()
+                    if ataque_feito != "Nenhum":
+                        atacado = ataque_feito.split("(")
+                        ataque = atacado[0].rstrip()
+                        index = next((i for i, sublista in enumerate(ataques) if sublista[2] == ataque), -1)
+                        if ataques[index][3]:
+                            self.db.ataque_pokemon(pokemons_lider[index_lider][1],ataques[index][3])
+                        print(f"{pokemons_time[index_pc][1]} usou {ataque} que da {ataques[index][3]} de dano")
+                        print(f"{pokemons_lider[index_lider][0]} usou {ataques_lider[0][2]} que da {ataques_lider[0][3]} de dano")
+                        #print(pokemons_time[index_pc])
+                        self.db.ataque_pokemon(pokemons_time[index_pc][0],ataques_lider[0][3])
+
 
     def interagir_pokemart(self):
         while True:
@@ -221,6 +296,49 @@ class Game:
             resultado = list(filter(lambda x: x[1] == chosen_player, players))
             self.player_id = resultado[0][0]
             self.game_loop()
+# [[1, True, 'Bulbasaur', 40, 'Vivo', 1], [2, True, 'Charmander', 100, 'Vivo', 1]]
+    def mudar_time(self):
+        pokemons_escolha = self.db.search_candidato_time(self.player_id)
+        escolher = questionary.select(
+                "O que deseja fazer?",
+                choices=[
+                    "Colocar pokemon no time",
+                    "Retirar pokemon do time",
+                    "Sair"
+                ]
+        ).ask()
+
+        if escolher == "Retirar pokemon do time":
+            #poke_escolha = [item[2] for item in pokemons_escolha if not item[1]]
+            poke_escolha = [item[2] for item in pokemons_escolha if item[1]]
+            if len(poke_escolha) == 0:
+                print("Não tem pokemons no seu time")
+            else:
+                a_retirar = questionary.checkbox(
+                    "Escolha os pokemons",
+                    choices = poke_escolha
+                ).ask()
+                for poke_name in a_retirar:
+                    indice = next((i for i, item in enumerate(pokemons_escolha) if item[2] == poke_name), -1)
+                    print(f"{pokemons_escolha[indice][2]} retirado do time")
+                    self.db.gerencia_time(pokemons_escolha[indice][0],False)
+        
+        if escolher == "Colocar pokemon no time":
+            poke_escolha = [item[2] for item in pokemons_escolha if not item[1]]
+            #poke_escolha = [item[2] for item in pokemons_escolha if item[1]]
+            if len(poke_escolha) == 0:
+                print("Todos seus pokemons estão no seu time")
+            else:
+                a_retirar = questionary.checkbox(
+                    "Escolha os pokemons",
+                    choices = poke_escolha
+                ).ask()
+                for poke_name in a_retirar:
+                    indice = next((i for i, item in enumerate(pokemons_escolha) if item[2] == poke_name), -1)
+                    print(f"{pokemons_escolha[indice][2]} adicionado ao time!")
+                    self.db.gerencia_time(pokemons_escolha[indice][0],True)
+                
+
     def run(self):
         self.welcome_screen()
         
