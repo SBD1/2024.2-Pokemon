@@ -58,6 +58,7 @@ class Game:
                 choices=[
                     "Explorar",
                     "Ver Time",
+                    "Ver Pokemons",
                     "Ver Mochila",
                     "Interagir Local",
                     "Usar Item da Mochila",
@@ -69,6 +70,8 @@ class Game:
                 self.explore()
             elif choice == "Ver Time":
                 self.show_team()
+            elif choice == "Ver Pokemons":
+                self.show_pokemons()
             elif choice == "Interagir Local":
                 self.interagir_local()
             elif choice == "Usar Item da Mochila":
@@ -98,7 +101,14 @@ class Game:
         pokemons = [pokemon[1] for pokemon in time]
         for poke in pokemons:
             print(f"{poke}")
-    
+   
+
+    def show_pokemons(self):
+        time = self.db.search_pokemons(self.player_id)
+        pokemons = [pokemon[1] for pokemon in time]
+        for poke in pokemons:
+            print(f"{poke}")
+
     def show_bag(self):
         print("-Item-|-qtd-")
         itens = self.db.search_itens(self.player_id)

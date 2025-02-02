@@ -119,10 +119,25 @@ class Database:
             inner join (select * from pc p
             where p.player_id = %s) pl
             on t.treinador_id = pl.treinador_id) tp
+            on tp."time" = ip."time" and ip.integra_time = TRUE) pkk
+            on pk.pokemon_id = pkk.pokedex;
+        """,(player_id,))
+        return self.cur.fetchall()
+
+    def search_pokemons(self, player_id):
+        self.cur.execute("""
+            select pk.pokemon_id, pk.nome from pokemon pk
+            inner join (select ip.pokedex from inst_pokemon ip
+            inner join (select * from treinador t 
+            inner join (select * from pc p
+            where p.player_id = %s) pl
+            on t.treinador_id = pl.treinador_id) tp
             on tp."time" = ip."time") pkk
             on pk.pokemon_id = pkk.pokedex;
         """,(player_id,))
         return self.cur.fetchall()
+
+
 
     def search_itens(self, player_id):
         self.cur.execute("""
