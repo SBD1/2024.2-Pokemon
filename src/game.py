@@ -133,21 +133,41 @@ class Game:
             lider = self.db.search_lider(local[0][0])
             print(lider[0][4])
             print("\033[31m"+ "="*40)
-            print("iniciando batalha pokemon!".center(40))
+            print("Iniciando batalha pokemon!".center(40))
             print("="*40 + "\033[0m")
-            pokemons_lider = self.db.listar_pokemons_lider(local[0][0])
             index_lider = 0
             index_pc = 0
             lider = self.db.search_lider(local[0][0])
             while True:
                 pokemons_time = self.db.search_time(self.player_id)
+                pokemons_lider = self.db.listar_pokemons_lider(local[0][0])
+                #print(pokemons_lider[index_lider])
+                
+                if pokemons_lider[index_lider][3] <= 0:
+                    try:
+                        index_lider = index_lider + 1
+                        print(f"Lider trocando para {pokemons_lider[index_lider][1]} ...")
+                    except Exception as e:    
+                        print("Parabens Você ganhou!")
+                        for pokemons in pokemons_lider:
+                            self.db.atualizar_lider(pokemons[1])
+                        break
+                
+                if pokemons_time[index_pc][2] <= 0:
+                    try:
+                        index_pc = index_pc + 1
+                        print(f"trocando seu pokemon para {pokemons_time[index_pc][1]}")
+                    except Exception as e:
+                        print("Que pena você perdeu :(")
+                        break
+
                 print("\033[35m"+ "="*40)
                 print(f"{pokemons_lider[index_lider][0]} de {lider[0][2]}".center(40))
                 print(f"Nivel: {pokemons_lider[index_lider][5]} Vida: {pokemons_lider[index_lider][3]}hp".center(40))
                 print("="*40 + "\033[0m")
                 print("\033[33m"+ "="*40)
                 print(f"{pokemons_time[index_pc][1]} de {self.player_nome}".center(40))
-                print(f"Nivel: {pokemons_time[index_pc][4]} Vida: {pokemons_time[index_pc][2]}".center(40))
+                print(f"Nivel: {pokemons_time[index_pc][4]} Vida: {pokemons_time[index_pc][2]}hp".center(40))
                 print("="*40 + "\033[0m")
 
                 escolha = questionary.select(
@@ -162,18 +182,19 @@ class Game:
                 if escolha == "Correr":
                     print("Você desistiu de sua batalha :(".center(40))
                     break
+
                 if escolha == "Curar um Pokemon":
                     poke_curar = [lista[1]+" ("+str(lista[2])+")" for lista in pokemons_time]
                     escolha_time = questionary.select(
                         "Qual pokemon deseja curar?",
                         choices = poke_curar + ["Nenhum"]
                     ).ask()
-
                     if escolha_time != "Nenhum":
                         chosen_poke = escolha_time.split(" ")
                         index = next((i for i, sublista in enumerate(pokemons_time) if sublista[1] == chosen_poke[0]), -1)
                         print(f"Seu {chosen_poke[0]} foi curado!")
                         self.db.curar_pokemon_index(pokemons_time[index][0])
+
                 if escolha == "Trocar Pokemon atual":
                     poke_troca = [lista[1]+" ("+str(lista[2])+")" for lista in pokemons_time]
                     escolha_time = questionary.select(
@@ -184,6 +205,26 @@ class Game:
                         chosen_poke = escolha_time.split(" ")
                         index = next((i for i, sublista in enumerate(pokemons_time) if sublista[1] == chosen_poke[0]), -1)
                         index_pc = index
+                if escolha == "Atacar":
+                    ataques = self.db.listar_ataques(pokemons_time[index_pc][0])
+                    ataques_lider = self.db.listar_ataques(pokemons_lider[index_lider][1])
+                    ataque = [item[2]+" ("+str(item[3])+")" for item in ataques]
+                    ataque_feito = questionary.select(
+                            "Escolha o ataque a ser feito",
+                            choices = ataque + ["Nenhum"]
+                    ).ask()
+                    if ataque_feito != "Nenhum":
+                        atacado = ataque_feito.split("(")
+                        ataque = atacado[0].rstrip()
+                        index = next((i for i, sublista in enumerate(ataques) if sublista[2] == ataque), -1)
+                        if ataques[index][3]:
+                            self.db.ataque_pokemon(pokemons_lider[index_lider][1],ataques[index][3])
+                        print(f"{pokemons_time[index_pc][1]} usou {ataque} que da {ataques[index][3]} de dano")
+                        print(f"{pokemons_lider[index_lider][0]} usou {ataques_lider[0][2]} que da {ataques_lider[0][3]} de dano")
+                        #print(pokemons_time[index_pc])
+                        self.db.ataque_pokemon(pokemons_time[index_pc][0],ataques_lider[0][3])
+
+
     def interagir_pokemart(self):
         while True:
             choice = questionary.select(

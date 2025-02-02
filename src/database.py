@@ -304,7 +304,36 @@ class Database:
             where inst_pokemon = %s
         """,(poke_id,))
         self.conn.commit()
-        
+
+    def ataque_pokemon(self, poke_id, dano):
+        self.cur.execute("""
+            update inst_pokemon
+            set vida_atual = vida_atual - %s
+            where inst_pokemon = %s
+        """,(dano,poke_id))
+        self.conn.commit()
+    
+    def listar_ataques(self, poke_id):
+        self.cur.execute("""
+            select * from tipo t
+            inner join (select gp.nome, gp.dano, gp.precisao, gt.tipo_id from golpe_tipo gt 
+            inner join (select g.golpe_id, g.nome, g.precisao, g.dano from golpe g 
+            inner join (select * from pokemon_golpe pg 
+            where pg.pokemon_id = %s) p
+            on g.golpe_id = p.golpe_id) gp
+            on gp.golpe_id = gt.golpe_id) g
+            on t.tipo_id = g.tipo_id
+            order by g.tipo_id;
+        """,(poke_id,))
+        return self.cur.fetchall()
+
+    def atualizar_lider(self,poke_id):
+        self.cur.execute("""
+            update inst_pokemon
+            set vida_atual = 100
+            where inst_pokemon = %s
+        """,(poke_id,))
+        self.conn.commit()
         
         
    
