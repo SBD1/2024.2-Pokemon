@@ -137,21 +137,48 @@ class Database:
         """,(player_id,))
         return self.cur.fetchall()
 
+    def search_pokemons(self, player_id):
+        self.cur.execute("""
+            select pk.pokemon_id, pk.nome from pokemon pk
+            inner join (select ip.pokedex from inst_pokemon ip
+            inner join (select * from treinador t 
+            inner join (select * from pc p
+            where p.player_id = %s) pl
+            on t.treinador_id = pl.treinador_id) tp
+            on tp."time" = ip."time") pkk
+            on pk.pokemon_id = pkk.pokedex;
+        """,(player_id,))
+        return self.cur.fetchall()      
 
 
     def search_itens(self, player_id):
         self.cur.execute("""
-            select mpi.quantidade, imm.tipo from item imm
-            inner join (select * from inst_item ii 
-            inner join (select m.mochila_id from mochila m
+            select pk.pokemon_id, pk.nome from pokemon pk
+            inner join (select ip.pokedex from inst_pokemon ip
+            inner join (select * from treinador t 
             inner join (select * from pc p
-            inner join treinador t
-            on p.treinador_id = t.treinador_id and p.player_id = %s) pt
-            on pt.mochila = m.mochila_id) mp
-            on mp.mochila_id = ii.mochila) mpi
-            on imm.item_id = mpi.item;
+            where p.player_id = %s) pl
+            on t.treinador_id = pl.treinador_id) tp
+            on tp."time" = ip."time") pkk
+            on pk.pokemon_id = pkk.pokedex;
         """,(player_id,))
         return self.cur.fetchall()
+    
+    def search_itens(self, player_id):
+            self.cur.execute("""
+                SELECT i.item_id, i.tipo, ii.quantidade
+                FROM inst_item ii
+                JOIN item i ON ii.item = i.item_id
+                WHERE ii.mochila = (
+                    SELECT mochila FROM treinador
+                    WHERE treinador_id = (
+                        SELECT treinador_id FROM pc
+                        WHERE player_id = %s
+                    )
+                );
+            """, (player_id,))
+            return self.cur.fetchall()
+    
     def consulta_local(self, player_id):
         self.cur.execute("""
             select l.local_id,l.nome_cidade,l.nome_local,l.tipo_local from local_ l 
@@ -175,3 +202,71 @@ class Database:
             )
         """, (player_id,))
         self.conn.commit()
+        
+    def get_pokemart_items(self):
+        self.cur.execute("""
+            SELECT item_id, tipo, preco FROM item;
+        """)
+        return self.cur.fetchall()
+
+    def get_player_coins(self, player_id):
+        self.cur.execute("""
+            SELECT moedas FROM pc WHERE player_id = %s;
+        """, (player_id,))
+        return self.cur.fetchone()['moedas']
+
+    def buy_item(self, player_id, item_id, item_price):
+        try:
+            # Verificar saldo do jogador
+            self.cur.execute("""
+                SELECT moedas FROM pc WHERE player_id = %s;
+            """, (player_id,))
+            moedas = self.cur.fetchone()['moedas']
+            
+            if moedas < item_price:
+                return False, "Saldo insuficiente"
+            
+            # Atualizar saldo do jogador
+            self.cur.execute("""
+                UPDATE pc SET moedas = moedas - %s WHERE player_id = %s;
+            """, (item_price, player_id))
+            
+            # Adicionar item na mochila
+            self.cur.execute("""
+                INSERT INTO inst_item (quantidade, mochila, item)
+                VALUES (1, (SELECT mochila FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s)), %s)
+                ON CONFLICT (mochila, item) DO UPDATE SET quantidade = inst_item.quantidade + 1;
+            """, (player_id, item_id))
+            
+            self.conn.commit()
+            return True, "Item comprado com sucesso"
+        except Exception as e:
+            self.conn.rollback()
+            return False, str(e)
+
+    def sell_item(self, player_id, item_id):
+        try:
+            # Verificar quantidade do item na mochila
+            self.cur.execute("""
+                SELECT quantidade FROM inst_item WHERE mochila = (SELECT mochila FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s)) AND item = %s;
+            """, (player_id, item_id))
+            quantidade = self.cur.fetchone()['quantidade']
+            
+            if quantidade <= 0:
+                return False, "Item não disponível na mochila"
+            
+            # Atualizar quantidade do item na mochila
+            self.cur.execute("""
+                UPDATE inst_item SET quantidade = quantidade - 1 WHERE mochila = (SELECT mochila FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s)) AND item = %s;
+            """, (player_id, item_id))
+            
+            # Atualizar saldo do jogador
+            self.cur.execute("""
+                UPDATE pc SET moedas = moedas + (SELECT preco FROM item WHERE item_id = %s) WHERE player_id = %s;
+            """, (item_id, player_id))
+            
+            self.conn.commit()
+            return True, "Item vendido com sucesso"
+        except Exception as e:
+            self.conn.rollback()
+            return False, str(e)

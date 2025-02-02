@@ -219,6 +219,7 @@ CREATE TABLE Mochila(
 CREATE TABLE item(
 	item_id int NOT NULL,
 	tipo varchar(50) NOT NULL,
+	preco int NOT NULL,
 	CONSTRAINT pk_item
 		PRIMARY KEY (item_id)
 );
@@ -269,6 +270,7 @@ CREATE TABLE PC(
 	treinador_id int NOT NULL,
 	nome varchar(50) NOT NULL,
     num_insigneas int DEFAULT 0,
+	moedas int DEFAULT 0,
 	CONSTRAINT pk_player
 		PRIMARY KEY (player_id),
 	CONSTRAINT fk_treinador

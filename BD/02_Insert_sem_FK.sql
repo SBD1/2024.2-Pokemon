@@ -402,11 +402,11 @@ VALUES
 (16,3);
 
 
-INSERT INTO item (item_id, tipo)
+INSERT INTO item (item_id, tipo, preco)
 VALUES 
-(1, 'Medicina'), 
-(2, 'Pokebola'),
-(3, 'Status');
+(1, 'Medicina', 10), 
+(2, 'Pokebola', 20),
+(3, 'Status', 15);
 
 
 INSERT INTO Pokemon (pokemon_id, status_base, Nome, qtd_tipos, pokedex)
