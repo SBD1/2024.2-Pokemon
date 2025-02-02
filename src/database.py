@@ -273,7 +273,7 @@ class Database:
         self.cur.execute("""
             SELECT ps.selvagem_id, ps.taxa_aparicao, p.nome
             FROM Pokemon_Selvagem ps
-            JOIN Pokemon p ON ps.pokemon_id = p.pokemon_id
+            JOIN Pokemon p ON ps.selvagem_id = p.pokemon_id
             JOIN Surge s ON ps.selvagem_id = s.selvagem_id
             JOIN Zona_de_captura zc ON s.zona_captura_id = zc.zona_de_captura_id
             WHERE zc.local_id = %s;

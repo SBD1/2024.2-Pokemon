@@ -113,7 +113,12 @@ class Game:
                                 print(f"\033[91m{message}\033[0m")
                         elif action == "Fugir":
                             print("Você fugiu do Pokémon selvagem.")
-                        break
+                            continue_exploring = questionary.select(
+                            "Deseja continuar explorando?",
+                            choices=["Sim", "Não"]
+                        ).ask()
+                            if continue_exploring == "Não":
+                                break
             else:
                 print("Nenhum Pokémon selvagem encontrado nesta área.")
     
