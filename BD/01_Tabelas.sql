@@ -90,8 +90,8 @@ CREATE TABLE Time_Principal(
 	time_princ_id int NOT NULL,
 	ordem int NOT NULL
 	CHECK (ordem >= 1 AND ordem <= 6),
-	CONSTRAINT pk_time_princ
-		PRIMARY KEY (time_princ_id)
+		CONSTRAINT pk_time_princ
+			PRIMARY KEY (time_princ_id)
 ); 
 
 CREATE TABLE Pokemon_Selvagem(
@@ -220,7 +220,7 @@ CREATE TABLE item(
 	item_id int NOT NULL,
 	tipo varchar(50) NOT NULL,
 	preco int NOT NULL,
-	CONSTRAINT pk_itemg
+	CONSTRAINT pk_item
 		PRIMARY KEY (item_id)
 );
 
@@ -332,7 +332,7 @@ CREATE TABLE pokemon_golpe(
 			REFERENCES golpe (golpe_id),
 	CONSTRAINT fk_pokemon
 		FOREIGN KEY (pokemon_id)
-			REFERENCES pokemon (pokemon_id)
+			REFERENCES inst_pokemon (inst_pokemon)
 );
 
 CREATE TABLE eficacia_tipo(
@@ -617,3 +617,5 @@ ADD nivel INT;
 ALTER TABLE mochila
 ALTER COLUMN item DROP NOT NULL;
 
+alter table inst_pokemon
+add column integra_time bool default false;
