@@ -215,13 +215,17 @@ VALUES
 (21, 'evolucao', 40);
 
 
-INSERT INTO Pokemon_selvagem (selvagem_id,  taxa_aparicao)
+INSERT INTO Pokemon_selvagem (selvagem_id, taxa_aparicao)
 VALUES 
-(1, 0),
-(2, 0.25),
-(3, 0.5),
-(4, 0.75),
-(5, 0.85);
+(1, 0.25),  -- Bulbasaur
+(2, 0.15),  -- Ivysaur
+(3, 0.10),  -- Venusaur
+(4, 0.20),  -- Charmander
+(5, 0.15),  -- Charmeleon
+(6, 0.10),  -- Charizard
+(7, 0.25),  -- Squirtle
+(8, 0.15),  -- Wartortle
+(9, 0.10);  -- Blastoise
 
 
 INSERT INTO Pokedex (pokedex_id, num_pokedex)
@@ -975,7 +979,9 @@ VALUES
 
 INSERT INTO Zona_de_captura(zona_de_captura_id, chance_surgimento, local_id)
 VALUES
-(1, 1, 4);
+(1, 0.5, 4),  -- Rota1 Pallet Town
+(2, 0.5, 5),  -- Rota21 Pallet Town
+(3, 0.5, 6);  -- Rota2 Viridian City
 
 INSERT INTO Pokemart(pokemart_id, qtd_npcs, local_id)
 VALUES
@@ -1060,10 +1066,15 @@ VALUES
 
 INSERT INTO Surge(zona_captura_id, selvagem_id)
 VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(1, 4);
+(1, 1),  -- Bulbasaur na Rota1
+(1, 2),  -- Ivysaur na Rota1
+(1, 3),  -- Venusaur na Rota1
+(2, 4),  -- Charmander na Rota21
+(2, 5),  -- Charmeleon na Rota21
+(2, 6),  -- Charizard na Rota21
+(3, 7),  -- Squirtle na Rota2
+(3, 8),  -- Wartortle na Rota2
+(3, 9);  -- Blastoise na Rota2
 
 INSERT INTO caminho_item(caminho_id, inst_item_id)
 VALUES
