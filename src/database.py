@@ -405,4 +405,13 @@ class Database:
         except Exception as e:
             self.conn.rollback()
             return False, str(e)
-   
+
+
+    def ganhar_moeda(self,player_id,qtd_moeda):
+        self.cur.execute("""
+            update pc
+            set moedas = moedas + %s
+            where player_id = %s;
+        """,(qtd_moeda,player_id))
+        self.conn.commit()
+

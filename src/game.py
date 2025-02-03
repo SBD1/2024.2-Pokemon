@@ -185,6 +185,7 @@ class Game:
                         print(f"Lider trocando para {pokemons_lider[index_lider][1]} ...")
                     except Exception as e:    
                         print("Parabens Você ganhou!")
+                        self.db.ganhar_moeda(self.player_id,50)
                         for pokemons in pokemons_lider:
                             self.db.atualizar_lider(pokemons[1])
                         break
