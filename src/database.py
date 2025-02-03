@@ -415,3 +415,19 @@ class Database:
         """,(qtd_moeda,player_id))
         self.conn.commit()
 
+    def add_item_to_player(self, player_id, item_id, quantidade):
+        try:
+            self.cur.execute(
+                """
+                INSERT INTO inst_item (quantidade, mochila, item)
+                VALUES (%s, (SELECT mochila FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s)), %s)
+                ON CONFLICT (mochila, item) DO UPDATE SET quantidade = inst_item.quantidade + %s;
+                """,
+                (quantidade, player_id, item_id, quantidade)
+            )
+            self.conn.commit()
+            return True
+        except Exception as e:
+            self.conn.rollback()
+            print(f"Erro ao adicionar item: {e}")
+            return False

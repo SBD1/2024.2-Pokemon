@@ -388,3 +388,31 @@ class Game:
                 break
         
         self.db.close() 
+
+def new_game(self):
+        player_name = questionary.text("Qual é o seu nome, treinador?").ask()
+        
+        starters = self.db.get_starter_pokemon()
+        starter_choices = [f"{pokemon['nome']} ({pokemon['tipo']})" for pokemon in starters]
+        
+        chosen_starter = questionary.select(
+            "Escolha seu Pokémon inicial:",
+            choices=starter_choices
+        ).ask()
+        
+        starter_id = next(pokemon['pokemon_id'] for pokemon in starters 
+                         if pokemon['nome'] in chosen_starter)
+        
+        if self.db.create_player(player_name, starter_id):
+            print(f"\nParabéns {player_name}! Você escolheu {chosen_starter.split()[0]}!")
+            player_inst = self.db.search_players()
+            self.player_name = player_name
+            resultado = list(filter(lambda x: x[1] == player_name, player_inst))
+            self.player_id = resultado[0][0]
+            
+            self.db.add_item_to_player(self.player_id, item_id=1, quantidade=10)
+            print("Você recebeu 10 Pokébolas para começar sua jornada!")
+            
+            self.game_loop()
+        else:
+            print("Erro ao criar novo jogo!")
