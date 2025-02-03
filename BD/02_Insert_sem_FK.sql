@@ -1002,10 +1002,11 @@ VALUES
 (NULL,0),
 (NULL,0);
 
-INSERT INTO Inst_Pokemon(pokedex, time, experiencia, vida_atual, status, nivel)
+INSERT INTO Inst_Pokemon(inst_pokemon, pokedex, time, experiencia, vida_atual, status, nivel)
 VALUES
-( 1, 1, 0, 100, 'Vivo', 1),
-( 4, 1, 0, 100, 'Vivo', 1);
+( 1, 1, 1, 0, 100, 'Vivo', 1),
+( 2, 4, 1, 0, 100, 'Vivo', 1),
+( 3, 72, 2, 0, 100, 'Vivo', 1);
 
 INSERT INTO integra_ao_time(inst_pokemon_id, time)
 VALUES
@@ -1027,7 +1028,8 @@ VALUES
 
 INSERT INTO NPC(npc_id, treinador_id, nome, nivel_dificuldade, falas)
 VALUES
-(1, 2, 'Professor Carvalho', 0, 'Seja bem vindo a Pallet Town!');
+(1, 3, 'Professor Carvalho', 0, 'Seja bem vindo a Pallet Town!'),
+(2, 2, 'Brook', 1, 'Você enfrentara a minha ira!');
 
 INSERT INTO Utilitario(pocao_id, item_id, nome, taxa_cura, descricao)
 VALUES
@@ -1052,7 +1054,8 @@ VALUES
 (1, 45),
 (2, 26),
 (2, 25),
-(2, 28);
+(2, 28),
+(3, 48);
 
 INSERT INTO Inst_item(Inst_item_id, quantidade, mochila, item)
 VALUES

@@ -166,7 +166,7 @@ class Database:
         return self.cur.fetchall()      
 
 
-    def search_itens(self, player_id):
+    def search_itens_old(self, player_id):
         self.cur.execute("""
             select pk.pokemon_id, pk.nome from pokemon pk
             inner join (select ip.pokedex from inst_pokemon ip
@@ -248,9 +248,10 @@ class Database:
             
             # Adicionar item na mochila
             self.cur.execute("""
-                INSERT INTO inst_item (quantidade, mochila, item)
-                VALUES (1, (SELECT mochila FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s)), %s)
-                ON CONFLICT (mochila, item) DO UPDATE SET quantidade = inst_item.quantidade + 1;
+                update inst_item
+                set quantidade = quantidade + 1,
+	            mochila = (SELECT mochila FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s))
+                where item = %s;
             """, (player_id, item_id))
             
             self.conn.commit()

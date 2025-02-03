@@ -148,7 +148,7 @@ class Game:
         print("-Item-|-qtd-")
         itens = self.db.search_itens(self.player_id)
         for item in itens:
-            print(f"{item[1]} - {item[0]}")
+            print(f"{item[1]} - {item[2]}")
     
     def interagir_local(self):
         local = self.db.consulta_local(self.player_id)
