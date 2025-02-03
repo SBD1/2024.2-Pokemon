@@ -234,6 +234,8 @@ BEFORE INSERT ON Pokecenter
 FOR EACH ROW
 EXECUTE FUNCTION verifica_local_pokecenter();
 
+-------------------------------------------------------------
+
 CREATE OR REPLACE FUNCTION verifica_local_ginasio() 
 RETURNS TRIGGER AS $$
 BEGIN
@@ -257,6 +259,7 @@ BEFORE INSERT ON Ginasio
 FOR EACH ROW
 EXECUTE FUNCTION verifica_local_ginasio();
 
+-------------------------------------------------------------
 CREATE OR REPLACE FUNCTION verifica_local_pokemart() 
 RETURNS TRIGGER AS $$
 BEGIN
@@ -280,6 +283,7 @@ BEFORE INSERT ON Pokemart
 FOR EACH ROW
 EXECUTE FUNCTION verifica_local_pokemart();
 
+-------------------------------------------------------------
 CREATE OR REPLACE FUNCTION verifica_local_caminho() 
 RETURNS TRIGGER AS $$
 BEGIN
@@ -303,6 +307,7 @@ BEFORE INSERT ON Caminho
 FOR EACH ROW
 EXECUTE FUNCTION verifica_local_caminho();
 
+-------------------------------------------------------------
 CREATE OR REPLACE FUNCTION verifica_local_zona_captura() 
 RETURNS TRIGGER AS $$
 BEGIN
@@ -326,5 +331,20 @@ BEFORE INSERT ON Zona_de_captura
 FOR EACH ROW
 EXECUTE FUNCTION verifica_local_zona_captura();
 
+-------------------------------------------------------------
 
+create or replace function verifica_vida() returns trigger as $$
+begin 
+    if new.vida_atual > 100 then 
+        new.vida_atual := 100;
+    elsif new.vida_atual < 0 then
+        new.vida_atual := 0;
+    end if;
+    return new;
+end;
+$$ language plpgsql;
 
+create or replace trigger ajustar_vida
+before update on inst_pokemon
+for each row
+execute function verifica_vida();
