@@ -357,5 +357,51 @@ class Database:
         """,(poke_bool, poke_id))
         self.conn.commit()
         
-        
+    def get_wild_pokemon(self, local_id):
+        self.cur.execute("""
+            SELECT ps.selvagem_id, p.nome, zc.chance_surgimento
+            FROM pokemon_selvagem ps
+            JOIN surge s ON ps.selvagem_id = s.selvagem_id
+            JOIN zona_de_captura zc ON s.zona_captura_id = zc.zona_de_captura_id
+            JOIN pokemon p ON ps.selvagem_id = p.pokemon_id
+            WHERE zc.local_id = %s
+        """, (local_id,))
+        return self.cur.fetchall()
+    
+    def add_pokemon_to_team(self, player_id, pokemon_id):
+        try:
+            # Obter o time do jogador
+            self.cur.execute("""
+                SELECT time FROM treinador WHERE treinador_id = (
+                    SELECT treinador_id FROM pc WHERE player_id = %s
+                )
+            """, (player_id,))
+            time_id = self.cur.fetchone()[0]
+            
+            # Adicionar o Pokémon ao time
+            self.cur.execute("""
+                INSERT INTO inst_pokemon (pokedex, time, experiencia, vida_atual, status, nivel, integra_time)
+                VALUES (%s, %s, 0, 100, 'Vivo', 1, TRUE)
+                RETURNING inst_pokemon
+            """, (pokemon_id, time_id))
+            inst_pokemon_id = self.cur.fetchone()[0]
+            
+            # Associar o Pokémon ao time
+            self.cur.execute("""
+                INSERT INTO integra_ao_time (inst_pokemon_id, time)
+                VALUES (%s, %s)
+            """, (inst_pokemon_id, time_id))
+            
+            # Atualizar quantidade de Pokémon no time
+            self.cur.execute("""
+                UPDATE time 
+                SET qtd_pokemons = qtd_pokemons + 1 
+                WHERE time_id = %s
+            """, (time_id,))
+            
+            self.conn.commit()
+            return True, "Pokémon adicionado ao time com sucesso"
+        except Exception as e:
+            self.conn.rollback()
+            return False, str(e)
    
