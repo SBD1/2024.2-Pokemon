@@ -416,3 +416,21 @@ def new_game(self):
             self.game_loop()
         else:
             print("Erro ao criar novo jogo!")
+
+def level_up_pokemon(self):
+        time = self.db.search_time(self.player_id)
+        if not time:
+            print("Você não tem Pokémon no time!")
+            return
+        
+        pokemons = [f"{pokemon[1]} (Nível {pokemon[4]})" for pokemon in time]
+        chosen_pokemon = questionary.select(
+            "Escolha um Pokémon para subir de nível:",
+            choices=pokemons
+        ).ask()
+        
+        inst_pokemon_id = next(pokemon[0] for pokemon in time if pokemon[1] in chosen_pokemon)
+        if self.db.level_up_pokemon(inst_pokemon_id):
+            print(f"{chosen_pokemon.split()[0]} subiu de nível!")
+        else:
+            print("Erro ao subir de nível.")

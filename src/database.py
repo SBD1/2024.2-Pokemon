@@ -431,3 +431,20 @@ class Database:
             self.conn.rollback()
             print(f"Erro ao adicionar item: {e}")
             return False
+        
+    def level_up_pokemon(self, inst_pokemon_id):
+        try:
+            self.cur.execute(
+                """
+                UPDATE inst_pokemon
+                SET nivel = nivel + 1, experiencia = 0, vida_atual = 100
+                WHERE inst_pokemon = %s;
+                """,
+                (inst_pokemon_id,)
+            )
+            self.conn.commit()
+            return True
+        except Exception as e:
+            self.conn.rollback()
+            print(f"Erro ao subir de nível: {e}")
+            return False
