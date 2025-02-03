@@ -1,7 +1,7 @@
 import questionary
 from database import Database
 from art import text2art
-
+import random
 class Game:
     def __init__(self):
         self.db = Database()
@@ -83,6 +83,37 @@ class Game:
                 self.show_bag()
             elif choice == "Sair do Jogo":
                 break
+
+    def encontrar_pokemon_selvagem(self, local_id):
+        wild_pokemons = self.db.get_wild_pokemon(local_id)
+        for pokemon in wild_pokemons:
+            if random.random() <= pokemon['chance_surgimento']:
+                print("\033[94m" + "="*40)
+                print(f"Um Pokémon selvagem {pokemon['nome']} apareceu!".center(40))
+                print("="*40 + "\033[0m")
+                escolha = questionary.select(
+                    "O que deseja fazer?",
+                    choices=[
+                        "Capturar",
+                        "Fugir"
+                    ]
+                ).ask()
+                
+                if escolha == "Capturar":
+                    success, message = self.db.add_pokemon_to_team(self.player_id, pokemon['selvagem_id'])
+                    if success:
+                        print("\033[92m" + "="*40)
+                        print(f"Você capturou {pokemon['nome']}!".center(40))
+                        print("="*40 + "\033[0m")
+                    else:
+                        print("\033[91m" + "="*40)
+                        print(f"Erro ao capturar Pokémon: {message}".center(40))
+                        print("="*40 + "\033[0m")
+                elif escolha == "Fugir":
+                    print("\033[93m" + "="*40)
+                    print("Você fugiu do Pokémon selvagem.".center(40))
+                    print("="*40 + "\033[0m")
+                break
     
     def explore(self):
         locations = self.db.get_locations(self.player_id)
@@ -96,8 +127,10 @@ class Game:
         if chosen_location != "Voltar":
             chosen_index = location_choices.index(chosen_location)
             print(f"Explorando {chosen_location}...")
-            self.db.mudar_loc(locations[chosen_index][0],self.player_id)
+            self.db.mudar_loc(locations[chosen_index][0], self.player_id)
+            
             # Implementar lógica de encontros com Pokémon selvagens
+            self.encontrar_pokemon_selvagem(locations[chosen_index][0])
     
     def show_team(self):
         time = self.db.search_time(self.player_id)
