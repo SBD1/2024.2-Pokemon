@@ -78,8 +78,8 @@ A disciplina Sistema de Banco de Dados 1 aborda os seguintes tópicos:
 - [Modelo Relacional](https://github.com/SBD1/2024.2-Pokemon/blob/main/docs/Entrega%201/MREL.md)
 
 ### Entrega 2
-- [Data Definition Language](https://github.com/SBD1/2024.2-Pokemon/blob/main/BD/01_Tabelas.sql)
-- [Data Manipulation Language](https://github.com/SBD1/2024.2-Pokemon/blob/main/BD/02_Insert_sem_FK.sql)
+- [Data Definition Language](https://github.com/SBD1/2024.2-Pokemon/blob/main/BD/init/01_Tabelas.sql)
+- [Data Manipulation Language](https://github.com/SBD1/2024.2-Pokemon/blob/main/BD/init/02_Insert_sem_FK.sql)
 - [Data Query Language](https://github.com/SBD1/2024.2-Pokemon/blob/main/BD/03_Consultas.sql)
 
 
