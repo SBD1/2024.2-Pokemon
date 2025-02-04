@@ -148,7 +148,11 @@ class Game:
         print("-Item-|-qtd-")
         itens = self.db.search_itens(self.player_id)
         for item in itens:
-            print(f"{item[1]} - {item[2]}")
+            print(f"{item[1]} - {item[0]}")
+        
+        # Mostrar quantidade de Pokébolas
+        pokeball_count = self.db.get_pokeball_count(self.player_id)
+        print(f"\nVocê possui {pokeball_count} Pokébolas.")
     
     def interagir_local(self):
         local = self.db.consulta_local(self.player_id)
@@ -185,7 +189,6 @@ class Game:
                         print(f"Lider trocando para {pokemons_lider[index_lider][1]} ...")
                     except Exception as e:    
                         print("Parabens Você ganhou!")
-                        self.db.ganhar_moeda(self.player_id,50)
                         for pokemons in pokemons_lider:
                             self.db.atualizar_lider(pokemons[1])
                         break

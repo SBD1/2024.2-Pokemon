@@ -619,3 +619,6 @@ ALTER COLUMN item DROP NOT NULL;
 
 alter table inst_pokemon
 add column integra_time bool default false;
+
+ALTER TABLE Mochila
+ADD COLUMN pokebolas INT DEFAULT 0;
