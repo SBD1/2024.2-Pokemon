@@ -229,7 +229,7 @@ VALUES
 (6, 0.10),  -- Charizard
 (7, 0.25),  -- Squirtle
 (8, 0.15),  -- Wartortle
-(9, 0.10);  -- Blastoise
+(9, 0.10),  -- Blastoise
 (10, 0.30),  -- Caterpie
 (11, 0.25),  -- Metapod
 (12, 0.20),  -- Butterfree
@@ -1124,43 +1124,12 @@ VALUES
 
 INSERT INTO Pokemon_golpe(pokemon_id, golpe_id)
 VALUES
-(1, 21), -- Bulbasaur
+(1, 21),
 (1, 24),
 (1, 45),
-(4, 1), -- Charmander
-(4, 32),
-(4, 61),
-(7, 61), -- Squirtle
-(7, 12), -- Squirtle
-(7, 14), -- Squirtle
-(25, 17), -- Pikachu
-(25, 18), -- Pikachu
-(25, 61), -- Pikachu
-(16, 61), -- Pidgey
-(19, 61), -- Rattata
-(19, 30), -- Rattata
-(76, 61), -- Magikarp
-(60, 12), -- Poliwag
-(76, 62), -- Gastly
-(17, 61), -- Pidgeotto
-(17, 63), -- Pidgeotto
-(20, 61), -- Raticate
-(20, 30), -- Raticate
-(20, 63), -- Raticate
-(37, 1), -- Vulpix
-(37, 38), -- Vulpix
-(37, 63), -- Vulpix
-(79, 38), -- Mewtwo
-(79, 64), -- Mewtwo
-(10, 61), -- Cartepie
-(10, 58), -- Cartepie
-(29, 46), -- Nidoran
-(20, 46), -- Nidorano
-(13, 46), -- Weedle
-(13, 58), -- Weedle
-(50, 63), -- Digglet
-(51, 63), -- Dugtrio
-(80, 61); -- Dratini
+(2, 26),
+(2, 25),
+(2, 28);
 
 INSERT INTO Inst_item(Inst_item_id, quantidade, mochila, item)
 VALUES
