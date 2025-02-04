@@ -148,7 +148,11 @@ class Game:
         print("-Item-|-qtd-")
         itens = self.db.search_itens(self.player_id)
         for item in itens:
-            print(f"{item[1]} - {item[2]}")
+            print(f"{item[1]} - {item[0]}")
+        
+        # Mostrar quantidade de Pokébolas
+        pokeball_count = self.db.get_pokeball_count(self.player_id)
+        print(f"\nVocê possui {pokeball_count} Pokébolas.")
     
     def interagir_local(self):
         local = self.db.consulta_local(self.player_id)
@@ -185,7 +189,6 @@ class Game:
                         print(f"Lider trocando para {pokemons_lider[index_lider][1]} ...")
                     except Exception as e:    
                         print("Parabens Você ganhou!")
-                        self.db.ganhar_moeda(self.player_id,50)
                         for pokemons in pokemons_lider:
                             self.db.atualizar_lider(pokemons[1])
                         break
@@ -388,49 +391,3 @@ class Game:
                 break
         
         self.db.close() 
-
-def new_game(self):
-        player_name = questionary.text("Qual é o seu nome, treinador?").ask()
-        
-        starters = self.db.get_starter_pokemon()
-        starter_choices = [f"{pokemon['nome']} ({pokemon['tipo']})" for pokemon in starters]
-        
-        chosen_starter = questionary.select(
-            "Escolha seu Pokémon inicial:",
-            choices=starter_choices
-        ).ask()
-        
-        starter_id = next(pokemon['pokemon_id'] for pokemon in starters 
-                         if pokemon['nome'] in chosen_starter)
-        
-        if self.db.create_player(player_name, starter_id):
-            print(f"\nParabéns {player_name}! Você escolheu {chosen_starter.split()[0]}!")
-            player_inst = self.db.search_players()
-            self.player_name = player_name
-            resultado = list(filter(lambda x: x[1] == player_name, player_inst))
-            self.player_id = resultado[0][0]
-            
-            self.db.add_item_to_player(self.player_id, item_id=1, quantidade=10)
-            print("Você recebeu 10 Pokébolas para começar sua jornada!")
-            
-            self.game_loop()
-        else:
-            print("Erro ao criar novo jogo!")
-
-def level_up_pokemon(self):
-        time = self.db.search_time(self.player_id)
-        if not time:
-            print("Você não tem Pokémon no time!")
-            return
-        
-        pokemons = [f"{pokemon[1]} (Nível {pokemon[4]})" for pokemon in time]
-        chosen_pokemon = questionary.select(
-            "Escolha um Pokémon para subir de nível:",
-            choices=pokemons
-        ).ask()
-        
-        inst_pokemon_id = next(pokemon[0] for pokemon in time if pokemon[1] in chosen_pokemon)
-        if self.db.level_up_pokemon(inst_pokemon_id):
-            print(f"{chosen_pokemon.split()[0]} subiu de nível!")
-        else:
-            print("Erro ao subir de nível.")

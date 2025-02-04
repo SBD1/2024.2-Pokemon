@@ -48,55 +48,41 @@ class Database:
             """)
             time_id = self.cur.fetchone()[0]
             
-            # Criar mochila
+            # Criar mochila com 5 Pokébolas
             self.cur.execute("""
-                INSERT INTO mochila (pokedex_id, qtd_itens, item) 
-                VALUES (%s, 1, 1) 
+                INSERT INTO mochila (qtd_itens, pokebolas) 
+                VALUES (0, 5) 
                 RETURNING mochila_id
-            """,(starter_pokemon_id,))
+            """)
             mochila_id = self.cur.fetchone()[0]
             
             # Criar treinador
             self.cur.execute("""
-                INSERT INTO treinador (time, mochila, local_id, tipo_treinador) 
-                VALUES (%s, %s, 0, 'Player') 
+                INSERT INTO treinador (time, mochila, local_id, tipo_treinador)
+                VALUES (%s, %s, 0, 'player') 
                 RETURNING treinador_id
             """, (time_id, mochila_id))
             treinador_id = self.cur.fetchone()[0]
             
-            # Criar PC (player)
+            # Criar jogador
             self.cur.execute("""
-                INSERT INTO pc (treinador_id, nome, num_insigneas)
-                VALUES (%s, %s, 0)
+                INSERT INTO pc (treinador_id, nome)
+                VALUES (%s, %s)
             """, (treinador_id, name))
             
-            # Criar instância do Pokémon inicial
+            # Adicionar Pokémon inicial ao time
             self.cur.execute("""
                 INSERT INTO inst_pokemon (pokedex, time, experiencia, vida_atual, status, nivel)
                 VALUES (%s, %s, 0, 100, 'Vivo', 1)
-                RETURNING inst_pokemon
             """, (starter_pokemon_id, time_id))
-            inst_pokemon_id = self.cur.fetchone()[0]
-            
-            # Associar o Pokémon inicial ao time
-            self.cur.execute("""
-                INSERT INTO integra_ao_time (inst_pokemon_id, time)
-                VALUES (%s, %s)
-            """, (inst_pokemon_id, time_id))
-            
-            # Atualizar quantidade de Pokémon no time
-            self.cur.execute("""
-                UPDATE time 
-                SET qtd_pokemons = 1 
-                WHERE time_id = %s
-            """, (time_id,))
             
             self.conn.commit()
             return True
         except Exception as e:
-            print(f"Erro ao criar jogador: {e}")
             self.conn.rollback()
+            print(f"Erro ao criar jogador: {e}")
             return False
+        
     def mudar_loc(self,new_loc,player_id):
         self.cur.execute("""
             UPDATE treinador
@@ -166,7 +152,7 @@ class Database:
         return self.cur.fetchall()      
 
 
-    def search_itens_old(self, player_id):
+    def search_itens(self, player_id):
         self.cur.execute("""
             select pk.pokemon_id, pk.nome from pokemon pk
             inner join (select ip.pokedex from inst_pokemon ip
@@ -248,10 +234,9 @@ class Database:
             
             # Adicionar item na mochila
             self.cur.execute("""
-                update inst_item
-                set quantidade = quantidade + 1,
-	            mochila = (SELECT mochila FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s))
-                where item = %s;
+                INSERT INTO inst_item (quantidade, mochila, item)
+                VALUES (1, (SELECT mochila FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s)), %s)
+                ON CONFLICT (mochila, item) DO UPDATE SET quantidade = inst_item.quantidade + 1;
             """, (player_id, item_id))
             
             self.conn.commit()
@@ -405,46 +390,15 @@ class Database:
         except Exception as e:
             self.conn.rollback()
             return False, str(e)
-
-
-    def ganhar_moeda(self,player_id,qtd_moeda):
-        self.cur.execute("""
-            update pc
-            set moedas = moedas + %s
-            where player_id = %s;
-        """,(qtd_moeda,player_id))
-        self.conn.commit()
-
-    def add_item_to_player(self, player_id, item_id, quantidade):
-        try:
-            self.cur.execute(
-                """
-                INSERT INTO inst_item (quantidade, mochila, item)
-                VALUES (%s, (SELECT mochila FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s)), %s)
-                ON CONFLICT (mochila, item) DO UPDATE SET quantidade = inst_item.quantidade + %s;
-                """,
-                (quantidade, player_id, item_id, quantidade)
-            )
-            self.conn.commit()
-            return True
-        except Exception as e:
-            self.conn.rollback()
-            print(f"Erro ao adicionar item: {e}")
-            return False
         
-    def level_up_pokemon(self, inst_pokemon_id):
-        try:
-            self.cur.execute(
-                """
-                UPDATE inst_pokemon
-                SET nivel = nivel + 1, experiencia = 0, vida_atual = 100
-                WHERE inst_pokemon = %s;
-                """,
-                (inst_pokemon_id,)
-            )
-            self.conn.commit()
-            return True
-        except Exception as e:
-            self.conn.rollback()
-            print(f"Erro ao subir de nível: {e}")
-            return False
+    def get_pokeball_count(self, player_id):
+        self.cur.execute("""
+            SELECT m.pokebolas
+            FROM mochila m
+            JOIN treinador t ON m.mochila_id = t.mochila
+            JOIN pc p ON t.treinador_id = p.treinador_id
+            WHERE p.player_id = %s
+        """, (player_id,))
+        result = self.cur.fetchone()
+        return result[0] if result else 0
+   
