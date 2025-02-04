@@ -348,3 +348,21 @@ create or replace trigger ajustar_vida
 before update on inst_pokemon
 for each row
 execute function verifica_vida();
+
+-----------------------------------------------------------------
+
+create or replace function cria_itens_pc() returns trigger as $$
+begin 
+    if new.mochila is not null then 
+        insert into inst_item(quantidade, mochila, item) values (0, new.mochila, 0);
+        insert into inst_item(quantidade, mochila, item) values (0, new.mochila, 1);
+        insert into inst_item(quantidade, mochila, item) values (0, new.mochila, 2);
+    end if;
+    return new;
+end;
+$$ language plpgsql;
+
+create or replace trigger cria_itens_tg
+after insert on treinador
+for each row 
+execute function cria_itens_pc();
