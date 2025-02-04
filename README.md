@@ -88,4 +88,5 @@ A disciplina Sistema de Banco de Dados 1 aborda os seguintes tópicos:
 | Módulo | Link da Gravação                               |
 |--------|------------------------------------------------|
 | 1      | [Apresentação Módulo 1](https://www.youtube.com/watch?v=WyXHYP3-kAY) |
-| 2      | [Apresentação Módulo 2](https://www.youtube.com/watch?v=k7r0S6V5kNg&feature=youtu.be)  |   
+| 2      | [Apresentação Módulo 2](https://www.youtube.com/watch?v=k7r0S6V5kNg&feature=youtu.be)  |
+| 3      | [Apresentação Módulo 3](https://youtu.be/xWNWN2ZesJM) | 
