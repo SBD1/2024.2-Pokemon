@@ -187,7 +187,11 @@ VALUES
 (57, 'Pin Missile', 'Fisico', 25, 0.95, 20, 'Acerta 2-5 vezes em um único turno.'),
 (58, 'String Shot', 'Status', NULL, 0.95, 40, 'Reduz drasticamente a Velocidade do oponente.'),
 (59, 'Twineedle', 'Fisico', 25, 1.00, 20, 'Acerta duas vezes em um único turno. Pode envenenar o oponente.'),
-(60, 'Blizzard', 'Especial', 110, 0.70, 20, 'Pode congelar o oponente');
+(60, 'Blizzard', 'Especial', 110, 0.70, 20, 'Pode congelar o oponente'),
+(61, 'Tackle', 'Fisico', 100, 1.00, 35, 'Aplica dano'),
+(62, 'Lick', 'Fisico', 30, 1.00, 30, 'Aplica dano'),
+(63, 'Quick Attack', 'Fisico', 40, 1.00, 30, 'Aplica dano'),
+(64, 'Psycho Cut', 'Fisico', 70, 1.00, 20, 'Aplica dano');
 
 
 INSERT INTO Metodo (metodo_id, nome, Nivel)
@@ -226,6 +230,79 @@ VALUES
 (7, 0.25),  -- Squirtle
 (8, 0.15),  -- Wartortle
 (9, 0.10);  -- Blastoise
+(10, 0.30),  -- Caterpie
+(11, 0.25),  -- Metapod
+(12, 0.20),  -- Butterfree
+(13, 0.30),  -- Weedle
+(14, 0.25),  -- Kakuna
+(15, 0.20),  -- Beedrill
+(16, 0.30),  -- Pidgey
+(17, 0.20),  -- Pidgeotto
+(18, 0.15),  -- Pidgeot
+(19, 0.35),  -- Rattata
+(20, 0.20),  -- Raticate
+(21, 0.30),  -- Spearow
+(22, 0.20),  -- Fearow
+(23, 0.25),  -- Ekans
+(24, 0.15),  -- Arbok
+(25, 0.30),  -- Pikachu
+(26, 0.20),  -- Raichu
+(27, 0.25),  -- Sandshrew
+(28, 0.20),  -- Sandslash
+(29, 0.30),  -- Nidoran♀
+(30, 0.20),  -- Nidorina
+(31, 0.15),  -- Nidoqueen
+(32, 0.30),  -- Nidoran♂
+(33, 0.20),  -- Nidorino
+(34, 0.15),  -- Nidoking
+(35, 0.25),  -- Clefairy
+(36, 0.20),  -- Clefable
+(37, 0.25),  -- Vulpix
+(38, 0.20),  -- Ninetales
+(39, 0.30),  -- Jigglypuff
+(40, 0.20),  -- Wigglytuff
+(41, 0.30),  -- Zubat
+(42, 0.20),  -- Golbat
+(43, 0.25),  -- Oddish
+(44, 0.20),  -- Gloom
+(45, 0.15),  -- Vileplume
+(46, 0.30),  -- Paras
+(47, 0.20),  -- Parasect
+(48, 0.25),  -- Venonat
+(49, 0.20),  -- Venomoth
+(50, 0.30),  -- Diglett
+(51, 0.20),  -- Dugtrio
+(52, 0.30),  -- Meowth
+(53, 0.20),  -- Persian
+(54, 0.30),  -- Psyduck
+(55, 0.20),  -- Golduck
+(56, 0.25),  -- Mankey
+(57, 0.20),  -- Primeape
+(58, 0.25),  -- Growlithe
+(59, 0.20),  -- Arcanine
+(60, 0.30),  -- Poliwag
+(61, 0.20),  -- Poliwhirl
+(62, 0.15),  -- Poliwrath
+(63, 0.30),  -- Abra
+(64, 0.20),  -- Kadabra
+(65, 0.15),  -- Alakazam
+(66, 0.30),  -- Machop
+(67, 0.20),  -- Machoke
+(68, 0.15),  -- Machamp
+(69, 0.25),  -- Gastly
+(70, 0.20),  -- Haunter
+(71, 0.15),  -- Gengar
+(72, 0.20),  -- Onix
+(73, 0.30),  -- Cubone
+(74, 0.20),  -- Marowak
+(75, 0.15),  -- Gyarados
+(76, 0.35),  -- Magikarp
+(77, 0.15),  -- Lapras
+(78, 0.10),  -- Mew
+(79, 0.05),  -- Mewtwo
+(80, 0.25),  -- Dratini
+(81, 0.20),  -- Dragonair
+(82, 0.10);  -- Dragonite
 
 
 INSERT INTO Pokedex (pokedex_id, num_pokedex)
@@ -1047,12 +1124,43 @@ VALUES
 
 INSERT INTO Pokemon_golpe(pokemon_id, golpe_id)
 VALUES
-(1, 21),
+(1, 21), -- Bulbasaur
 (1, 24),
 (1, 45),
-(2, 26),
-(2, 25),
-(2, 28);
+(4, 1), -- Charmander
+(4, 32),
+(4, 61),
+(7, 61), -- Squirtle
+(7, 12), -- Squirtle
+(7, 14), -- Squirtle
+(25, 17), -- Pikachu
+(25, 18), -- Pikachu
+(25, 61), -- Pikachu
+(16, 61), -- Pidgey
+(19, 61), -- Rattata
+(19, 30), -- Rattata
+(76, 61), -- Magikarp
+(60, 12), -- Poliwag
+(76, 62), -- Gastly
+(17, 61), -- Pidgeotto
+(17, 63), -- Pidgeotto
+(20, 61), -- Raticate
+(20, 30), -- Raticate
+(20, 63), -- Raticate
+(37, 1), -- Vulpix
+(37, 38), -- Vulpix
+(37, 63), -- Vulpix
+(79, 38), -- Mewtwo
+(79, 64), -- Mewtwo
+(10, 61), -- Cartepie
+(10, 58), -- Cartepie
+(29, 46), -- Nidoran
+(20, 46), -- Nidorano
+(13, 46), -- Weedle
+(13, 58), -- Weedle
+(50, 63), -- Digglet
+(51, 63), -- Dugtrio
+(80, 61); -- Dratini
 
 INSERT INTO Inst_item(Inst_item_id, quantidade, mochila, item)
 VALUES
@@ -1067,14 +1175,34 @@ VALUES
 INSERT INTO Surge(zona_captura_id, selvagem_id)
 VALUES
 (1, 1),  -- Bulbasaur na Rota1
-(1, 2),  -- Ivysaur na Rota1
-(1, 3),  -- Venusaur na Rota1
-(2, 4),  -- Charmander na Rota21
-(2, 5),  -- Charmeleon na Rota21
-(2, 6),  -- Charizard na Rota21
-(3, 7),  -- Squirtle na Rota2
-(3, 8),  -- Wartortle na Rota2
-(3, 9);  -- Blastoise na Rota2
+(1, 4),  -- Charmander na Rota1
+(1, 7),  -- Squirtle na Rota1
+(1, 25),  -- Pikachu na Rota1
+(1, 16),  -- Pidgey na Rota1
+(1, 19),  -- Rattata na Rota1
+(1, 76),  -- Magikarp na Rota1
+(1, 60),  -- Poliwag na Rota1
+(1, 69),  -- Gastly na Rota1
+(2, 16),  -- Pidgey na Rota21
+(2, 19),  -- Rattata na Rota21
+(2, 17),  -- Pidgeotto na Rota21
+(2, 20),  -- Raticate na Rota21
+(2, 37),  -- Vulpix na Rota21
+(2, 76),  -- Magikarp na Rota21
+(2, 60),  -- Poliwag na Rota21
+(2, 79),  -- Mewtwo na Rota21
+(3, 16),  -- Pidgey na Rota2
+(3, 19),  -- Rattata na Rota2
+(3, 10),  -- Caterpie na Rota2
+(3, 29),  -- Nidoran♀ na Rota2
+(3, 20),  -- Nidorina na Rota2
+(3, 14),  -- Kakuna na Rota2
+(3, 25),  -- Pikachu na Rota2
+(3, 11),  -- Metapod na Rota2
+(3, 13),  -- Weedle na Rota2
+(3, 50),  -- Diglett na Rota2
+(3, 51),  -- Dugtrio na Rota2
+(3, 80);  -- Dratini na Rota2
 
 INSERT INTO caminho_item(caminho_id, inst_item_id)
 VALUES
