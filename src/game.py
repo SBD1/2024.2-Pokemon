@@ -91,28 +91,52 @@ class Game:
                 print("\033[94m" + "="*40)
                 print(f"Um Pokémon selvagem {pokemon['nome']} apareceu!".center(40))
                 print("="*40 + "\033[0m")
-                escolha = questionary.select(
-                    "O que deseja fazer?",
-                    choices=[
-                        "Capturar",
-                        "Fugir"
-                    ]
-                ).ask()
                 
-                if escolha == "Capturar":
-                    success, message = self.db.add_pokemon_to_team(self.player_id, pokemon['selvagem_id'])
-                    if success:
-                        print("\033[92m" + "="*40)
-                        print(f"Você capturou {pokemon['nome']}!".center(40))
+                while True:
+                    pokeball_count = self.db.get_pokeball_count(self.player_id)
+                    print(f"Você possui {pokeball_count} Pokébolas.")
+                    
+                    escolha = questionary.select(
+                        "O que deseja fazer?",
+                        choices=[
+                            "Tentar Capturar",
+                            "Fugir"
+                        ]
+                    ).ask()
+                    
+                    if escolha == "Tentar Capturar":
+                        if pokeball_count > 0:
+                            # Calcular chance de captura
+                            capture_chance = random.random()
+                            if capture_chance <= 0.5:  # 50% de chance de captura
+                                success, message = self.db.add_pokemon_to_team(self.player_id, pokemon['selvagem_id'])
+                                if success:
+                                    print("\033[92m" + "="*40)
+                                    print(f"Você capturou {pokemon['nome']}!".center(40))
+                                    print("="*40 + "\033[0m")
+                                    self.db.update_pokeball_count(self.player_id, -1)
+                                    break
+                                else:
+                                    print("\033[91m" + "="*40)
+                                    print(f"Erro ao capturar Pokémon: {message}".center(40))
+                                    print("="*40 + "\033[0m")
+                            else:
+                                print("\033[93m" + "="*40)
+                                print(f"Você falhou em capturar {pokemon['nome']}.".center(40))
+                                print("="*40 + "\033[0m")
+                            
+                            # Atualizar quantidade de Pokébolas
+                            self.db.update_pokeball_count(self.player_id, -1)
+                        else:
+                            print("\033[91m" + "="*40)
+                            print("Você não tem Pokébolas suficientes!".center(40))
+                            print("="*40 + "\033[0m")
+                            break
+                    elif escolha == "Fugir":
+                        print("\033[93m" + "="*40)
+                        print("Você fugiu do Pokémon selvagem.".center(40))
                         print("="*40 + "\033[0m")
-                    else:
-                        print("\033[91m" + "="*40)
-                        print(f"Erro ao capturar Pokémon: {message}".center(40))
-                        print("="*40 + "\033[0m")
-                elif escolha == "Fugir":
-                    print("\033[93m" + "="*40)
-                    print("Você fugiu do Pokémon selvagem.".center(40))
-                    print("="*40 + "\033[0m")
+                        break
                 break
     
     def explore(self):

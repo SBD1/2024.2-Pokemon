@@ -401,4 +401,18 @@ class Database:
         """, (player_id,))
         result = self.cur.fetchone()
         return result[0] if result else 0
+    
+    def update_pokeball_count(self, player_id, change):
+        self.cur.execute("""
+            UPDATE mochila
+            SET pokebolas = pokebolas + %s
+            WHERE mochila_id = (
+                SELECT mochila FROM treinador
+                WHERE treinador_id = (
+                    SELECT treinador_id FROM pc
+                    WHERE player_id = %s
+                )
+            )
+        """, (change, player_id))
+        self.conn.commit()
    
