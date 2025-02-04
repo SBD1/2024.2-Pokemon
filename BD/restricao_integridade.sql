@@ -3,7 +3,7 @@ RETURNS TRIGGER AS $$
 BEGIN
     IF NEW.item_id NOT IN (SELECT item_id FROM item) THEN
         RAISE EXCEPTION 'Pokebola não foi inserida na tabela item, insira primeiro em Item e depois em Pokebola';
-    ELSE IF NEW.item IN (SELECT item_id FROM Utilitario) THEN
+    ELSIF NEW.item IN (SELECT item_id FROM Utilitario) THEN
         RAISE EXCEPTION 'Pokebola não pode ser inserida pois item já existem em Utilitario';
     END IF;
     RETURN NEW;
@@ -13,7 +13,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER insercao_pokebola
 BEFORE INSERT ON Pokebola
 FOR EACH ROW
-EXECUTE FUNCTION verifica_item_pokebola():
+EXECUTE FUNCTION verifica_item_pokebola();
 
 -------------------------------------------------------------
 CREATE OR REPLACE FUNCTION verifica_item_utilitario() 
@@ -21,7 +21,7 @@ RETURNS TRIGGER AS $$
 BEGIN
     IF NEW.item_id NOT IN (SELECT item_id FROM item) THEN
         RAISE EXCEPTION 'Utilitario não foi inserido na tabela item, insira primeiro em Item e depois em Utilitario';
-    ELSE IF NEW.item IN (SELECT item_id FROM Pokebola) THEN
+    ELSIF NEW.item IN (SELECT item_id FROM Pokebola) THEN
         RAISE EXCEPTION 'Utilitario não pode ser inserido pois item já existe em Pokebola';
     END IF;
     RETURN NEW;
@@ -67,7 +67,7 @@ RETURNS TRIGGER AS $$
 BEGIN 
     IF OLD.item_id IN (SELECT item_id FROM Utilitario) THEN 
         DELETE FROM Utilitario WHERE item_id = OLD.item_id;
-    ELSE IF OLD.item_id IN (SELECT item_id FROM Pokebola) THEN
+    ELSIF OLD.item_id IN (SELECT item_id FROM Pokebola) THEN
         DELETE FROM Pokebola WHERE item_id = OLD.item_id;
     END IF;
     RETURN OLD;
@@ -88,7 +88,7 @@ BEGIN
     ELSIF NEW.treinador_id IN (SELECT treinador_id FROM lider) THEN
         RAISE EXCEPTION 'PC já existe como Líder';
     ELSIF NEW.treinador_id NOT IN (SELECT treinador_id FROM Treinador) THEN
-        RAISE EXCEPTION 'PC precisa primeiro ser adicionado a tabela Treinador'
+        RAISE EXCEPTION 'PC precisa primeiro ser adicionado a tabela Treinador';
     END IF;
     RETURN NEW;
 END;
@@ -108,7 +108,7 @@ BEGIN
     ELSIF NEW.treinador_id IN (SELECT treinador_id FROM lider) THEN
         RAISE EXCEPTION 'Treinador já existe como Líder';
     ELSIF NEW.treinador_id NOT IN (SELECT treinador_id FROM Treinador) THEN
-        RAISE EXCEPTION 'Treinador precisa primeiro ser adicionado a tabela Treinador'
+        RAISE EXCEPTION 'Treinador precisa primeiro ser adicionado a tabela Treinador';
     END IF;
     RETURN NEW;
 END;
@@ -128,7 +128,7 @@ BEGIN
     ELSIF NEW.treinador_id IN (SELECT treinador_id FROM NPC) THEN
         RAISE EXCEPTION 'Treinador já existe como NPC';
     ELSIF NEW.treinador_id NOT IN (SELECT treinador_id FROM Treinador) THEN
-        RAISE EXCEPTION 'Treinador precisa primeiro ser adicionado a tabela Treinador'
+        RAISE EXCEPTION 'Treinador precisa primeiro ser adicionado a tabela Treinador';
     END IF;
     RETURN NEW;
 END;
