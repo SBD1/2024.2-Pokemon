@@ -1,9 +1,7 @@
 CREATE OR REPLACE FUNCTION verifica_item_pokebola() 
 RETURNS TRIGGER AS $$
 BEGIN
-    IF NEW.item_id NOT IN (SELECT item_id FROM item) THEN
-        RAISE EXCEPTION 'Pokebola não foi inserida na tabela item, insira primeiro em Item e depois em Pokebola';
-    ELSIF NEW.item IN (SELECT item_id FROM Utilitario) THEN
+    IF NEW.item_id IN (SELECT item_id FROM Utilitario) THEN
         RAISE EXCEPTION 'Pokebola não pode ser inserida pois item já existem em Utilitario';
     END IF;
     RETURN NEW;
@@ -19,9 +17,7 @@ EXECUTE FUNCTION verifica_item_pokebola();
 CREATE OR REPLACE FUNCTION verifica_item_utilitario() 
 RETURNS TRIGGER AS $$
 BEGIN
-    IF NEW.item_id NOT IN (SELECT item_id FROM item) THEN
-        RAISE EXCEPTION 'Utilitario não foi inserido na tabela item, insira primeiro em Item e depois em Utilitario';
-    ELSIF NEW.item IN (SELECT item_id FROM Pokebola) THEN
+    IF NEW.item_id IN (SELECT item_id FROM Pokebola) THEN
         RAISE EXCEPTION 'Utilitario não pode ser inserido pois item já existe em Pokebola';
     END IF;
     RETURN NEW;
@@ -87,8 +83,6 @@ BEGIN
         RAISE EXCEPTION 'PC já existe como NPC';
     ELSIF NEW.treinador_id IN (SELECT treinador_id FROM lider) THEN
         RAISE EXCEPTION 'PC já existe como Líder';
-    ELSIF NEW.treinador_id NOT IN (SELECT treinador_id FROM Treinador) THEN
-        RAISE EXCEPTION 'PC precisa primeiro ser adicionado a tabela Treinador';
     END IF;
     RETURN NEW;
 END;
@@ -107,8 +101,6 @@ BEGIN
         RAISE EXCEPTION 'Treinador já existe como PC';
     ELSIF NEW.treinador_id IN (SELECT treinador_id FROM lider) THEN
         RAISE EXCEPTION 'Treinador já existe como Líder';
-    ELSIF NEW.treinador_id NOT IN (SELECT treinador_id FROM Treinador) THEN
-        RAISE EXCEPTION 'Treinador precisa primeiro ser adicionado a tabela Treinador';
     END IF;
     RETURN NEW;
 END;
@@ -127,8 +119,6 @@ BEGIN
         RAISE EXCEPTION 'Treinador já existe como PC';
     ELSIF NEW.treinador_id IN (SELECT treinador_id FROM NPC) THEN
         RAISE EXCEPTION 'Treinador já existe como NPC';
-    ELSIF NEW.treinador_id NOT IN (SELECT treinador_id FROM Treinador) THEN
-        RAISE EXCEPTION 'Treinador precisa primeiro ser adicionado a tabela Treinador';
     END IF;
     RETURN NEW;
 END;
@@ -222,8 +212,6 @@ BEGIN
         RAISE EXCEPTION 'Local já existe como Caminho';
     ELSIF NEW.local_id IN (SELECT local_id FROM Zona_de_captura) THEN
         RAISE EXCEPTION 'Local já existe como Zona de Captura';
-    ELSIF NEW.local_id NOT IN (SELECT local_id FROM Local_) THEN
-        RAISE EXCEPTION 'Local precisa primeiro ser adicionado a tabela Local_';
     END IF;
     RETURN NEW;
 END;
@@ -247,8 +235,6 @@ BEGIN
         RAISE EXCEPTION 'Local já existe como Caminho';
     ELSIF NEW.local_id IN (SELECT local_id FROM Zona_de_captura) THEN
         RAISE EXCEPTION 'Local já existe como Zona de Captura';
-    ELSIF NEW.local_id NOT IN (SELECT local_id FROM Local_) THEN
-        RAISE EXCEPTION 'Local precisa primeiro ser adicionado a tabela Local_';
     END IF;
     RETURN NEW;
 END;
@@ -271,8 +257,6 @@ BEGIN
         RAISE EXCEPTION 'Local já existe como Caminho';
     ELSIF NEW.local_id IN (SELECT local_id FROM Zona_de_captura) THEN
         RAISE EXCEPTION 'Local já existe como Zona de Captura';
-    ELSIF NEW.local_id NOT IN (SELECT local_id FROM Local_) THEN
-        RAISE EXCEPTION 'Local precisa primeiro ser adicionado a tabela Local_';
     END IF;
     RETURN NEW;
 END;
@@ -295,8 +279,6 @@ BEGIN
         RAISE EXCEPTION 'Local já existe como Pokemart';
     ELSIF NEW.local_id IN (SELECT local_id FROM Zona_de_captura) THEN
         RAISE EXCEPTION 'Local já existe como Zona de Captura';
-    ELSIF NEW.local_id NOT IN (SELECT local_id FROM Local_) THEN
-        RAISE EXCEPTION 'Local precisa primeiro ser adicionado a tabela Local_';
     END IF;
     RETURN NEW;
 END;
@@ -319,8 +301,6 @@ BEGIN
         RAISE EXCEPTION 'Local já existe como Pokemart';
     ELSIF NEW.local_id IN (SELECT local_id FROM Caminho) THEN
         RAISE EXCEPTION 'Local já existe como Caminho';
-    ELSIF NEW.local_id NOT IN (SELECT local_id FROM Local_) THEN
-        RAISE EXCEPTION 'Local precisa primeiro ser adicionado a tabela Local_';
     END IF;
     RETURN NEW;
 END;
