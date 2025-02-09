@@ -352,7 +352,7 @@ CREATE TABLE eficacia_tipo(
 
 
 CREATE TABLE inst_item(
-	inst_item_id int NOT NULL,
+	inst_item_id SERIAL NOT NULL,
 	quantidade int NOT NULL,
 	mochila int NOT NULL,
 	item int NOT NULL,

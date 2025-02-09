@@ -354,9 +354,9 @@ execute function verifica_vida();
 create or replace function cria_itens_pc() returns trigger as $$
 begin 
     if new.mochila is not null then 
-        insert into inst_item(quantidade, mochila, item) values (0, new.mochila, 0);
         insert into inst_item(quantidade, mochila, item) values (0, new.mochila, 1);
         insert into inst_item(quantidade, mochila, item) values (0, new.mochila, 2);
+        insert into inst_item(quantidade, mochila, item) values (0, new.mochila, 3);
     end if;
     return new;
 end;
@@ -366,3 +366,27 @@ create or replace trigger cria_itens_tg
 after insert on treinador
 for each row 
 execute function cria_itens_pc();
+
+-------------------------------------------------------------------
+
+create or replace function ataque_pokemon() returns trigger as $$
+declare
+    x integer;
+begin
+    select min(gt.golpe_id) into x from golpe_tipo gt
+    inner join (select pt.tipo_id from pokemon_tipo pt
+    inner join (select ip.pokedex from inst_pokemon ip
+    where ip.inst_pokemon = new.inst_pokemon) ip
+    on ip.pokedex = pt.pokemon_id) it
+    on it.tipo_id = gt.tipo_id;
+    if x is not null then
+        insert into pokemon_golpe(pokemon_id, golpe_id) values (new.inst_pokemon, x);
+    end if;
+    return new;
+end;
+$$ language plpgsql;
+
+create or replace trigger ataque_pokemon_tg
+after insert on inst_pokemon
+for each row
+execute function ataque_pokemon();

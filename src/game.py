@@ -151,6 +151,7 @@ class Game:
         if chosen_location != "Voltar":
             chosen_index = location_choices.index(chosen_location)
             print(f"Explorando {chosen_location}...")
+            print(f"teste->{self.player_id}")
             self.db.mudar_loc(locations[chosen_index][0], self.player_id)
             
             # Implementar lógica de encontros com Pokémon selvagens
@@ -172,11 +173,11 @@ class Game:
         print("-Item-|-qtd-")
         itens = self.db.search_itens(self.player_id)
         for item in itens:
-            print(f"{item[1]} - {item[0]}")
+            print(f"{item[1]} - {item[2]}")
         
         # Mostrar quantidade de Pokébolas
         pokeball_count = self.db.get_pokeball_count(self.player_id)
-        print(f"\nVocê possui {pokeball_count} Pokébolas.")
+        #print(f"\nVocê possui {pokeball_count} Pokébolas.")
     
     def interagir_local(self):
         local = self.db.consulta_local(self.player_id)
@@ -215,17 +216,22 @@ class Game:
                         print("Parabens Você ganhou!")
                         for pokemons in pokemons_lider:
                             self.db.atualizar_lider(pokemons[1])
+                            self.db.ganhar_batalha(self.player_id,50)
                         break
                 
-                if pokemons_time[index_pc][2] <= 0:
-                    try:
-                        index_pc = index_pc + 1
-                        print(f"trocando seu pokemon para {pokemons_time[index_pc][1]}")
-                    except Exception as e:
-                        print("Que pena você perdeu :(")
-                        for pokemons in pokemons_lider:
-                            self.db.atualizar_lider(pokemons[1])
-                        break
+                try:
+                    if pokemons_time[index_pc][2] <= 0:
+                        try:
+                            index_pc = index_pc + 1
+                            print(f"trocando seu pokemon para {pokemons_time[index_pc][1]}")
+                        except Exception as e:
+                            print("Que pena você perdeu :(")
+                            for pokemons in pokemons_lider:
+                                self.db.atualizar_lider(pokemons[1])
+                            break
+                except IndexError:
+                    print("Não tem pokemons no seu time")
+                    break
 
                 print("\033[35m"+ "="*40)
                 print(f"{pokemons_lider[index_lider][0]} de {lider[0][2]}".center(40))
@@ -255,12 +261,15 @@ class Game:
                         "Qual pokemon deseja curar?",
                         choices = poke_curar + ["Nenhum"]
                     ).ask()
-                    if escolha_time != "Nenhum":
-                        chosen_poke = escolha_time.split(" ")
-                        index = next((i for i, sublista in enumerate(pokemons_time) if sublista[1] == chosen_poke[0]), -1)
-                        print(f"Seu {chosen_poke[0]} foi curado!")
-                        self.db.curar_pokemon_index(pokemons_time[index][0])
-
+                    if self.db.verifica_cura(self.player_id)[0][0] > 0:
+                        if escolha_time != "Nenhum":
+                            chosen_poke = escolha_time.split(" ")
+                            index = next((i for i, sublista in enumerate(pokemons_time) if sublista[1] == chosen_poke[0]), -1)
+                            print(f"Seu {chosen_poke[0]} foi curado!")
+                            self.db.curar_pokemon_index(pokemons_time[index][0])
+                            self.db.usa_cura(self.player_id)
+                    else:
+                        print("Você esta sem itens de medicina")
                 if escolha == "Trocar Pokemon atual":
                     poke_troca = [lista[1]+" ("+str(lista[2])+")" for lista in pokemons_time]
                     escolha_time = questionary.select(

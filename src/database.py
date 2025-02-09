@@ -87,7 +87,7 @@ class Database:
         self.cur.execute("""
             UPDATE treinador
             SET local_id = %s
-            WHERE treinador_id = %s
+            WHERE treinador_id = (select treinador_id from pc where player_id = %s)
         """, (new_loc, player_id))
         self.conn.commit()
     
@@ -234,9 +234,10 @@ class Database:
             
             # Adicionar item na mochila
             self.cur.execute("""
-                INSERT INTO inst_item (quantidade, mochila, item)
-                VALUES (1, (SELECT mochila FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s)), %s)
-                ON CONFLICT (mochila, item) DO UPDATE SET quantidade = inst_item.quantidade + 1;
+                update inst_item
+                set quantidade = quantidade + 1,
+	            mochila = (SELECT mochila FROM treinador WHERE treinador_id = (SELECT treinador_id FROM pc WHERE player_id = %s))
+                where item = %s;
             """, (player_id, item_id))
             
             self.conn.commit()
@@ -415,4 +416,31 @@ class Database:
             )
         """, (change, player_id))
         self.conn.commit()
-   
+    
+    def ganhar_batalha(self, player_id, qtd_moedas):
+        self.cur.execute("""
+            update pc
+            set moedas = moedas + %s
+            where player_id = %s;
+        """,(qtd_moedas,player_id))
+        self.conn.commit()
+
+    def verifica_cura(self, player_id):
+        self.cur.execute("""
+            select ii.quantidade from inst_item ii 
+            where mochila = (select mochila from treinador t 
+            where treinador_id = (select treinador_id from pc 
+            where player_id = %s)) and item = 1;
+        """,(player_id,))
+        return self.cur.fetchall()
+
+    def usa_cura(self, player_id):
+        self.cur.execute("""
+            update inst_item 
+            set quantidade = quantidade - 1
+            where inst_item_id = (select ii.inst_item_id from inst_item ii 
+            where mochila = (select mochila from treinador t 
+            where treinador_id = (select treinador_id from pc 
+            where player_id = %s)) and item = 1);
+        """,(player_id,))
+        self.conn.commit()

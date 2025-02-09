@@ -1048,8 +1048,6 @@ VALUES
 (1,0,1),
 (1,10,1);
 
-
-
 INSERT INTO Caminho(caminho_id, qtd_itens, local_id)
 VALUES
 (1, 2, 0);
@@ -1081,22 +1079,17 @@ VALUES
 
 INSERT INTO Inst_Pokemon(pokedex, time, experiencia, vida_atual, status, nivel)
 VALUES
-( 1, 1, 0, 100, 'Vivo', 1),
-( 4, 1, 0, 100, 'Vivo', 1);
+( 72, 2, 0, 100, 'Vivo', 1);
 
 INSERT INTO integra_ao_time(inst_pokemon_id, time)
 VALUES
 (1, 1);
 
-INSERT INTO Treinador (time, mochila, local_id, tipo_treinador)
+INSERT INTO Treinador (treinador_id, time, mochila, local_id, tipo_treinador)
 VALUES
-(1,1,0,'player'),
-(2,2,3,'Lider Brock'),
-(NULL,NULL,0,'Professor');
+(1,2,2,3,'Lider Brock'),
+(2,NULL,NULL,0,'Professor');
 
-INSERT INTO Pc (treinador_id, nome)
-VALUES
-(1,'mauricio');
 
 INSERT INTO lider(lider_id, treinador_id, nome, insignea, status)
 VALUES
@@ -1104,7 +1097,8 @@ VALUES
 
 INSERT INTO NPC(npc_id, treinador_id, nome, nivel_dificuldade, falas)
 VALUES
-(1, 2, 'Professor Carvalho', 0, 'Seja bem vindo a Pallet Town!');
+(1,1,'Brook',1,'Você enfrentara minha ira!'),
+(2, 2, 'Professor Carvalho', 0, 'Seja bem vindo a Pallet Town!');
 
 INSERT INTO Utilitario(pocao_id, item_id, nome, taxa_cura, descricao)
 VALUES
@@ -1130,16 +1124,6 @@ VALUES
 (2, 26),
 (2, 25),
 (2, 28);
-
-INSERT INTO Inst_item(Inst_item_id, quantidade, mochila, item)
-VALUES
-(1, 5, 1, 2),
-(2, 2, 1, 1);
-
-INSERT INTO Negocia(pokemart_id, inst_item_id, preco)
-VALUES
-(1, 1, 5),
-(1, 2, 3);
 
 INSERT INTO Surge(zona_captura_id, selvagem_id)
 VALUES
@@ -1172,11 +1156,6 @@ VALUES
 (3, 50),  -- Diglett na Rota2
 (3, 51),  -- Dugtrio na Rota2
 (3, 80);  -- Dratini na Rota2
-
-INSERT INTO caminho_item(caminho_id, inst_item_id)
-VALUES
-(1, 1),
-(1, 2);
 
 INSERT INTO local_leva_local(local_id_1, local_id_2)
 VALUES
