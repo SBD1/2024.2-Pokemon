@@ -217,6 +217,15 @@ class Game:
                         for pokemons in pokemons_lider:
                             self.db.atualizar_lider(pokemons[1])
                             self.db.ganhar_batalha(self.player_id,50)
+
+                            # AQUI ADICIONA XP AOS POKEMONS DO TIME!!!
+                            for poke in pokemons_time:
+                                xp_gained = 50  # Base XP for winning
+                                new_level = self.db.add_experience(poke[0], xp_gained)
+                                if new_level > poke[4]:  # poke[4] é o nível atual do Pokémon
+                                    print(f"Seu Pokémon {poke[1]} subiu para o nível {new_level}!")
+                                    if new_level % 5 == 0:
+                                        print(f"Seu Pokémon {poke[1]} aprendeu um novo golpe!")
                         break
                 
                 try:

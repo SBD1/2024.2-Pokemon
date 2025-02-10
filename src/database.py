@@ -444,3 +444,74 @@ class Database:
             where player_id = %s)) and item = 1);
         """,(player_id,))
         self.conn.commit()
+
+    def add_experience(self, pokemon_inst_id, xp_gained):
+        try:
+            # Add XP to pokemon
+            self.cur.execute("""
+                UPDATE inst_pokemon 
+                SET experiencia = experiencia + %s
+                WHERE inst_pokemon = %s
+                RETURNING experiencia, nivel
+            """, (xp_gained, pokemon_inst_id))
+            
+            exp, current_level = self.cur.fetchone()
+            
+            # Check if should level up (every 100 XP)
+            new_level = (exp // 100) + 1
+            if new_level > current_level:
+                self.level_up_pokemon(pokemon_inst_id, new_level)
+                
+            self.conn.commit()
+            return new_level
+        except Exception as e:
+            self.conn.rollback()
+            print(f"Error adding experience: {e}")
+            return current_level
+
+    def level_up_pokemon(self, pokemon_inst_id, new_level):
+        try:
+            # Update pokemon level
+            self.cur.execute("""
+                UPDATE inst_pokemon 
+                SET nivel = %s
+                WHERE inst_pokemon = %s
+                RETURNING pokedex
+            """, (new_level, pokemon_inst_id))
+            
+            pokemon_id = self.cur.fetchone()[0]
+            
+            # Every 5 levels, learn a new move
+            if new_level % 5 == 0:
+                # Get pokemon types
+                self.cur.execute("""
+                    SELECT tipo_id FROM pokemon_tipo 
+                    WHERE pokemon_id = %s
+                """, (pokemon_id,))
+                pokemon_types = [row[0] for row in self.cur.fetchall()]
+                
+                # Get a random move of pokemon's types not yet learned
+                self.cur.execute("""
+                    SELECT DISTINCT g.golpe_id 
+                    FROM golpe g
+                    JOIN golpe_tipo gt ON g.golpe_id = gt.golpe_id
+                    WHERE gt.tipo_id = ANY(%s)
+                    AND g.golpe_id NOT IN (
+                        SELECT golpe_id FROM pokemon_golpe 
+                        WHERE pokemon_id = %s
+                    )
+                    ORDER BY RANDOM()
+                    LIMIT 1
+                """, (pokemon_types, pokemon_id))
+                
+                new_move = self.cur.fetchone()
+                if new_move:
+                    self.cur.execute("""
+                        INSERT INTO pokemon_golpe (pokemon_id, golpe_id)
+                        VALUES (%s, %s)
+                    """, (pokemon_id, new_move[0]))
+            
+            self.conn.commit()
+        except Exception as e:
+            self.conn.rollback()
+            print(f"Error in level up: {e}")
